@@ -30,11 +30,15 @@
     // Dictionary (systemDictionary is global variable from adapter-settings.js)
     systemDictionary = {
         "wiffi-wz settings": {"de": "Wiffi-wz Einstellungen", "en": "Wiffi-wz settings", "ru": "Пример"},
-        "ip":                {"en": "ip-address", "de": "IP-Adresse"},
-        "pollingInterval":         {"en": "polling interval", "de": "Poll-Intervall"},
-        "datasource":   {"en": "Datasource", "de": "Datenquelle"},
-        "datasource_website": {"en": "Webseite", "de": "Webseite"},
-        "datasource_json": {"en": "JSON", "de": "JSON"},
+        "local_server_ip":      {"en": "ip-adress of the local server", "de": "IP-Adresse des lokalen Servers"},
+        "local_server_port":      {"en": "port used by the local server", "de": "Port des lokalen Servers"},
+        "wiffi_ip":               {"en": "Wiffi-wz ip-address", "de": "IP-Adresse des Wiffi-wz"},
+        "wiffi_target":            {"en": "Receiver of Wiffi-wz's events", "de": "Empfänger für Wiffi-wz Meldungen"},
+        "wiffi_target_ccu_ip":     {"en": "Homematic CCU ip-address", "de": "IP-Adresse der Homematic CCU"},
+        "expert_settings":         {"en": "Expert settings", "de": "Experteneinstellungen"},
+        "exp_red_led":             {"en": "Red LED", "de": "Rote LED"},
+        "on":                      {"en": "on", "de": "an"},
+        "off":                     {"en": "off", "de": "aus"},
         "on save adapter restarts with new config immediately": {
             "de": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet.",
             "ru": "Сразу после сохранения настроек драйвер перезапуститься с новыми значениями"
@@ -43,7 +47,9 @@
 
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
-        // example: select elements with id=key and class=value and insert value
+        if (!settings) return;
+
+		// select elements with id=key and class=value and insert value
         for (var key in settings) {
             // example: select elements with id=key and class=value and insert value
             if ($('#' + key + '.value').attr('type') == 'checkbox') {
@@ -58,21 +64,79 @@
 				});
             }
         }
-        // Signal to admin, that no changes yet
+        
+		// popoluate local server ips with ips
+        getIPs(function(ips) {
+            for (var i = 0; i < ips.length; i++) {
+                $('#local_server_ip').append('<option value="' + ips[i].address + '">' + ips[i].name + '</option>');
+            }
+            $('#local_server_ip.value').val(settings.bind);
+        });
+		
+		// Signal to admin, that no changes yet
         onChange(false);
     }
 
     // ... and the function save has to exist.
     // you have to make sure the callback is called with the settings object as first param!
     function save(callback) {
-        // example: select elements with class=value and build settings object
+        // select elements with class=value and build settings object
         var obj = {};
         $('.value').each(function () {
             var $this = $(this);
             obj[$this.attr('id')] = $this.val();
         });
         callback(obj);
+
+        // here we have to send some settings to the wiffi-wz
+		switch(obj.wiffi_target) {
+			case 'IOBroker': 
+				// set wiffi-wz to send JSON data to the iobroker
+				setWiffiParam('http://' + obj.wiffi_ip, 'param:27:1');
+				setWiffiParam('http://' + obj.wiffi_ip, 'ccu:' + obj.local_server_ip + ':');
+			break;
+			case 'CCU': 
+				// set the ccu as receiver
+				setWiffiParam('http://' + obj.wiffi_ip, 'param:27:0');
+				setWiffiParam('http://' + obj.wiffi_ip, 'ccu:' + obj.wiffi_target_ccu_ip + ':');
+			break;
+			default:
+				console.log('Could not find wiffi target ' + obj.wiffi_target);
+		}
+		
+		// switch the red LED of the wiffi-wz on or off
+		switch(obj.exp_red_led) {
+			case true: 
+				// switch led on
+				setWiffiParam('http://' + obj.wiffi_ip, 'param:9:0');
+			break;
+			case false: 
+				// switch led off
+				setWiffiParam('http://' + obj.wiffi_ip, 'param:9:1');
+			break;
+			default:
+				console.log('Could not find wiffi LED state ' + obj.exp_red_led);
+		}
+
     }
+
+	function setWiffiParam(myUrl, myData) {
+		$.ajax({
+			url: myUrl,
+			data: myData,
+			async: false,
+			cache: false,
+			timeout: 20000,			
+			type: 'GET',
+			success: function (resp) {
+				//
+			},
+			error: function(e) {
+				alert('Error: '+e.statusText);
+			}  
+		});	
+	}
+	
 </script>
 
 <!-- you have to put your config page in a div with id adapter-container -->
@@ -80,16 +144,26 @@
 
     <table>
         <tr><td><img src="wiffi-wz.png"/></td><td><h3 class="translate">wiffi-wz settings</h3></td></tr>
-        <tr><td class="translate">ip</td><td><input class="value" id="ip"/></td></tr>
-
-		<!--        <tr><td><span class="translate">pollingInterval</span></td><td><input class="value" id="pollingInterval"/></td></tr> -->
-		<!--        <tr><td class="translate">datasource:</td>
-            <td>
-            <select class="value" id="datasource">
-                <option value="datasource_json" class="translate">datasource_json</option>
-            </select>
+        <tr><td class="translate">local_server_ip</td><td><select class="value" id="local_server_ip"></td></tr>
+        <tr><td class="translate">local_server_port</td><td><input class="value" id="local_server_port"/></td></tr>
+        <tr><td class="translate">wiffi_ip</td><td><input class="value" id="wiffi_ip"/></td></tr>
+        <tr><td class="translate">wiffi_target</td>
+            <td><input type="radio" id="wiffi_target" name="wiffi_target" class="value" value="IOBroker" checked="checked" onclick="document.getElementById('wiffi_target_ccu_ip').disabled=true">
+                <label for="wiffi_target_json">IO-Broker</label>
+                <input type="radio" id="wiffi_target" name="wiffi_target" class="value" value="CCU" onclick="document.getElementById('wiffi_target_ccu_ip').disabled=false">
+                <label for="wiffi_target_ccu">CCU</label>&nbsp;<span class="translate">wiffi_target_ccu_ip</span>&nbsp;<input class="value" id="wiffi_target_ccu_ip" disabled="true"/>
             </td>
-        </tr> -->
+        </tr>
+        <tr><td class="translate">----------------  expert_settings ----------------</td></tr>
+        <tr>
+            <td class="translate">exp_red_led</td>
+            <td>
+                <input type="radio" id="exp_red_led" name="exp_red_led" class="value" value="true" checked="checked"/>
+                <label for="exp_red_led_on" class="translate">on</label>
+                <input type="radio" id="exp_red_led" name="exp_red_led" class="value" value="false"/>
+                <label for="exp_red_led_off" class="translate">off</label>
+            </td>
+        </tr>
     </table>
     <p class="translate">on save adapter restarts with new config immediately</p>
 </div>

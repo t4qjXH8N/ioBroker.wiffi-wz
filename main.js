@@ -88,7 +88,7 @@ function main() {
 
   // The adapters config (in the instance object everything under the attribute "native") is accessible via
   // adapter.config:
-  adapter.log.info('config ip ' + adapter.config.ip);
+  adapter.log.info('Opening local server on ' + adapter.config.local_server_ip + ':' + adapter.config.local_server_port);
   
   /**
    *
@@ -270,9 +270,8 @@ function main() {
 
 function openSocket() {
   var net = require('net');
-
-  var HOST = '192.168.0.15';
-  var PORT = 8181;
+  var host = adapter.config.local_server_ip;
+  var port = adapter.config.local_server_port;
 
   // Create a server instance, and chain the listen function to it
   // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -335,9 +334,9 @@ function openSocket() {
       console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
     });
 
-  }).listen(PORT, HOST);
+  }).listen(port, host);
 
-  console.log('Server listening on ' + HOST +':'+ PORT);
+  console.log('Server listening on ' + host +':'+ port);
 }
 
 function setStatesFromJSON(curStates) {
