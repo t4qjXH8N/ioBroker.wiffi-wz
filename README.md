@@ -14,7 +14,7 @@ This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve 
 - beeper
 
 ## How it works
-Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in JSON format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be visible to the internet because it may be used for attacks. 
+Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be visible to the internet because it may be used for attacks. 
 
 ## Troubleshooting
 
@@ -50,7 +50,7 @@ Knwon issuses:
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2016 Christian Vorholt<chvorholt@mail.com>
+Copyright (c) 2016 Christian Vorholt <chvorholt@mail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
