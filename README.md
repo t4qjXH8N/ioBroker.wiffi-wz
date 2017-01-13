@@ -32,7 +32,7 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 
 ## Changelog
 
-#### 0.0.2
+#### 0.1.0 (2017-01-12)
 Features:
 - Mandatory settings can be done on the admin page.
 - The wiffi-wz can be configured from the admin page (there are some problems, see known issues of this release).
@@ -40,9 +40,10 @@ Features:
 Known issues:
 - Sometimes it is not possible to change the wiffi settings using the admin page. There seems to be a problem with the ajax calls. Any ideas how to improve that?
 
-#### 0.0.1
+#### 0.0.1 (2017-01-11)
 Features:
 - The sensor data is send to the ioBroker and saved as corresponding states. 
+
 Knwon issuses:
 - Works only with hardcoded ip adresses for testing purposes.
 
