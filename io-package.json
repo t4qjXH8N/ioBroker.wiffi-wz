@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "0.0.1",
+        "version":                  "0.1.0",
 	    "news": {
+			"0.1.0": {
+			  "en": "mandatory settings can be changed on the admin page",
+			  "de": "unverzichtbare Einstellungen können auf der Admin-Seite vorgenommen werden.",
+			}
 			"0.0.1": {
 			  "en": "initial adapter",
 			  "de": "Initiale Version",

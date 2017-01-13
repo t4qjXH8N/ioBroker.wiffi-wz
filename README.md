@@ -32,7 +32,7 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 
 ## Changelog
 
-#### 0.0.2
+#### 0.1.0
 Features:
 - Mandatory settings can be done on the admin page.
 - The wiffi-wz can be configured from the admin page (there are some problems, see known issues of this release).
