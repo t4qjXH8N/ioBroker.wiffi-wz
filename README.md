@@ -2,7 +2,9 @@
 # ioBroker.wiffi-wz
 =================
 
-This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor). The Wiffi-wz is a device that combines eight sensors in a single unit. Currently the following sensors are available:
+This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
+
+The Wiffi-wz is a device that combines eight sensors in a single unit. Currently the following sensors are available:
 
 - two orthogonally aligned IR motion sensors
 - temperatur sensor (can be [DHT22](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf), or [BME280](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf))
@@ -31,6 +33,12 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+
+#### 0.2.0 (2017-02-10)
+Features:
+- Added support for multiple Wiffis
+Changes:
+- Removed expert functions from the admin interface
 
 #### 0.1.0 (2017-01-12)
 Features:

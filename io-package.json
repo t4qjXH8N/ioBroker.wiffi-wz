@@ -1,11 +1,15 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "0.1.0",
+        "version":                  "0.2.0",
 	    "news": {
+			"0.2.0": {
+				"en": "support for multiple Wiffis",
+				"de": "Unterstützt mehrere Wiffis"
+			},
 			"0.1.0": {
 			  "en": "mandatory settings can be changed on the admin page",
-			  "de": "unverzichtbare Einstellungen können auf der Admin-Seite vorgenommen werden."
+			  "de": "unverzichtbare Einstellungen können auf der Admin-Seite vorgenommen werden." 
 			},
 			"0.0.1": {
 			  "en": "initial adapter",
@@ -33,7 +37,9 @@
     "native": {
       "local_server_ip": "0.0.0.0",
       "local_server_port": 8181,
-      "wiffi_ip": "wiffi-wz",
+      "devices": [
+            {"name": "Wiffi", "ip" : "0.0.0.0", "room": ""}
+			],
       "wiffi_target": "IOBroker",
       "wiffi_target_ccu_ip": "homematic-ccu2",
       "exp_red_led": true

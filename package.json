@@ -1,6 +1,6 @@
 {
   "name": "iobroker.wiffi-wz",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Wiffi-wz Adapter",
   "author": {
     "name": "Christian Vorholt",
