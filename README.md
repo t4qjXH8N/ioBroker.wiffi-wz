@@ -37,6 +37,7 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 #### 0.2.0 (2017-02-10)
 Features:
 - Added support for multiple Wiffis
+
 Changes:
 - Removed expert functions from the admin interface
 
