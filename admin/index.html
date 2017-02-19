@@ -6,8 +6,11 @@
 
 <!-- use jquery -->
 <script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
 <script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<!-- use socketIO -->
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
 <!-- use jqGrid -->
 <script type="text/javascript" src="../../lib/js/jqGrid/jquery.jqGrid-4.5.4.min.js"></script>
 <script type="text/javascript" src="../../lib/js/jqGrid/grid.locale-all.js"></script>
@@ -123,7 +126,7 @@
       });
     });
 
-    // popoluate local server ips with ips
+    // populate local server ips with ips
     getIPs(function(ips) {
       for (var i = 0; i < ips.length; i++) {
         $('#local_server_ip').append('<option value="' + ips[i].address + '">' + ips[i].name + '</option>');
