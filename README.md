@@ -33,6 +33,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 0.2.0 (2017-12-05)
+Bugfixes:
+- JSON format sent by the Wiffi had been changed sine Wiffi software version wiffi_software_53. JSON data interpretation fixed.
 
 #### 0.2.0 (2017-02-10)
 Features:
