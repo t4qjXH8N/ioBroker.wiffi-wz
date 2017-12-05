@@ -142,70 +142,60 @@ function openSocket() {
     var remote_address = sock.remoteAddress;
 
     sock.on('data', function(data) {
-      var prev = 0;
-      var error = false;
-      var next;
       var jsonContent; // holds the parsed data
+      var data_str;
 
-      data = data.toString('utf8'); // assuming utf8 data...
-      // look for the terminator that terminates each Wiffi-wz JSON package
-      while ((next = data.indexOf('\u0003', prev)) > -1) {
-        buffer += data.substring(prev, next);
+      data_str = data.toString('utf8'); // assuming utf8 data...
+      buffer += data_str;
 
-        // remove terminator from buffer
-        buffer    = buffer.substr(0,buffer.length);
+      // wiffi firmware below or equal to wiffi_wz_53 seems to send a terminator
+      // the terminator has to be removed
+      buffer = buffer.replace('\u0003', '');
 
-        // found terminator message should be complete
-        adapter.log.debug('Full message: ' + buffer);
-        adapter.log.info('Received JSON data from Wiffi-wz');
+      // check if we have a valid JSON
+      try {
+          jsonContent = JSON.parse(buffer.split('\r\n')[5]);
 
-        // try to parse the JSON object and set states
-        try {
-          jsonContent = JSON.parse(buffer);
-        }
-        catch(e) {
-          error = true;
-          adapter.log.error('Failed parsing JSON data from Wiffi-wz: ' + e.message)
-        }
+          // parse seems to be successful
+          adapter.log.debug('Full message: ' + buffer);
+          adapter.log.info('Received JSON data from Wiffi-wz');
 
-        if(!error) {
-          // parsing successful, set the states
-
+          // update wiffi states
           // get Wiffi-ip from JSON data
           var wz_ip = jsonContent.vars[0].value;
 
           // check if wiffi-ip is consistent
           if(wz_ip && remote_address != wz_ip) {
-            adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi send address' +
-              wz_ip);
-            // should we allow that this?
+              adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi send address' +
+                  wz_ip);
+              // should we allow that this?
           }
 
           // trust the ip the wiffi told us
           var wiffi = [];
           for (var i = 0, len = adapter.config.devices.length; i < len; i++) {
-            if(adapter.config.devices[i].ip === wz_ip) {
-              // found a wiffi
-              wiffi.push({id: wz_ip.replace(/[.\s]+/g, '_'), ip: wz_ip});
-            }
+              if(adapter.config.devices[i].ip === wz_ip) {
+                  // found a wiffi
+                  wiffi.push({id: wz_ip.replace(/[.\s]+/g, '_'), ip: wz_ip});
+              }
           }
 
           if (wiffi.length === 0) {
-            adapter.log.warn('Received data from unregistered wiffi with ip ' + wz_ip);
+              adapter.log.warn('Received data from unregistered wiffi with ip ' + wz_ip);
           } else if (wiffi.length === 1) {
-            // wiffi found
-            setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
-              // error handling of set states should be placed here
-            });
+              // wiffi found
+              setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
+                  // error handling of set states should be placed here
+              });
           } else {
-            adapter.log.error('There are multiple wiffis registered with the ip' + wz_ip);
+              adapter.log.error('There are multiple wiffis registered with the ip' + wz_ip);
           }
-        }
 
-        buffer = '';
-        prev = next + 1;
+          // reset buffer
+          buffer = ''
       }
-      buffer += data.substring(prev);
+      catch(e) {
+      }
 
       // check if the buffer is larger than the allowed maximum
       if(buffer.length > maxBufferSize) {

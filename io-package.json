@@ -1,9 +1,13 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "0.2.0",
+        "version":                  "0.2.1",
 	    "news": {
-			"0.2.0": {
+			"0.2.1": {
+                "en": "fixed JSON interpretation after wiffi software update",
+                "de": "JSON-Daten werden richtig interpretiert nach dem Update der Wiffi-Software auf Versionen größer als _53."
+            },
+            "0.2.0": {
 				"en": "support for multiple Wiffis",
 				"de": "Unterstützt mehrere Wiffis"
 			},
