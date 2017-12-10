@@ -7,8 +7,8 @@
  *
  *  {
  *      "common": {
- *          "name":         "wiffi-wz",
- *          "version":      "0.2.0",
+ *          "name":         "iobroker.wiffi-wz",
+ *          "version":      "0.3.0",
  *          "title":        "Wiffi-wz Adapter",
  *          "authors":  [
  *              "Christian Vorholt <chvorholt@gmail.com>"
@@ -169,7 +169,7 @@ function openSocket() {
             } else if (wiffi.length === 1) {
               // wiffi found
               setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
-                if(!err && result) adapter.log.info('Wiffi-wz state updated.');
+                if(!err && result) adapter.log.debug('Wiffi-wz state updated.');
               });
             } else {
               adapter.log.error('There are multiple wiffis registered with the ip ' + wz_ip);
@@ -405,12 +405,7 @@ function createStates(name, ip, room, callback) {
     // add the wiffi to the corresponding room enum
     if (room) {
       adapter.addChannelToEnum('room', room, 'root', id, function (err) {
-        if (err) {
-          adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
-          callback(null)
-        } else {
-          callback(err)
-        }
+        if (err) adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
       });
     }
 
@@ -419,12 +414,7 @@ function createStates(name, ip, room, callback) {
       adapter.log.info('Created state ' + cstate);
       if (states.hasOwnProperty(cstate)) {
         adapter.createState('root', id, cstate, states[cstate], function (err, cstate) {
-          if (err) {
-            adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
-            callback(null)
-          } else {
-            callback(err)
-          }
+          if (err) adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
         });
       }
     }
@@ -455,12 +445,7 @@ function setStatesFromJSON(curStates, wiffi, callback) {
   for(var i=0;i<arrVar.length;i++) {
     adapter.setState({device: 'root', channel: wiffi.id, state: arrVar[i].homematic_name},
       {val: arrVar[i].value, ack: true}, function (err) {
-        if(err) {
-          adapter.log.error('Could not set state!');
-          callback(err, false);
-        } else {
-          callback(null, true);
-        }
+        if(err) adapter.log.error('Could not set state!');
       });
   }
 }
