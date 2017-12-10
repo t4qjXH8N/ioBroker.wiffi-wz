@@ -1,8 +1,12 @@
 {
     "common": {
-        "name":                     "iobroker.wiffi-wz",
-        "version":                  "0.3.0",
+        "name":                     "wiffi-wz",
+        "version":                  "0.3.1",
 	    "news": {
+            "0.3.1": {
+              "en": "small bugfix",
+              "de": "kleiner bugfix"
+            },
             "0.3.0": {
               "en": "support wiffis, WEATHERMANs, and RAYNIMANSs with firmwares greater or equal to _83",
               "de": "Unterstützung für Wiffis, WEATHERMANs und RAYNIMANS mit einer Firmware neuer oder gleich _83."

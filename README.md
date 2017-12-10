@@ -37,7 +37,7 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
-#### 0.3.0 (2017-12-10)
+#### 0.3.1 (2017-12-10)
 - support for wiffi-wz, WEATHERMAN, and Rainymans, firmware should be greater or equal to _83
 - some bugfixes
 
