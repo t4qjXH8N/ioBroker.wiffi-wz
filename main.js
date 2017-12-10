@@ -79,19 +79,6 @@ adapter.on('stateChange', function (id, state) {
   }
 });
 
-// Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
-adapter.on('message', function (obj) {
-  if (typeof obj == 'object' && obj.message) {
-    if (obj.command == 'send') {
-      // e.g. send email or pushover or whatever
-      console.log('send command');
-
-      // Send response in callback if required
-      if (obj.callback) adapter.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-    }
-  }
-});
-
 // is called when databases are connected and adapter received configuration.
 // start here!
 adapter.on('ready', function () {
@@ -120,7 +107,7 @@ function main() {
   adapter.subscribeStates('*');
 
   // start socket listening on port 8181
-  console.log("Opening socket ...");
+  adapter.log.info("Opening socket ...");
   openSocket();
 }
 
@@ -135,7 +122,7 @@ function openSocket() {
   net.createServer(function(sock) {
 
     // We have a connection - a socket object is assigned to the connection automatically
-    console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
+    adapter.log.debug('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
 
     var maxBufferSize = 20000; // the buffer should not be bigger than this number to prevent DOS attacks
     var buffer = '';
@@ -154,7 +141,7 @@ function openSocket() {
 
       // check if we have a valid JSON
       try {
-          jsonContent = JSON.parse(buffer.split('\r\n')[5]);
+          jsonContent = JSON.parse(buffer);
 
           // parse seems to be successful
           adapter.log.debug('Full message: ' + buffer);
@@ -165,54 +152,54 @@ function openSocket() {
           var wz_ip = jsonContent.vars[0].value;
 
           // check if wiffi-ip is consistent
-          if(wz_ip && remote_address != wz_ip) {
-              adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi send address' +
-                  wz_ip);
-              // should we allow that this?
-          }
+          if(wz_ip && (remote_address !== wz_ip)) adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi send address' + wz_ip);
 
           // trust the ip the wiffi told us
-          var wiffi = [];
-          for (var i = 0, len = adapter.config.devices.length; i < len; i++) {
-              if(adapter.config.devices[i].ip === wz_ip) {
-                  // found a wiffi
-                  wiffi.push({id: wz_ip.replace(/[.\s]+/g, '_'), ip: wz_ip});
+          getid(wz_ip, function (err, id) {
+            var wiffi = [];
+            for (var i = 0, len = adapter.config.devices.length; i < len; i++) {
+              if (adapter.config.devices[i].ip === wz_ip) {
+                // found a wiffi
+                wiffi.push({id: id, ip: wz_ip});
               }
-          }
+            }
 
-          if (wiffi.length === 0) {
+            if (wiffi.length === 0) {
               adapter.log.warn('Received data from unregistered wiffi with ip ' + wz_ip);
-          } else if (wiffi.length === 1) {
+            } else if (wiffi.length === 1) {
               // wiffi found
               setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
-                  // error handling of set states should be placed here
+                if(!err && result) adapter.log.info('Wiffi-wz state updated.');
               });
-          } else {
-              adapter.log.error('There are multiple wiffis registered with the ip' + wz_ip);
-          }
+            } else {
+              adapter.log.error('There are multiple wiffis registered with the ip ' + wz_ip);
+            }
 
-          // reset buffer
-          buffer = ''
+            // check if the buffer is larger than the allowed maximum
+            if(buffer.length > maxBufferSize) {
+              // clear buffer
+              buffer = '';
+              adapter.log.warn('JSON larger than allowed size of ' + maxBufferSize + ', clearing buffer');
+            }
+
+            // reset buffer
+            buffer = ''
+          });
       }
       catch(e) {
       }
 
-      // check if the buffer is larger than the allowed maximum
-      if(buffer.length > maxBufferSize) {
-          // clear buffer
-          buffer = '';
-          adapter.log.warn('JSON larger than allowed size of ' + maxBufferSize + ', clearing buffer');
-      }
     });
 
     // Add a 'close' event handler to this instance of socket
-    sock.on('close', function(data) {
-      console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+    sock.on('close', function(err) {
+      if (err) adapter.log.error('An error occurred closing the server.');
+      adapter.log.debug('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
     });
 
   }).listen(port, host);
 
-  console.log('Server listening on ' + host +':'+ port);
+  adapter.log.info('Server listening on ' + host +':'+ port);
 }
 
 function syncConfig() {
@@ -237,7 +224,6 @@ function syncConfig() {
           if (_channels) {
             for (var j = 0; j < _channels.length; j++) {
               var ip = _channels[j].native.ip;
-              var id = ip.replace(/[.\s]+/g, '_');
               var pos = configToAdd.indexOf(ip);
               if (pos !== -1) {
                 configToAdd.splice(pos, 1);
@@ -252,16 +238,17 @@ function syncConfig() {
           if (configToAdd.length) {
             for (var r = 0; r < adapter.config.devices.length; r++) {
               if (adapter.config.devices[r].ip && configToAdd.indexOf(adapter.config.devices[r].ip) !== -1) {
-                addChannel(adapter.config.devices[r].name, adapter.config.devices[r].ip, adapter.config.devices[r].room)
+                addDevice(adapter.config.devices[r].name, adapter.config.devices[r].ip, adapter.config.devices[r].room)
               }
             }
           }
           if (configToDelete.length) {
             for (var e = 0; e < configToDelete.length; e++) {
               if (configToDelete[e]) {
-                var _id = configToDelete[e].replace(/[.\s]+/g, '_');
-                adapter.deleteChannelFromEnum('room', 'root', _id);
-                adapter.deleteChannel('root', _id);
+                getid(configToDelete[e], function (err, _id) {
+                  adapter.deleteChannelFromEnum('room', 'root', _id);
+                  adapter.deleteChannel('root', _id);
+                });
               }
             }
           }
@@ -270,14 +257,25 @@ function syncConfig() {
     } else {
       for (var r = 0; r < adapter.config.devices.length; r++) {
         if (!adapter.config.devices[r].ip) continue;
-        addChannel(adapter.config.devices[r].name, adapter.config.devices[r].ip, adapter.config.devices[r].room)
+        addDevice(adapter.config.devices[r].name, adapter.config.devices[r].ip, adapter.config.devices[r].room)
       }
     }
   });
 }
 
+function getid(val, callback) {
+  var id = 'no id set';
+  var error = null;
+  try {
+    id = val.replace(/[.\s]+/g, '_');
+  } catch (e) {
+    error = e;
+  }
+  callback(error, id);
+}
+
 // create all states
-function createChannel(name, ip, room, callback) {
+function createStates(name, ip, room, callback) {
   var states = {
     'wz_ip': {
       type: 'string',
@@ -391,45 +389,58 @@ function createChannel(name, ip, room, callback) {
     }
   };
 
-  var states_list = [];
-  for (var state in states) {
-    states_list.push(state);
-  }
-  // use ip-address as id
-  var id = ip.replace(/[.\s]+/g, '_');
+  adapter.log.debug('got ip ' + ip);
+  getid(ip, function (err, id) {
+    // create channel for the wiffi
+    adapter.createChannel('root', id,
+      {
+        role: 'sensor',
+        name: name || ip
+      },{
+        ip: ip
+      }, function (err) {
+        if (err) adapter.log.error('Could not create channel.');
+      });
 
-  // create channel for the wiffi
-  adapter.createChannel('root', id,
-    {
-      role: 'sensor',
-      name: name || ip
-    },{
-      ip: ip
-    }, function (err, obj) {
-      if (callback) callback(err, obj);
-    });
+    // add the wiffi to the corresponding room enum
+    if (room) {
+      adapter.addChannelToEnum('room', room, 'root', id, function (err) {
+        if (err) {
+          adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
+          callback(null)
+        } else {
+          callback(err)
+        }
+      });
+    }
 
-  // add the wiffi to the corresponding room enum
-  if (room) {
-    adapter.addChannelToEnum('room', room, 'root', id);
-  }
-
-  // create all states
-  for (var j = 0; j < states_list.length; j++) {
-    adapter.createState('root', id, states_list[j], states[states_list[j]]);
-  }
+    // create all states
+    for (var cstate in states) {
+      adapter.log.info('Created state ' + cstate);
+      if (states.hasOwnProperty(cstate)) {
+        adapter.createState('root', id, cstate, states[cstate], function (err, cstate) {
+          if (err) {
+            adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
+            callback(null)
+          } else {
+            callback(err)
+          }
+        });
+      }
+    }
+  });
 }
 
-// add channels
-function addChannel(name, ip, room, callback) {
+// add wiffi
+function addDevice(name, ip, room, callback) {
   adapter.getObject('root', function (err, obj) {
     if (err || !obj) {
       // if root does not exist, channel will not be created
       adapter.createDevice('root', [], function () {
-        createChannel(name, ip, room, callback);
+        createStates(name, ip, room, callback);
       });
     } else {
-      createChannel(name, ip, room, callback);
+      createStates(name, ip, room, callback);
     }
   });
 }
@@ -442,9 +453,14 @@ function setStatesFromJSON(curStates, wiffi, callback) {
 
   // go through the array and set states
   for(var i=0;i<arrVar.length;i++) {
-    adapter.setState({device: 'root', channel: wiffi.id, state: arrVar[i].homematic_name}, {val: arrVar[i].value, ack: true});
+    adapter.setState({device: 'root', channel: wiffi.id, state: arrVar[i].homematic_name},
+      {val: arrVar[i].value, ack: true}, function (err) {
+        if(err) {
+          adapter.log.error('Could not set state!');
+          callback(err, false);
+        } else {
+          callback(null, true);
+        }
+      });
   }
-
-  adapter.log.info('Wiffi-wz states of wiffi ' + wiffi.ip + ' updated.');
-  callback(null, true)
 }
