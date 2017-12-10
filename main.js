@@ -7,8 +7,8 @@
  *
  *  {
  *      "common": {
- *          "name":         "wiffi-wz",
- *          "version":      "0.2.0",
+ *          "name":         "iobroker.wiffi-wz",
+ *          "version":      "0.3.0",
  *          "title":        "Wiffi-wz Adapter",
  *          "authors":  [
  *              "Christian Vorholt <chvorholt@gmail.com>"
@@ -169,7 +169,7 @@ function openSocket() {
             } else if (wiffi.length === 1) {
               // wiffi found
               setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
-                if(!err && result) adapter.log.info('Wiffi-wz state updated.');
+                if(!err && result) adapter.log.debug('Wiffi-wz state updated.');
               });
             } else {
               adapter.log.error('There are multiple wiffis registered with the ip ' + wz_ip);

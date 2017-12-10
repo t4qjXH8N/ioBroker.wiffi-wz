@@ -7,7 +7,7 @@ This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve 
 The Wiffi-wz is a device that combines eight sensors in a single unit. Currently the following sensors are available:
 
 - two orthogonally aligned IR motion sensors
-- temperatur sensor (can be [DHT22](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf), or [BME280](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf))
+- temperature sensor (can be [DHT22](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf), or [BME280](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf))
 - air humidity sensor (can be [DHT22](https://www.sparkfun.com/datasheets/Sensors/Temperature/DHT22.pdf), or [BME280](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf))
 - atmospheric pressure (can be [BMP180](https://cdn-shop.adafruit.com/datasheets/BST-BMP180-DS000-09.pdf), [BMP280](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMP280-DS001-12.pdf) or [BME280](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280_DS001-11.pdf))
 - noise sensor with adjustable sensitivity
@@ -20,7 +20,11 @@ Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU re
 
 ## Troubleshooting
 
-### The Wiffi-wz is not sending any data to ioBroker. 
+### ioBroker is not updating states, or set states issues errors
+
+1. Please verify that you have installed a firmware version >= _83 from [Stall.biz](https://www.stall.biz)
+
+### The Wiffi-wz is not sending any data to ioBroker.
 
 Sometimes the wiffi-wz configuration cannot be changed from the admin page. In this case send the following commands to the wiffi-wz:
 
@@ -33,16 +37,20 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 0.3.0 (2017-12-10)
+- support for wiffi-wz, WEATHERMAN, and Rainymans, firmware should be greater or equal to _83
+- some bugfixes
+
 #### 0.2.1 (2017-12-05)
 Bugfixes:
-- JSON format sent by the Wiffi had been changed sine Wiffi software version wiffi_software_53. JSON data interpretation fixed.
+- JSON format sent by the Wiffi had been changed since Wiffi firmware wiffi_software_53. JSON data interpretation fixed.
 
 #### 0.2.0 (2017-02-10)
 Features:
-- Added support for multiple Wiffis
+- Added support for multiple Wiffis.
 
 Changes:
-- Removed expert functions from the admin interface
+- Removed expert functions from the admin interface.
 
 #### 0.1.0 (2017-01-12)
 Features:
