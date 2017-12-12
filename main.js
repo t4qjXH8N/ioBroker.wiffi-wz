@@ -8,12 +8,12 @@
  *  {
  *      "common": {
  *          "name":         "iobroker.wiffi-wz",
- *          "version":      "0.3.0",
+ *          "version":      "0.3.2",
  *          "title":        "Wiffi-wz Adapter",
  *          "authors":  [
  *              "Christian Vorholt <chvorholt@gmail.com>"
  *          ]
- *          "desc":         "Adapter f�r den Wiffi-wz",
+ *          "desc":         "Adapter für den Wiffi-wz",
  *          "platform":     "Javascript/Node.js",
  *          "mode":         "daemon",                   // possible values "daemon", "schedule", "subscribe"
  *          "schedule":     "0 0 * * *"                 // cron-style schedule. Only needed if mode=schedule

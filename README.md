@@ -37,6 +37,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 0.3.2 (2017-12-12)
+- added license file
+
 #### 0.3.1 (2017-12-10)
 - support for wiffi-wz, WEATHERMAN, and Rainymans, firmware should be greater or equal to _83
 - some bugfixes
@@ -70,7 +73,7 @@ Knwon issuses:
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2016 Christian Vorholt <chvorholt@mail.com>
+Copyright (c) 2014-2017 Christian Vorholt <chvorholt@mail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
