@@ -46,39 +46,39 @@
     "on":                      {"en": "on", "de": "an"},
     "off":                     {"en": "off", "de": "aus"},
     "on save adapter restarts with new config immediately": {
-      "de": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet.",
+      "de": "Beim Speichern von Einstellungen wird der Adapter sofort neu gestartet.",
       "ru": "Сразу после сохранения настроек драйвер перезапуститься с новыми значениями"
     }
     };
 
     function setValue(id, value, onChange) {
-    // example: select elements with id=key and class=value and insert value
-    if ($('#' + id + '.value').attr('type') == 'checkbox') {
-      $('#' + id + '.value').prop('checked', value).change(function() {
-        onChange();
-      });
-    } else {
-      $('#' + id + '.value').val(value).change(function() {
-        onChange();
-      }).keyup(function() {
-        // Chack that only numbers entered
-        if ($(this).hasClass('number')) {
-          var val = $(this).val();
-          if (val) {
-            var newVal = '';
-            for (var i = 0; i < val.length; i++) {
-              if (val[i] >= '0' && val[i] <= '9') {
-                newVal += val[i];
+        // example: select elements with id=key and class=value and insert value
+        if ($('#' + id + '.value').attr('type') == 'checkbox') {
+          $('#' + id + '.value').prop('checked', value).change(function() {
+            onChange();
+          });
+        } else {
+          $('#' + id + '.value').val(value).change(function() {
+            onChange();
+          }).keyup(function() {
+            // Check that only numbers entered
+            if ($(this).hasClass('number')) {
+              var val = $(this).val();
+              if (val) {
+                var newVal = '';
+                for (var i = 0; i < val.length; i++) {
+                  if (val[i] >= '0' && val[i] <= '9') {
+                    newVal += val[i];
+                  }
+                }
+
+                if (val != newVal) $(this).val(newVal);
               }
             }
 
-            if (val != newVal) $(this).val(newVal);
-          }
+            onChange();
+          });
         }
-
-        onChange();
-      });
-    }
     }
 
     // the function loadSettings has to exist ...
@@ -145,7 +145,7 @@
         var obj = {};
         $('.value').each(function () {
           var $this = $(this);
-          if ($this.attr('type') == 'checkbox') {
+          if ($this.attr('type') === 'checkbox') {
             obj[$this.attr('id')] = $this.prop('checked');
           } else {
             obj[$this.attr('id')] = $this.val();

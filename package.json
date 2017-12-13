@@ -1,13 +1,13 @@
 {
   "name": "iobroker.wiffi-wz",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Wiffi-wz Adapter",
   "author": {
     "name": "Christian Vorholt",
     "email": "chvorholt@mail.com"
   },
   "homepage": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz",
-  "readme": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/blob/master/README.md",
+  "readme": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/master/README.md",
   "keywords": ["ioBroker", "wiffi-wz"],
   "repository": {
     "type": "git",
