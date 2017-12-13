@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "0.3.2",
+        "version":                  "0.3.3",
 	    "news": {
+            "0.3.3": {
+              "en": "code cleanup",
+              "de": "Code bereinigt."
+            },
             "0.3.2": {
               "en": "added license file",
               "de": "Lizenzinformation hinzugefügt."
@@ -45,7 +49,7 @@
         "enabled":                  true,
 		"extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
 		"keywords":                 ["wiffi", "wiffi-wz"],
-        "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/blob/master/README.md",
+        "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/master/README.md",
 		"loglevel":                 "info",
         "type":                     "hardware",
         "restartAdapters":          ["vis"]
