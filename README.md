@@ -22,7 +22,7 @@ Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU re
 
 ### ioBroker is not updating states, or set states issues errors
 
-1. Please verify that you have installed a firmware version >= _83 from [Stall.biz](https://www.stall.biz)
+1. This adapter will work with firmware version >= _83 from [Stall.biz](https://www.stall.biz) (upt to 2017-12-13 not yet accessible to public), but it MAY work for other firmware version also
 
 ### The Wiffi-wz is not sending any data to ioBroker.
 
@@ -37,6 +37,10 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 0.3.3 (2017-12-13)
+- corrected typos
+- cleaner code
+
 #### 0.3.2 (2017-12-12)
 - added license file
 
