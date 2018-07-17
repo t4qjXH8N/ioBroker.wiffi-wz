@@ -1,0 +1,186 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+<script type="text/javascript" src="words.js"></script>
+<style>
+    .m .col .select-wrapper+label {
+        top: -26px;
+    }
+    .m span{
+        font-size: 0.9em;
+    }
+</style>
+<script type="text/javascript">
+  let rooms =   [];
+  let devices = [];
+
+  // setup listener for select event to re-initialize on change
+  $(this).ready(function(){
+    $('select').formSelect();
+  });
+
+  function setValue(id, value, onChange) {
+    let $value = $('#' + id + '.value');
+
+    if ($value.attr('type') === 'checkbox') {
+      $value.prop('checked', value).on('change', function() {
+        if ($(this).attr('id') === 'webserverEnabled') {
+          $('#webserverPort').prop('disabled', !$(this).prop('checked'));
+        }
+        onChange();
+      });
+    } else {
+      $value.val(value).on('change', function() {
+        onChange();
+      }).on('keyup', function() {
+        onChange();
+      });
+    }
+  }
+
+  // the function loadSettings has to exist ...
+  function load(settings, onChange) {
+    if (!settings) return;
+
+    devices = settings.devices || [];
+
+    for (let key in settings) {
+      if (!settings.hasOwnProperty(key)) continue;
+      setValue(key, settings[key], onChange);
+    }
+
+    $('#table-button-search').on('click', function () {
+      sendTo(null, 'browse', null, function(list) {
+        getEnums('rooms', function (err, rooms) {
+          let changed = false;
+          for (let j = 0; j < list.length; j++) {
+            let isFound = false;
+            for (let i = 0; i < devices.length; i++) {
+              if (devices[i].ip === list[j].ip) {
+                isFound = true;
+                break;
+              }
+            }
+            if (!isFound) {
+              changed = true;
+              devices.push({
+                name: list[j].roomName,
+                room: enumName2Id(rooms, list[j].roomName),
+                ip: list[j].ip
+              });
+            }
+          }
+
+          if (changed) {
+            onChange();
+            values2table('values', devices, onChange);
+          }
+        });
+      });
+    }).attr('title', _('update adapter information'));
+
+    values2table('values', devices, onChange);
+
+    getIsAdapterAlive(function (isAlive) {
+      if (isAlive || common.enabled) {
+        $('#table-button-search').removeClass('disabled');
+      } else {
+        $('#table-button-search').addClass('disabled');
+      }
+    });
+
+    // populate local server ips with ips
+    getIPs(function(ips) {
+      for (let i = 0; i < ips.length; i++) {
+        $('#local_server_ip').append('<option value="' + ips[i].address + '">' + ips[i].name + '</option>');
+      }
+      $('#local_server_ip.value').val(settings.local_server_ip).select();
+    });
+
+    M.updateTextFields();  // function Materialize.updateTextFields(); to reinitialize all the Materialize labels on the page if you are dynamically adding inputs.
+    onChange(false);
+  }
+
+  // ... and the function save has to exist.
+  // you have to make sure the callback is called with the settings object as first param!
+  function save(callback) {
+    let obj = {};
+    $('.value').each(function () {
+      let $this = $(this);
+      if ($this.attr('type') === 'checkbox') {
+        obj[$this.attr('id')] = $this.prop('checked');
+      } else {
+        obj[$this.attr('id')] = $this.val();
+      }
+    });
+
+    // Get edited table
+    obj.devices = table2values('values');
+
+    callback(obj);
+  }
+</script>
+</head>
+<body>
+    <div class="m adapter-container">
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s5"><a href="#tab-main"    class="translate active">main settings</a></li>
+                    <li class="tab col s5"><a href="#tab-devices" class="translate">wiffi devices</a></li>
+                </ul>
+            </div>
+            <div id="tab-main" class="col s12 page">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <img src="wiffi-wz.png" class="logo">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12 m8 l5">
+                        <select class="value" id="local_server_ip"></select>
+                        <label for="local_server_ip" class="translate">local_server_ip</label>
+                    </div>
+                    <div class="input-field col s12 m4 l1">
+                        <input class="value" size="5" maxlength="5" id="local_server_port" type="number">
+                        <label for="local_server_port" class="translate">local_server_port</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p class="translate">on save adapter restarts with new config immediately</p>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-devices" class="col s12 page">
+                <div class="col s12" id="values">
+                    <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                    <a id="table-button-search" class="btn-floating waves-effect waves-light blue disabled"><i class="material-icons">search</i><span class="translate">Search</span></a>
+                    <div class="table-values-div">
+                        <table class="table-values" style="width: 100%;">
+                            <thead>
+                            <tr>
+                                <th data-name="_index"   style="width: 40px" class="translate"></th>
+                                <th data-name="name"     style="width: 30%" class="translate">wiffi name</th>
+                                <th data-name="ip"       class="translate">wiffi IP address</th>
+                                <th data-name="room" data-type="select"    class="translate">wiffi room</th>
+                                <th data-buttons="delete" style="width: 40px"></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

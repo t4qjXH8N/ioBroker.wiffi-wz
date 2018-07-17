@@ -37,29 +37,32 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
-#### 0.3.3 (2017-12-13)
+#### 1.0.0 (17-Jul-2018)
+- added support for Admin3
+
+#### 0.3.3 (13-Dec-2017)
 - corrected typos
 - cleaner code
 
-#### 0.3.2 (2017-12-12)
+#### 0.3.2 (13-Dec-2017)
 - added license file
 
-#### 0.3.1 (2017-12-10)
+#### 0.3.1 (10-Dec-2017)
 - support for wiffi-wz, WEATHERMAN, and Rainymans, firmware should be greater or equal to _83
 - some bugfixes
 
-#### 0.2.1 (2017-12-05)
+#### 0.2.1 (5-Dec-2017)
 Bugfixes:
 - JSON format sent by the Wiffi had been changed since Wiffi firmware wiffi_software_53. JSON data interpretation fixed.
 
-#### 0.2.0 (2017-02-10)
+#### 0.2.0 (10-Feb-2017)
 Features:
 - Added support for multiple Wiffis.
 
 Changes:
 - Removed expert functions from the admin interface.
 
-#### 0.1.0 (2017-01-12)
+#### 0.1.0 (12-Jan-2017)
 Features:
 - Mandatory settings can be done on the admin page.
 - The wiffi-wz can be configured from the admin page (there are some problems, see known issues of this release).
@@ -67,7 +70,7 @@ Features:
 Known issues:
 - Sometimes it is not possible to change the wiffi settings using the admin page. There seems to be a problem with the ajax calls. Any ideas how to improve that?
 
-#### 0.0.1 (2017-01-11)
+#### 0.0.1 (12-Jan-2017)
 Features:
 - The sensor data is send to the ioBroker and saved as corresponding states. 
 
@@ -77,7 +80,7 @@ Knwon issuses:
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2014-2017 Christian Vorholt <chvorholt@mail.com>
+Copyright (c) 2014-2018 Christian Vorholt <chvorholt@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,38 +1,3 @@
-/**
- *
- * wiffi-wz adapter
- *
- *
- *  file io-package.json comments:
- *
- *  {
- *      "common": {
- *          "name":         "iobroker.wiffi-wz",
- *          "version":      "0.3.2",
- *          "title":        "Wiffi-wz Adapter",
- *          "authors":  [
- *              "Christian Vorholt <chvorholt@gmail.com>"
- *          ]
- *          "desc":         "Adapter für den Wiffi-wz",
- *          "platform":     "Javascript/Node.js",
- *          "mode":         "daemon",                   // possible values "daemon", "schedule", "subscribe"
- *          "schedule":     "0 0 * * *"                 // cron-style schedule. Only needed if mode=schedule
- *          "loglevel":     "info"                      // Adapters Log Level
- *      },
- *      "native": {                                     // the native object is available via adapter.config in your adapters code - use it for configuration
- *        "local_server_ip": "0.0.0.0",
- *        "local_server_port": 8181,
- *        "devices": [
- *              {"ip" : "0.0.0.0", "room": ""}
- *        ],
- *        "wiffi_target": "IOBroker",
- *        "wiffi_target_ccu_ip": "homematic-ccu2",
- *        "exp_red_led": true
- *      }
- *  }
- *
- */
-
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
 "use strict";

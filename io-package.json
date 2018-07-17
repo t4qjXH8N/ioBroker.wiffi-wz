@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "0.3.3",
-	    "news": {
+        "version":                  "1.0.0",
+        "news": {
+            "1.0.0": {
+              "en": "Added support for Admin3.",
+              "de": "Unterstützung für Admin3 hinzugefügt."
+            },
             "0.3.3": {
               "en": "code cleanup",
               "de": "Code bereinigt."
@@ -19,47 +23,53 @@
               "en": "support wiffis, WEATHERMANs, and RAYNIMANSs with firmwares greater or equal to _83",
               "de": "Unterstützung für Wiffis, WEATHERMANs und RAYNIMANS mit einer Firmware neuer oder gleich _83."
             },
-			"0.2.1": {
-                "en": "fixed JSON interpretation after wiffi software update",
-                "de": "JSON-Daten werden richtig interpretiert nach dem Update der Wiffi-Software auf Versionen größer als _53."
+            "0.2.1": {
+              "en": "fixed JSON interpretation after wiffi software update",
+              "de": "JSON-Daten werden richtig interpretiert nach dem Update der Wiffi-Software auf Versionen größer als _53."
             },
             "0.2.0": {
-				"en": "support for multiple Wiffis",
-				"de": "Unterstützt mehrere Wiffis"
-			},
-			"0.1.0": {
-			  "en": "mandatory settings can be changed on the admin page",
-			  "de": "unverzichtbare Einstellungen können auf der Admin-Seite vorgenommen werden." 
-			},
-			"0.0.1": {
-			  "en": "initial adapter",
-			  "de": "Initiale Version",
-			  "ru": "Первоначальный адаптер"
-			}
-		},
+              "en": "support for multiple Wiffis",
+              "de": "Unterstützt mehrere Wiffis"
+            },
+            "0.1.0": {
+              "en": "mandatory settings can be changed on the admin page",
+              "de": "unverzichtbare Einstellungen können auf der Admin-Seite vorgenommen werden."
+            },
+            "0.0.1": {
+              "en": "initial adapter",
+              "de": "Initiale Version",
+              "ru": "Первоначальный адаптер"
+            }
+        },
         "title":                    "wiffi-wz adapter",
+        "titleLang": {
+            "en": "Wiffi-wz adapter",
+            "de": "Wiffi-wz Adapter",
+            "ru": "Wiffi-wz драйвер как образец"
+        },        
         "desc":                     {
-				 "en": "ioBroker wiffi-wz Adapter",
-				 "de": "ioBroker Wiffi-wz Adapter",
-				 "ru": "ioBroker Wiffi-wz драйвер как образец"
-		},
+            "en": "ioBroker wiffi-wz Adapter",
+            "de": "ioBroker Wiffi-wz Adapter",
+            "ru": "ioBroker Wiffi-wz драйвер как образец"
+        },
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",
         "icon":                     "wiffi-wz.png",
         "enabled":                  true,
-		"extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
-		"keywords":                 ["wiffi", "wiffi-wz"],
+        "extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
+        "keywords":                 ["wiffi", "wiffi-wz"],
         "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/master/README.md",
-		"loglevel":                 "info",
+        "loglevel":                 "info",
         "type":                     "hardware",
-        "restartAdapters":          ["vis"]
+        "materialize":              true,
+        "restartAdapters":          []
     },
     "native": {
       "local_server_ip": "0.0.0.0",
       "local_server_port": 8181,
       "devices": [
-            {"name": "Wiffi", "ip" : "0.0.0.0", "room": ""}
-			],
+        {"name": "Wiffi", "ip" : "0.0.0.0", "room": ""}
+        ],
       "wiffi_target": "IOBroker",
       "wiffi_target_ccu_ip": "homematic-ccu2",
       "exp_red_led": true

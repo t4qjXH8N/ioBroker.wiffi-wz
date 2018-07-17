@@ -35,22 +35,6 @@
     var rooms =   [];
     var devices = [];
 
-    // Dictionary (systemDictionary is global variable from adapter-settings.js)
-    systemDictionary = {
-    "wiffi-wz settings": {"de": "Wiffi-wz Einstellungen", "en": "Wiffi-wz settings", "ru": "Пример"},
-    "wiffi devices": {"de": "Wiffis", "en": "Wiffis"},
-    "local server settings": {"de": "Lokale Server Einstellungen", "en": "local server settings"},
-    "local_server_ip":      {"en": "IP address", "de": "IP-Adresse"},
-    "local_server_port":      {"en": "port", "de": "Port"},
-    "exp_red_led":             {"en": "red LED", "de": "rote LED"},
-    "on":                      {"en": "on", "de": "an"},
-    "off":                     {"en": "off", "de": "aus"},
-    "on save adapter restarts with new config immediately": {
-      "de": "Beim Speichern von Einstellungen wird der Adapter sofort neu gestartet.",
-      "ru": "Сразу после сохранения настроек драйвер перезапуститься с новыми значениями"
-    }
-    };
-
     function setValue(id, value, onChange) {
         // example: select elements with id=key and class=value and insert value
         if ($('#' + id + '.value').attr('type') == 'checkbox') {
