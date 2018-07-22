@@ -22,7 +22,7 @@ Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU re
 
 ### ioBroker is not updating states, or set states issues errors
 
-1. This adapter will work with firmware version >= _83 from [Stall.biz](https://www.stall.biz) (upt to 2017-12-13 not yet accessible to public), but it MAY work for other firmware version also
+1. This adapter will work with firmware version >= _83 from [Stall.biz](https://www.stall.biz) (up to 2017-12-13 not yet accessible to public), but it MAY work for other firmware version also
 
 ### The Wiffi-wz is not sending any data to ioBroker.
 
@@ -32,11 +32,14 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 
     http://[wiffi ip]/?ccu:[io-broker's ip]:
     
-2. Tell wiffi-wz that it has to send data in JSON format
+2. Tell wiffi-wz that it has to send data in JSON format without HTML header (Note that the weatherman may use a different parameter number)
 
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 1.1.0 (22-Jul-2018)
+- added support for Weatherman
+
 #### 1.0.0 (17-Jul-2018)
 - added support for Admin3
 

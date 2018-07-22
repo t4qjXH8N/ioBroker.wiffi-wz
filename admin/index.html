@@ -74,11 +74,13 @@
     for (var key in settings) {
       setValue(key, settings[key], onChange);
     }
+
     getIsAdapterAlive(function (isAlive) {
       getEnums('rooms', function (err, list) {
         rooms = list;
-        var $grid = _editTable('devices', ['name', 'ip', 'room'], devices, rooms, 460, function (action, obj) {
-          devices = getTableResult('devices', ['name', 'ip', 'room']);
+        let types = ['Wiffi-wz, Weatherman'];
+        var $grid = _editTable('devices', ['name', 'ip', 'room', 'type'], devices, rooms, types, 460, function (action, obj) {
+          devices = getTableResult('devices', ['name', 'ip', 'room', 'type']);
         });
         if (isAlive || common.enabled) {
           $grid.jqGrid('navButtonAdd', '#pager-devices', {
@@ -95,8 +97,8 @@
                     }
                   }
                   if (!isFound) {
+                    addToTable('devices', {ip: list[j].ip, room: enumName2Id(rooms, list[j].roomName), type: 'Wiffi-wz'});
                     onChange();
-                    addToTable('devices', {ip: list[j].ip, room: enumName2Id(rooms, list[j].roomName)});
                   }
                 }
               });
@@ -119,7 +121,6 @@
     });
 
     onChange(false);
-
   }
 
     // ... and the function save has to exist.
@@ -137,7 +138,7 @@
         });
 
         // Get edited table
-        obj.devices = getTableResult('devices', ['name', 'ip', 'room']);
+        obj.devices = getTableResult('devices', ['name', 'ip', 'room', 'type']);
 
         callback(obj, {localLink: obj.webserverEnabled ? 'http://%ip%:' + obj.webserverPort : ''});
     }

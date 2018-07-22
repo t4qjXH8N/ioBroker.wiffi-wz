@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.0.0",
+        "version":                  "1.1.0",
         "news": {
+            "1.1.0": {
+              "en": "Support for the Weatherman.",
+              "de": "Unterstützung für den Weatherman."
+            },
             "1.0.0": {
               "en": "Added support for Admin3.",
               "de": "Unterstützung für Admin3 hinzugefügt."
@@ -68,11 +72,10 @@
       "local_server_ip": "0.0.0.0",
       "local_server_port": 8181,
       "devices": [
-        {"name": "Wiffi", "ip" : "0.0.0.0", "room": ""}
+        {"name": "Wiffi", "ip" : "0.0.0.0", "room": "", "type": "Wiffi-wz"}
         ],
       "wiffi_target": "IOBroker",
-      "wiffi_target_ccu_ip": "homematic-ccu2",
-      "exp_red_led": true
+      "wiffi_target_ccu_ip": "homematic-ccu2"
     },
     "objects": [
     ]
