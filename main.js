@@ -139,10 +139,16 @@ function openSocket() {
             } else if (wiffi.length === 1) {
               // wiffi found
               setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
-                if(!err && result) adapter.log.debug('Wiffi-wz state updated.');
+                if(!err && result) {
+                  adapter.log.debug('Wiffi-wz state updated.');
+                  adapter.setState('info.connection', true);
+                } else {
+                  adapter.setState('info.connection', false);
+                }
               });
             } else {
               adapter.log.error('There are multiple wiffis registered with the ip ' + ip);
+              adapter.setState('info.connection', false);
             }
 
             // check if the buffer is larger than the allowed maximum
@@ -157,6 +163,7 @@ function openSocket() {
           });
       }
       catch(e) {
+        adapter.setState('info.connection', false);
       }
 
     });
@@ -165,11 +172,13 @@ function openSocket() {
     sock.on('close', function(err) {
       if (err) adapter.log.error('An error occurred closing the server.');
       adapter.log.debug('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+      adapter.setState('info.connection', false);
     });
 
   }).listen(port, host);
 
   adapter.log.info('Server listening on ' + host +':'+ port);
+  adapter.setState('info.connection', true);
 }
 
 function syncConfig() {
