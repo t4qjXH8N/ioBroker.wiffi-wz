@@ -71,9 +71,6 @@ function main() {
   // check setup of all wiffis
   syncConfig();
 
-  // in this wiffi-wz all states changes inside the adapters namespace are subscribed
-  adapter.subscribeStates('*');
-
   // start socket listening on port 8181
   adapter.log.info("Opening socket ...");
   openSocket();
