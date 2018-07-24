@@ -2,7 +2,7 @@
 # ioBroker.wiffi-wz
 =================
 
-This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
+This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor) and the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
 
 The Wiffi-wz is a device that combines eight sensors in a single unit. Currently the following sensors are available:
 
@@ -15,8 +15,10 @@ The Wiffi-wz is a device that combines eight sensors in a single unit. Currently
 - air quality sensor ([MQ135](https://www.olimex.com/Products/Components/Sensors/SNS-MQ135/resources/SNS-MQ135.pdf))
 - beeper
 
+The Weatherman can be equipped with many sensors, see [homepage](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation) for more details. 
+
 ## How it works
-Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be visible to the internet because it may be used for attacks. 
+Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be exposed to the internet due to security reasons. 
 
 ## Troubleshooting
 
@@ -37,8 +39,8 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
-#### 1.1.0 (22-Jul-2018)
-- added support for Weatherman
+#### 1.1.0 (26-Jul-2018)
+- added support for Weatherman (many thanks to smartboart from [ioBroker forum](https://forum.iobroker.net) for testing)
 
 #### 1.0.0 (17-Jul-2018)
 - added support for Admin3

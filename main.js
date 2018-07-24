@@ -14,6 +14,11 @@ let channels    = {};
 // load a json file with settings for wiffi-wz and weatherman
 const wiffi_configs = require(__dirname + '/wiffi_config.json');
 
+const net = require('net');
+
+// max buffer size
+const maxBufferSize = 20000; // the buffer should not be bigger than this number to prevent DOS attacks
+
 // triggered when the adapter is installed
 adapter.on('install', function () {
   // create a node for subsequent wiffis
@@ -22,6 +27,7 @@ adapter.on('install', function () {
 
 // is called when adapter shuts down - callback has to be called under any circumstances!
 adapter.on('unload', function (callback) {
+  adapter.setState('info.connection', false);
   try {
     adapter.log.info('cleaned everything up...');
       callback();
@@ -65,8 +71,6 @@ adapter.on('ready', function () {
 function main() {
 
   // The adapters config (in the instance object everything under the attribute "native") is accessible via
-  // adapter.config:
-  adapter.log.info('Opening local server on ' + adapter.config.local_server_ip + ':' + adapter.config.local_server_port);
 
   // check setup of all wiffis
   syncConfig();
@@ -77,108 +81,120 @@ function main() {
 }
 
 function openSocket() {
-  let net = require('net');
   let host = adapter.config.local_server_ip;
   let port = adapter.config.local_server_port;
 
   // Create a server instance, and chain the listen function to it
   // The function passed to net.createServer() becomes the event handler for the 'connection' event
   // The sock object the callback function receives UNIQUE for each connection
-  net.createServer(function(sock) {
 
-    // We have a connection - a socket object is assigned to the connection automatically
-    adapter.log.debug('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
+  adapter.log.info('Opening local server on ' + host + ':' + port);
+  let buffer = '';
 
-    let maxBufferSize = 20000; // the buffer should not be bigger than this number to prevent DOS attacks
-    let buffer = '';
-    let remote_address = sock.remoteAddress;
+  let server = net.createServer(function(sock) {
 
     sock.on('data', function(data) {
+      let remote_address = sock.remoteAddress;
+
       let jsonContent; // holds the parsed data
-      let data_str;
+      let buffer_cond; // holds a buffer prepared for parsing
 
-      data_str = data.toString('utf8'); // assuming utf8 data...
-      buffer += data_str;
+      buffer += data.toString('utf8'); // collect buffer until it is full or we found a terminator
 
-      // wiffi firmware below or equal to wiffi_wz_53 seems to send a terminator
-      // the terminator has to be removed
-      buffer = buffer.replace('\u0003', '');
+      // check if the buffer is larger than the allowed maximum
+      if(buffer.length > maxBufferSize) {
+        // clear buffer
+        buffer = '';
+        adapter.log.warn('JSON larger than allowed size of ' + maxBufferSize + ', clearing buffer');
+      }
 
+      // look for a terminator
       // check if we have a valid JSON
-      try {
-          jsonContent = JSON.parse(buffer);
+      buffer_cond = buffer.replace(/\s/g,'').split('\u0003');
+      for(let i=0;i<buffer_cond.length;i++) {
+        try {
+          jsonContent = JSON.parse(buffer_cond[i].trim());
+        } catch(e) {}
+        if(jsonContent) break;
+      }
 
-          // parse seems to be successful
-          adapter.log.debug('Full message: ' + buffer);
-          adapter.log.info('Received JSON data from Wiffi');
+      if(!jsonContent) {
+        buffer_cond = buffer.replace(/\s/g,'').split('\u0004');
+        for(let i=0;i<buffer_cond.length;i++) {
+          try {
+            jsonContent = JSON.parse(buffer_cond[i].trim());
+          } catch(e) {}
+          if(jsonContent) break;
+        }
+      }
 
-          // update wiffi states
-          // get Wiffi-ip from JSON data
-          let ip = jsonContent.vars[0].value;
+      if(jsonContent) {
+        adapter.log.debug('Received JSON data from Wiffi. Full message: ' + buffer);
 
-          // check if wiffi-ip is consistent
-          if(ip && (remote_address !== ip)) adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi should send from ip ' + ip);
+        // get ip from data json
+        let ip;
+        for(let j=0;j<jsonContent.vars.length;j++) {
+          if(jsonContent.vars[j].homematic_name === 'w_ip')  ip = jsonContent.vars[j].value;
+          if(jsonContent.vars[j].homematic_name === 'wz_ip') ip = jsonContent.vars[j].value;
 
-          // trust the ip the wiffi told us
-          getid(ip, function (err, id) {
-            let wiffi = [];
-            for (let i = 0, len = adapter.config.devices.length; i < len; i++) {
-              if (adapter.config.devices[i].ip === ip) {
-                // found a wiffi
-                wiffi.push({id: id, ip: ip, type: adapter.config.devices[i].type});
-              }
+          if(ip) break;
+        }
+
+        // check if wiffi-ip is in the databse
+        if (ip && (remote_address !== ip)) adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi should send from ip ' + ip);
+
+        getid(ip, function (err, id) {
+          let wiffi = [];
+          for (let i = 0, len = adapter.config.devices.length; i<len; i++) {
+            if (adapter.config.devices[i].ip === ip) {
+              // found a wiffi
+              wiffi.push({id: id, ip: ip, type: adapter.config.devices[i].type});
             }
+          }
+
+          if (wiffi.length === 0) {
+            adapter.log.warn('Received data from unregistered wiffi with ip ' + ip);
+          } else if (wiffi.length === 1) {
+            // wiffi found
 
             // check if received type is identical to the type in the database
-            if(jsonContent.modultyp.toUpperCase() !== wiffi[0].type.toUpperCase()) {
+            if (jsonContent.modultyp.toUpperCase() !== wiffi[0].type.toUpperCase()) {
               adapter.log.warn('Received a datagram from a Wiffi of type ' + jsonContent.modultyp + ', but database holds type ' + wiffi.type);
             }
 
-            if (wiffi.length === 0) {
-              adapter.log.warn('Received data from unregistered wiffi with ip ' + ip);
-            } else if (wiffi.length === 1) {
-              // wiffi found
-              setStatesFromJSON(jsonContent, wiffi[0], function (err, result) {
-                if(!err && result) {
-                  adapter.log.debug('Wiffi-wz state updated.');
-                  adapter.setState('info.connection', true);
-                } else {
-                  adapter.setState('info.connection', false);
-                }
-              });
-            } else {
-              adapter.log.error('There are multiple wiffis registered with the ip ' + ip);
-              adapter.setState('info.connection', false);
-            }
+            // update wiffi states
+            setStatesFromJSON(jsonContent, wiffi[0], function (err) {
+              if (!err) {
+                adapter.log.info('Wiffi states successfully updated.');
+              } else {
+                adapter.log.error('An error when updating the states.');
+              }
+            });
+          } else {
+            adapter.log.error('There are multiple wiffis registered with the ip ' + ip);
+          }
 
-            // check if the buffer is larger than the allowed maximum
-            if(buffer.length > maxBufferSize) {
-              // clear buffer
-              buffer = '';
-              adapter.log.warn('JSON larger than allowed size of ' + maxBufferSize + ', clearing buffer');
-            }
-
-            // reset buffer
-            buffer = ''
-          });
+          // clear buffer
+          buffer = '';
+        });
       }
-      catch(e) {
-        adapter.setState('info.connection', false);
-      }
-
     });
 
-    // Add a 'close' event handler to this instance of socket
-    sock.on('close', function(err) {
-      if (err) adapter.log.error('An error occurred closing the server.');
-      adapter.log.debug('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
-      adapter.setState('info.connection', false);
-    });
+  });
 
-  }).listen(port, host);
+  // Add a 'close' event handler to this instance of socket
+  server.on('listening', function() {
+    adapter.log.info('Server listening on ' + host +':'+ port);
+    adapter.setState('info.connection', true);
+  });
 
-  adapter.log.info('Server listening on ' + host +':'+ port);
-  adapter.setState('info.connection', true);
+  server.on('close', function(err) {
+    if (err) adapter.log.error('An error occurred closing the server.');
+    adapter.log.debug('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+    adapter.setState('info.connection', false);
+  });
+
+  server.listen(port, host);
 }
 
 function syncConfig() {
@@ -330,4 +346,6 @@ function setStatesFromJSON(curStates, wiffi, callback) {
         if(err) adapter.log.error('Could not set state!');
       });
   }
+
+  callback(false);
 }
