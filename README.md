@@ -1,5 +1,5 @@
 ![Logo](admin/wiffi-wz.png)
-# ioBroker.wiffi-wz
+ioBroker adapter for wiffi-wz and weatherman
 =================
 [![NPM version](http://img.shields.io/npm/v/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
