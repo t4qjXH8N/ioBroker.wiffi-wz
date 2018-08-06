@@ -1,6 +1,10 @@
 ![Logo](admin/wiffi-wz.png)
 # ioBroker.wiffi-wz
 =================
+[![NPM version](http://img.shields.io/npm/v/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
+
+[![NPM](https://nodei.co/npm/iobroker.wiffi-wz.png?downloads=true)](https://nodei.co/npm/iobroker.wiffi-wz/)
 
 This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor) and the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
 
