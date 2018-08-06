@@ -78,7 +78,7 @@
     getIsAdapterAlive(function (isAlive) {
       getEnums('rooms', function (err, list) {
         rooms = list;
-        let types = ['Wiffi-wz, Weatherman'];
+        let types = ['Wiffi-wz,Weatherman,Rainyman'];
         var $grid = _editTable('devices', ['name', 'ip', 'room', 'type'], devices, rooms, types, 460, function (action, obj) {
           devices = getTableResult('devices', ['name', 'ip', 'room', 'type']);
         });

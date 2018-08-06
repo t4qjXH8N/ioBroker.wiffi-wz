@@ -101,11 +101,15 @@ function openSocket() {
 
       buffer += data.toString('utf8'); // collect buffer until it is full or we found a terminator
 
+      // workaround for nans in the buffer
+      buffer = buffer.replace(':nan', ':"nan"');
+
       // check if the buffer is larger than the allowed maximum
       if(buffer.length > maxBufferSize) {
         // clear buffer
-        buffer = '';
         adapter.log.warn('JSON larger than allowed size of ' + maxBufferSize + ', clearing buffer');
+        adapter.log.debug('Received datagram: ' + buffer);
+        buffer = '';
       }
 
       // look for a terminator
@@ -128,19 +132,26 @@ function openSocket() {
         }
       }
 
+      // maybe there is no terminator?
+      if(!jsonContent) {
+        try {
+          jsonContent = JSON.parse(buffer_cond.trim());
+        } catch(e) {}
+      }
+
       if(jsonContent) {
         adapter.log.debug('Received JSON data from Wiffi. Full message: ' + buffer);
 
         // get ip from data json
         let ip;
         for(let j=0;j<jsonContent.vars.length;j++) {
+          if(jsonContent.vars[j].homematic_name === 'r_ip')  ip = jsonContent.vars[j].value;
           if(jsonContent.vars[j].homematic_name === 'w_ip')  ip = jsonContent.vars[j].value;
-          if(jsonContent.vars[j].homematic_name === 'wz_ip') ip = jsonContent.vars[j].value;
 
           if(ip) break;
         }
 
-        // check if wiffi-ip is in the databse
+        // check if wiffi-ip is in the database
         if (ip && (remote_address !== ip)) adapter.log.warn('Wiffi data received from ' + remote_address + ', but Wiffi should send from ip ' + ip);
 
         getid(ip, function (err, id) {

@@ -43,6 +43,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 1.2.0 (XX-Aug-2018)
+- added support for Rainyman
+
 #### 1.1.0 (26-Jul-2018)
 - added support for Weatherman (many thanks to smartboart from [ioBroker forum](https://forum.iobroker.net) for testing)
 

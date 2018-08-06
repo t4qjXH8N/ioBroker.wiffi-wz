@@ -399,5 +399,187 @@
 				"desc": "calculated azimut"
 			}
 		]
+	},
+	{
+		"type": "Rainyman",
+		"states": [
+			{
+				"id": "w_ip",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"role": "info",
+				"value": "0.0.0.0",
+				"desc": "ip-address"
+			},
+			{
+				"id": "w_temperature",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -10,
+				"max": 60,
+				"role": "sensor.temperature",
+				"desc": "temperature"
+			},
+            {
+              "id": "w_humidity",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "%",
+              "min": 0,
+              "max": 100,
+              "role": "sensor.humidity",
+              "desc": "relative humidity"
+            },
+            {
+              "id": "w_barometer",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "mb",
+              "role": "sensor.barometer",
+              "desc": "barometer"
+            },
+            {
+              "id": "w_rain_status",
+              "type": "boolean",
+              "def": false,
+              "read": true,
+              "write": false,
+              "unit": "",
+              "role": "sensor.regen_status",
+              "desc": "rain state"
+            },
+            {
+              "id": "w_taupunkt",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "°C",
+              "min": -20,
+              "max": 60,
+              "role": "sensor.taupunkt",
+              "desc": "taupunkt"
+            },
+            {
+              "id": "w_lux",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "min": 0,
+              "max": 100000,
+              "unit": "lux",
+              "role": "sensor.luxmeter",
+              "desc": "luxmeter"
+            },
+            {
+              "id": "w_barotrend",
+              "type": "string",
+              "read": true,
+              "write": false,
+              "unit": "",
+              "role": "sensor.baro_trend",
+              "desc": "luftdrucktrend"
+            },
+            {
+              "id": "w_elevation",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "min": 0,
+              "max": 360,
+              "unit": "°",
+              "role": "sensor.elevation",
+              "desc": "calculated elevation"
+            },
+            {
+              "id": "w_azimut",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "min": 0,
+              "max": 360,
+              "unit": "°",
+              "role": "sensor.azimut",
+              "desc": "calculated azimut"
+            },
+            {
+              "id": "w_sky_temp",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "°C",
+              "role": "sensor.sky_temp",
+              "desc": "sky temperature"
+            },
+            {
+              "id": "w_sun_temp",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "°C",
+              "role": "sensor.sun_temp",
+              "desc": "sun temperature"
+            },
+            {
+              "id": "w_sonne_scheint",
+              "type": "boolean",
+              "read": true,
+              "write": false,
+              "unit": "",
+              "role": "sensor.sunshine",
+              "desc": "sunshine"
+            },
+            {
+              "id": "w_hum_abs",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "g/m3",
+              "role": "sensor.abs_humidity",
+              "desc": "absolute humidity"
+            },
+            {
+              "id": "w_rain_activity",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "",
+              "role": "sensor.regenmelderwert",
+              "desc": "regenmelderwert"
+            },
+            {
+              "id": "w_diff_temp",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "°C",
+              "role": "sensor.sun_diff_temp",
+              "desc": "sun difference temperature"
+            },
+			{
+				"id": "w_windchill",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -20,
+				"max": 60,
+				"role": "sensor.windchill_temperature",
+				"desc": "windchill temperature"
+			},
+            {
+              "id": "w_bodenfeuchte",
+              "type": "number",
+              "read": true,
+              "write": false,
+              "unit": "",
+              "role": "sensor.bodenfecuhte",
+              "desc": "bodenfeuchte"
+            }
+		]
 	}
 ]
