@@ -1,5 +1,5 @@
 ![Logo](admin/wiffi-wz.png)
-ioBroker adapter for wiffi-wz and weatherman
+ioBroker adapter for wiffi-wz, weatherman and rainyman
 =================
 [![NPM version](http://img.shields.io/npm/v/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
@@ -21,6 +21,8 @@ The Wiffi-wz is a device that combines eight sensors in a single unit. Currently
 
 The Weatherman can be equipped with many sensors, see [homepage](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation) for more details. 
 
+The Rainyman is a somehow reduced version of the Weatherman, see [homepage](https://www.stall.biz/project/rainyman-der-perfekte-sensor-fuer-regen-sonne-klima-bodenfeuchte-und-mehr) for more details. 
+
 ## How it works
 Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be exposed to the internet due to security reasons. 
 
@@ -28,7 +30,7 @@ Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU re
 
 ### ioBroker is not updating states, or set states issues errors
 
-1. This adapter will work with firmware version >= _83 from [Stall.biz](https://www.stall.biz) (up to 2017-12-13 not yet accessible to public), but it MAY work for other firmware version also
+This adapter will work with Wiffi-wz firmware version >= _83 from [Stall.biz](https://www.stall.biz) (up to 2017-12-13 not yet accessible to public), but it MAY work for other firmware version also.
 
 ### The Wiffi-wz is not sending any data to ioBroker.
 
@@ -43,8 +45,8 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
-#### 1.2.0 (XX-Aug-2018)
-- added support for Rainyman
+#### 1.2.0 (10-Aug-2018)
+- added support for Rainyman (many thanks to Strobelix from [ioBroker forum](https://forum.iobroker.net) for testing)
 
 #### 1.1.0 (26-Jul-2018)
 - added support for Weatherman (many thanks to smartboart from [ioBroker forum](https://forum.iobroker.net) for testing)
