@@ -102,7 +102,8 @@ function openSocket() {
       buffer += data.toString('utf8'); // collect buffer until it is full or we found a terminator
 
       // workaround for nans in the buffer
-      buffer = buffer.replace(':nan', ':"nan"');
+      buffer = buffer.replaceAll(':nan', ':"nan"');
+      buffer = buffer.replaceAll(':\'nan\'', ':"nan"');
 
       // check if the buffer is larger than the allowed maximum
       if(buffer.length > maxBufferSize) {
@@ -360,3 +361,8 @@ function setStatesFromJSON(curStates, wiffi, callback) {
 
   callback(false);
 }
+
+String.prototype.replaceAll = function(search, replacement) {
+  var target = this;
+  return target.replace(new RegExp(search, 'g'), replacement);
+};
