@@ -357,15 +357,6 @@
 				"desc": "sunshine"
 			},
 			{
-				"id": "w_sonne_scheint",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"unit": "",
-				"role": "sensor.sunshine",
-				"desc": "sunshine"
-			},
-			{
 				"id": "w_lux",
 				"type": "number",
 				"read": true,
@@ -422,6 +413,17 @@
 				"max": 60,
 				"role": "sensor.temperature",
 				"desc": "temperature"
+			},
+			{
+				"id": "w_mittl_temperatur_gestern",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -10,
+				"max": 60,
+				"role": "sensor.mittl_temperatur_gestern",
+				"desc": "mittl Temperatur_gestern"
 			},
             {
               "id": "w_humidity",
@@ -525,15 +527,6 @@
               "desc": "sun temperature"
             },
             {
-              "id": "w_sonne_scheint",
-              "type": "boolean",
-              "read": true,
-              "write": false,
-              "unit": "",
-              "role": "sensor.sunshine",
-              "desc": "sunshine"
-            },
-            {
               "id": "w_hum_abs",
               "type": "number",
               "read": true,
@@ -579,7 +572,52 @@
               "unit": "",
               "role": "sensor.bodenfecuhte",
               "desc": "bodenfeuchte"
-            }
+            },
+			{
+				"id": "w_rain_volume_1",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"role": "sensor.rain_per_hour",
+				"desc": "rain per hour"
+			},
+			{
+				"id": "w_rain_volume_24",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"role": "sensor.rain_per_day",
+				"desc": "rain per 24 hours"
+			},
+			{
+				"id": "w_sonne_scheint",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "sensor.sunshine",
+				"desc": "sunshine"
+			},
+			{
+				"id": "w_sonne_heute",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "sensor.sonne_heute",
+				"desc": ""
+			},
+			{
+				"id": "w_sonne_gestern",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "sensor.sonne_gestern",
+				"desc": ""
+			}
 		]
 	}
 ]
