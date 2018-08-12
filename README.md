@@ -6,7 +6,10 @@ ioBroker adapter for wiffi-wz, weatherman and rainyman
 
 [![NPM](https://nodei.co/npm/iobroker.wiffi-wz.png?downloads=true)](https://nodei.co/npm/iobroker.wiffi-wz/)
 
-This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor) and the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
+[![Build Status](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz.svg?branch=master)](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz)
+[![Build status](https://ci.appveyor.com/api/projects/status/58b8ygy9slf4oygx/branch/master?svg=true)](https://ci.appveyor.com/project/t4qjXH8N/iobroker-wiffi-wz/branch/master)
+
+This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor), the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation) and the [Rainyman](https://www.stall.biz/project/rainyman-der-perfekte-sensor-fuer-regen-sonne-klima-bodenfeuchte-und-mehr). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
 
 The Wiffi-wz is a device that combines eight sensors in a single unit. Currently the following sensors are available:
 
