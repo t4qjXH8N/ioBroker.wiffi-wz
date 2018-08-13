@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.0",
+        "version":                  "1.2.1",
         "news": {
+            "1.2.1": {
+              "en": "New strategy for datagramm evaluation.",
+              "de": "Neue Datagramm Auswertung."
+            },
             "1.2.0": {
               "en": "Support for the Rainyman.",
               "de": "Unterstützung für den Rainyman."

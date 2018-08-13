@@ -17,7 +17,7 @@ const wiffi_configs = require(__dirname + '/wiffi_config.json');
 const net = require('net');
 
 // max buffer size
-const maxBufferSize = 20000; // the buffer should not be bigger than this number to prevent DOS attacks
+const maxBufferSize = 100000; // the buffer should not be bigger than this number to prevent DOS attacks
 
 // triggered when the adapter is installed
 adapter.on('install', function () {
@@ -98,6 +98,8 @@ function openSocket() {
 
       let jsonContent; // holds the parsed data
       let buffer_cond; // holds a buffer prepared for parsing
+      let endpos;
+      let startpos;
 
       buffer += data.toString('utf8'); // collect buffer until it is full or we found a terminator
 
@@ -106,7 +108,7 @@ function openSocket() {
       buffer = buffer.replaceAll(':\'nan\'', ':"nan"');
 
       // check if the buffer is larger than the allowed maximum
-      if(buffer.length > maxBufferSize) {
+      if (buffer.length > maxBufferSize) {
         // clear buffer
         adapter.log.warn('JSON larger than allowed size of ' + maxBufferSize + ', clearing buffer');
         adapter.log.debug('Received datagram: ' + buffer);
@@ -115,28 +117,38 @@ function openSocket() {
 
       // look for a terminator
       // check if we have a valid JSON
-      buffer_cond = buffer.replace(/\s/g,'').split('\u0003');
-      for(let i=0;i<buffer_cond.length;i++) {
+      buffer_cond = buffer.replace(/\s/g, '').split('\u0003');
+      for (let i=0;i<buffer_cond.length;i++) {
         try {
           jsonContent = JSON.parse(buffer_cond[i].trim());
-        } catch(e) {}
-        if(jsonContent) break;
+        } catch (e) {}
+        if (jsonContent) break;
       }
 
-      if(!jsonContent) {
-        buffer_cond = buffer.replace(/\s/g,'').split('\u0004');
-        for(let i=0;i<buffer_cond.length;i++) {
+      if (!jsonContent) {
+        buffer_cond = buffer.replace(/\s/g, '').split('\u0004');
+        for (let i=0;i<buffer_cond.length;i++) {
           try {
             jsonContent = JSON.parse(buffer_cond[i].trim());
-          } catch(e) {}
-          if(jsonContent) break;
+          } catch (e) {}
+          if (jsonContent) break;
         }
       }
 
       // maybe there is no terminator?
-      if(!jsonContent) {
+      if (!jsonContent) {
         try {
           jsonContent = JSON.parse(buffer_cond.trim());
+        } catch (e) {}
+      }
+
+      // ok, last resort, try to find start and ending in buffer
+      if (!jsonContent) {
+        startpos = buffer.indexOf('{"modultyp"');
+        endpos = buffer.indexOf('}}');
+
+        try {
+          jsonContent = JSON.parse(buffer.substring(startpos, endpos+2));
         } catch(e) {}
       }
 
