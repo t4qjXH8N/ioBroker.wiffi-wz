@@ -53,12 +53,11 @@
               "ru": "Первоначальный адаптер"
             }
         },
-        "title":                    "wiffi-wz adapter",
+        "title":                    "wiffi-wz",
         "titleLang": {
-            "en": "Wiffi-wz adapter",
-            "de": "Wiffi-wz Adapter",
-            "ru": "Wiffi-wz драйвер как образец"
-        },        
+            "en": "Wiffi-wz",
+            "de": "Wiffi-wz"
+        },
         "desc":                     {
             "en": "ioBroker wiffi-wz Adapter",
             "de": "ioBroker Wiffi-wz Adapter",
