@@ -7,7 +7,7 @@
 				"type": "string",
 				"read": true,
 				"write": false,
-				"role": "info",
+				"role": "info.ip",
 				"value": "0.0.0.0",
 				"desc": "ip-address"
 			},
@@ -19,7 +19,7 @@
 				"unit": "%",
 				"min": 0,
 				"max": 100,
-				"role": "sensor.co2",
+				"role": "value",
 				"desc": "air quality sensor"
 			},
 			{
@@ -30,7 +30,7 @@
 				"unit": "°C",
 				"min": -10,
 				"max": 60,
-				"role": "sensor.temperature",
+				"role": "value.temperature",
 				"desc": "temperature sensor"
 			},
 			{
@@ -41,7 +41,7 @@
 				"unit": "%",
 				"min": 0,
 				"max": 100,
-				"role": "sensor.humidity",
+				"role": "value.humidity",
 				"desc": "relative humidity sensor"
 			},
 			{
@@ -50,7 +50,7 @@
 				"type": "boolean",
 				"read": true,
 				"write": false,
-				"role": "indicator",
+				"role": "sensor.noise",
 				"desc": "noise sensor"
 			},
 			{
@@ -79,7 +79,7 @@
 				"min": 0,
 				"max": 100000,
 				"unit": "lux",
-				"role": "sensor.luxmeter",
+				"role": "value.brightness",
 				"desc": "luxmeter"
 			},
 			{
@@ -90,7 +90,7 @@
 				"min": 300,
 				"max": 1100,
 				"unit": "hPa",
-				"role": "sensor.barometer",
+				"role": "value.pressure",
 				"desc": "barometric sensor"
 			},
 			{
@@ -101,7 +101,7 @@
 				"min": 0,
 				"max": 360,
 				"unit": "°",
-				"role": "sensor.elevation",
+				"role": "value",
 				"desc": "calculated elevation"
 			},
 			{
@@ -112,8 +112,8 @@
 				"min": 0,
 				"max": 360,
 				"unit": "°",
-				"role": "sensor.azimut",
-				"desc": "calculated azimut"
+				"role": "value",
+				"desc": "calculated azimuth"
 			},
 			{
 				"id": "wz_buzzer",
@@ -121,7 +121,7 @@
 				"type": "boolean",
 				"read": true,
 				"write": true,
-				"role": "alarm",
+				"role": "switch",
 				"desc": "integrated buzzer"
 			}
 		]
@@ -134,7 +134,7 @@
 				"type": "string",
 				"read": true,
 				"write": false,
-				"role": "info",
+				"role": "info.ip",
 				"value": "0.0.0.0",
 				"desc": "ip-address"
 			},
@@ -146,7 +146,7 @@
 				"unit": "°C",
 				"min": -10,
 				"max": 60,
-				"role": "sensor.temperature",
+				"role": "value.temperature",
 				"desc": "temperature"
 			},
 			{
@@ -157,7 +157,7 @@
 				"unit": "°C",
 				"min": -20,
 				"max": 60,
-				"role": "sensor.windchill_temperature",
+				"role": "value.temperature.windchill",
 				"desc": "windchill temperature"
 			},
 			{
@@ -168,7 +168,7 @@
 				"unit": "°C",
 				"min": -20,
 				"max": 60,
-				"role": "sensor.taupunkt",
+				"role": "value.temperature.dewpoint",
 				"desc": "taupunkt"
 			},
 			{
@@ -179,7 +179,7 @@
 				"unit": "%",
 				"min": 0,
 				"max": 100,
-				"role": "sensor.humidity",
+				"role": "value.humidity",
 				"desc": "relative humidity"
 			},
 			{
@@ -188,7 +188,7 @@
 				"read": true,
 				"write": false,
 				"unit": "g/m3",
-				"role": "sensor.abs_humidity",
+				"role": "value.humidity",
 				"desc": "absolute humidity"
 			},
 			{
@@ -197,7 +197,7 @@
 				"read": true,
 				"write": false,
 				"unit": "m/s",
-				"role": "sensor.avg_wind",
+				"role": "value.speed.wind",
 				"desc": "average wind speed"
 			},
 			{
@@ -206,7 +206,7 @@
 				"read": true,
 				"write": false,
 				"unit": "m/s",
-				"role": "sensor.peak_wind",
+				"role": "value.speed.max.wind",
 				"desc": "peak wind speed"
 			},
 			{
@@ -215,8 +215,8 @@
 				"read": true,
 				"write": false,
 				"unit": "bft",
-				"role": "sensor.windstaerke",
-				"desc": "windstärke"
+				"role": "value",
+				"desc": "wind force"
 			},
 			{
 				"id": "w_wind_direction",
@@ -224,7 +224,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.wind_direction",
+				"role": "weather.direction.wind",
 				"desc": "wind direction"
 			},
 			{
@@ -235,7 +235,7 @@
 				"min": 0,
 				"max": 360,
 				"unit": "grad",
-				"role": "sensor.wind_angle",
+				"role": "value.direction.wind",
 				"desc": "wind angle"
 			},
 			{
@@ -244,8 +244,8 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.regenmelderwert",
-				"desc": "regenmelderwert"
+				"role": "value",
+				"desc": "rain notification value"
 			},
 			{
 				"id": "w_rain_status",
@@ -254,7 +254,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.regen_status",
+				"role": "sensor.rain",
 				"desc": "rain state"
 			},
 			{
@@ -263,7 +263,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mm/h",
-				"role": "sensor.rain_intensity",
+				"role": "value.rain",
 				"desc": "rain intensity"
 			},
 			{
@@ -272,7 +272,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mm",
-				"role": "sensor.rain_per_hour",
+				"role": "value.rain.hour",
 				"desc": "rain per hour"
 			},
 			{
@@ -281,7 +281,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mm",
-				"role": "sensor.rain_per_day",
+				"role": "value.rain",
 				"desc": "rain per 24 hours"
 			},
 			{
@@ -290,7 +290,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mm",
-				"role": "sensor.rain_yesterday",
+				"role": "value.precipitation",
 				"desc": "rain yesterday"
 			},
 			{
@@ -299,7 +299,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.bodenfecuhte",
+				"role": "value",
 				"desc": "bodenfeuchte"
 			},
 			{
@@ -308,7 +308,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mb",
-				"role": "sensor.barometer",
+				"role": "value.pressure",
 				"desc": "barometer"
 			},
 			{
@@ -317,7 +317,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.baro_trend",
+				"role": "text",
 				"desc": "luftdrucktrend"
 			},
 			{
@@ -326,7 +326,7 @@
 				"read": true,
 				"write": false,
 				"unit": "°C",
-				"role": "sensor.sky_temp",
+				"role": "value.temperature",
 				"desc": "sky temperature"
 			},
 			{
@@ -335,7 +335,7 @@
 				"read": true,
 				"write": false,
 				"unit": "°C",
-				"role": "sensor.sun_temp",
+				"role": "value.temperature",
 				"desc": "sun temperature"
 			},
 			{
@@ -344,7 +344,7 @@
 				"read": true,
 				"write": false,
 				"unit": "°C",
-				"role": "sensor.sun_diff_temp",
+				"role": "value.temperature",
 				"desc": "sun difference temperature"
 			},
 			{
@@ -353,7 +353,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.sunshine",
+				"role": "indicator",
 				"desc": "sunshine"
 			},
 			{
@@ -364,7 +364,7 @@
 				"min": 0,
 				"max": 100000,
 				"unit": "lux",
-				"role": "sensor.luxmeter",
+				"role": "value.brightness",
 				"desc": "luxmeter"
 			},
 			{
@@ -375,7 +375,7 @@
 				"min": 0,
 				"max": 360,
 				"unit": "°",
-				"role": "sensor.elevation",
+				"role": "value",
 				"desc": "calculated elevation"
 			},
 			{
@@ -386,7 +386,7 @@
 				"min": 0,
 				"max": 360,
 				"unit": "°",
-				"role": "sensor.azimut",
+				"role": "value",
 				"desc": "calculated azimut"
 			}
 		]
@@ -399,7 +399,7 @@
 				"type": "string",
 				"read": true,
 				"write": false,
-				"role": "info",
+				"role": "info.ip",
 				"value": "0.0.0.0",
 				"desc": "ip-address"
 			},
@@ -411,7 +411,7 @@
 				"unit": "°C",
 				"min": -10,
 				"max": 60,
-				"role": "sensor.temperature",
+				"role": "value.temperature",
 				"desc": "temperature"
 			},
 			{
@@ -422,7 +422,7 @@
 				"unit": "°C",
 				"min": -10,
 				"max": 60,
-				"role": "sensor.mittl_temperatur_gestern",
+				"role": "value",
 				"desc": "mittl Temperatur_gestern"
 			},
             {
@@ -442,7 +442,7 @@
               "read": true,
               "write": false,
               "unit": "mb",
-              "role": "sensor.barometer",
+              "role": "value.pressure",
               "desc": "barometer"
             },
             {
@@ -452,7 +452,7 @@
               "read": true,
               "write": false,
               "unit": "",
-              "role": "sensor.regen_status",
+              "role": "sensor.rain",
               "desc": "rain state"
             },
             {
@@ -463,7 +463,7 @@
               "unit": "°C",
               "min": -20,
               "max": 60,
-              "role": "sensor.taupunkt",
+              "role": "value.temperature.dewpoint",
               "desc": "taupunkt"
             },
             {
@@ -474,7 +474,7 @@
               "min": 0,
               "max": 100000,
               "unit": "lux",
-              "role": "sensor.luxmeter",
+              "role": "value.brightness",
               "desc": "luxmeter"
             },
             {
@@ -483,7 +483,7 @@
               "read": true,
               "write": false,
               "unit": "",
-              "role": "sensor.baro_trend",
+              "role": "text",
               "desc": "luftdrucktrend"
             },
             {
@@ -494,7 +494,7 @@
               "min": 0,
               "max": 360,
               "unit": "°",
-              "role": "sensor.elevation",
+              "role": "value",
               "desc": "calculated elevation"
             },
             {
@@ -505,7 +505,7 @@
               "min": 0,
               "max": 360,
               "unit": "°",
-              "role": "sensor.azimut",
+              "role": "value",
               "desc": "calculated azimut"
             },
             {
@@ -514,7 +514,7 @@
               "read": true,
               "write": false,
               "unit": "°C",
-              "role": "sensor.sky_temp",
+              "role": "value.temperature",
               "desc": "sky temperature"
             },
             {
@@ -523,7 +523,7 @@
               "read": true,
               "write": false,
               "unit": "°C",
-              "role": "sensor.sun_temp",
+              "role": "value.temperature",
               "desc": "sun temperature"
             },
             {
@@ -541,8 +541,8 @@
               "read": true,
               "write": false,
               "unit": "",
-              "role": "sensor.regenmelderwert",
-              "desc": "regenmelderwert"
+              "role": "value",
+              "desc": "rain notification value"
             },
             {
               "id": "w_diff_temp",
@@ -550,7 +550,7 @@
               "read": true,
               "write": false,
               "unit": "°C",
-              "role": "sensor.sun_diff_temp",
+              "role": "value.temperature",
               "desc": "sun difference temperature"
             },
 			{
@@ -561,7 +561,7 @@
 				"unit": "°C",
 				"min": -20,
 				"max": 60,
-				"role": "sensor.windchill_temperature",
+				"role": "value.temperature.windchill",
 				"desc": "windchill temperature"
 			},
             {
@@ -570,7 +570,7 @@
               "read": true,
               "write": false,
               "unit": "",
-              "role": "sensor.bodenfecuhte",
+              "role": "value",
               "desc": "bodenfeuchte"
             },
 			{
@@ -579,7 +579,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mm",
-				"role": "sensor.rain_per_hour",
+				"role": "value.rain.hour",
 				"desc": "rain per hour"
 			},
 			{
@@ -588,7 +588,7 @@
 				"read": true,
 				"write": false,
 				"unit": "mm",
-				"role": "sensor.rain_per_day",
+				"role": "value.rain",
 				"desc": "rain per 24 hours"
 			},
 			{
@@ -597,7 +597,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.sunshine",
+				"role": "indicator",
 				"desc": "sunshine"
 			},
 			{
@@ -606,7 +606,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.sonne_heute",
+				"role": "value",
 				"desc": ""
 			},
 			{
@@ -615,7 +615,7 @@
 				"read": true,
 				"write": false,
 				"unit": "",
-				"role": "sensor.sonne_gestern",
+				"role": "value",
 				"desc": ""
 			}
 		]

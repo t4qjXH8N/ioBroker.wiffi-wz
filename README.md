@@ -48,6 +48,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 1.2.2 (14-Aug-2018)
+- necessary modifications for publishing the adapter (fixing roles, etc ...)
+
 #### 1.2.1 (14-Aug-2018)
 - fixed datagram evaluation
 

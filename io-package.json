@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.1",
+        "version":                  "1.2.2",
         "news": {
+            "1.2.2": {
+              "en": "Necessary modifications for publishing the adapter.",
+              "de": "Nötige Anpassungen zur Veröffentlichung des Adapters."
+            },
             "1.2.1": {
               "en": "New strategy for datagramm evaluation.",
               "de": "Neue Datagramm Auswertung."
