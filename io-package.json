@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.2",
+        "version":                  "1.2.3",
         "news": {
+            "1.2.3": {
+              "en": "Necessary modifications for publishing the adapter (fixing package.json, etc ...).",
+              "de": "Nötige Anpassungen zur Veröffentlichung des Adapters."
+            },
             "1.2.2": {
               "en": "Necessary modifications for publishing the adapter.",
               "de": "Nötige Anpassungen zur Veröffentlichung des Adapters."
@@ -57,15 +61,29 @@
               "ru": "Первоначальный адаптер"
             }
         },
+        "license":                  "MIT",
         "title":                    "wiffi-wz",
         "titleLang": {
             "en": "Wiffi-wz",
-            "de": "Wiffi-wz"
+            "de": "Wiffi-wz",
+            "ru": "Wiffi-wz",
+            "pt": "Wiffi-wz",
+            "nl": "Wiffi-wz",
+            "fr": "Wiffi-wz",
+            "it": "Wiffi-wz",
+            "es": "Wiffi-wz",
+            "pl": "Wiffi-wz"
         },
-        "desc":                     {
-            "en": "ioBroker wiffi-wz Adapter",
-            "de": "ioBroker Wiffi-wz Adapter",
-            "ru": "ioBroker Wiffi-wz драйвер как образец"
+        "desc": {
+            "en": "ioBroker adapter for Wiffi-wz, Weatherman and Rainyman",
+            "de": "ioBroker Adapter für Wiffi-wz, Weatherman und Rainyman",
+            "ru": "адаптер ioBroker для Wiffi-wz, Weatherman и Rainyman",
+            "pt": "Adaptador ioBroker para Wiffi-wz, Weatherman e Rainyman",
+            "nl": "ioBroker-adapter voor Wiffi-wz, Weatherman en Rainyman",
+            "fr": "Adaptateur ioBroker pour Wiffi-wz, Weatherman et Rainyman",
+            "it": "adattatore ioBroker per Wiffi-wz, Weatherman e Rainyman",
+            "es": "Adaptador ioBroker para Wiffi-wz, Weatherman y Rainyman",
+            "pl": "Adapter ioBroker dla Wiffi-wz, Weatherman i Rainyman"
         },
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",

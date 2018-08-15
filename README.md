@@ -1,5 +1,5 @@
 ![Logo](admin/wiffi-wz.png)
-ioBroker adapter for wiffi-wz, weatherman and rainyman
+ioBroker adapter for Wiffi-wz, Weatherman and Rainyman
 =================
 [![NPM version](http://img.shields.io/npm/v/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
@@ -48,6 +48,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 	http://[wiffi ip]/?param:27:1
 
 ## Changelog
+#### 1.2.3 (15-Aug-2018)
+- necessary modifications for publishing the adapter (fixing package.json, etc ...)
+
 #### 1.2.2 (14-Aug-2018)
 - necessary modifications for publishing the adapter (fixing roles, etc ...)
 

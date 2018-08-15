@@ -1,6 +1,6 @@
 {
   "name": "iobroker.wiffi-wz",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Wiffi-wz Adapter",
   "author": {
     "name": "Christian Vorholt",
@@ -19,6 +19,10 @@
 	"gulp": "^3.9.1",
     "mocha": "^4.1.0",
     "chai": "^4.1.2"  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha --exit",
+    "install": "node main.js --install"
+  },
   "bugs": {
     "url": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/issues"
   },
