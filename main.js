@@ -218,6 +218,11 @@ function openSocket() {
     adapter.setState('info.connection', false);
   });
 
+  server.on('error', function(err){
+    adapter.log.error('Error: ' + err.message);
+    adapter.setState('info.connection', false);
+  });
+
   server.listen(port, host);
 }
 
