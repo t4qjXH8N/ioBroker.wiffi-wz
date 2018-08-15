@@ -69,7 +69,6 @@ adapter.on('ready', function () {
 });
 
 function main() {
-
   // The adapters config (in the instance object everything under the attribute "native") is accessible via
 
   // check setup of all wiffis
@@ -306,7 +305,7 @@ function createStates(name, ip, room, type, callback) {
     // create channel for the wiffi
     adapter.createChannel('root', id,
       {
-        role: 'sensor',
+        role: 'state',
         name: name || ip
       },{
         ip: ip
