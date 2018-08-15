@@ -63,6 +63,10 @@
         },
         "license":                  "MIT",
         "title":                    "wiffi-wz",
+        "author": {
+          "name":                   "Christian Vorholt",
+          "email":                  "chvorholt@gmail.com"
+        },
         "titleLang": {
             "en": "Wiffi-wz",
             "de": "Wiffi-wz",
