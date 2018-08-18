@@ -1,8 +1,19 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.3",
+        "version":                  "1.2.4",
         "news": {
+            "1.2.4": {
+              "en": "hotfix for Wiffi-wz",
+              "de": "Hotfix für Wiffi-wz",
+              "ru": "исправление для Wiffi-wz",
+              "pt": "hotfix para Wiffi-wz",
+              "nl": "hotfix voor Wiffi-wz",
+              "fr": "correctif pour Wiffi-wz",
+              "it": "aggiornamento rapido per Wiffi-wz",
+              "es": "revisión para Wiffi-wz",
+              "pl": "poprawka dla Wiffi-wz"
+            },
             "1.2.3": {
               "en": "Necessary modifications for publishing the adapter (fixing package.json, etc ...).",
               "de": "Notwendige Änderungen für die Veröffentlichung des Adapters (fixing package.json, etc ...).",

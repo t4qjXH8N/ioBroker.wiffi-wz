@@ -159,6 +159,7 @@ function openSocket() {
         for(let j=0;j<jsonContent.vars.length;j++) {
           if(jsonContent.vars[j].homematic_name === 'r_ip')  ip = jsonContent.vars[j].value;
           if(jsonContent.vars[j].homematic_name === 'w_ip')  ip = jsonContent.vars[j].value;
+          if(jsonContent.vars[j].homematic_name === 'wz_ip')  ip = jsonContent.vars[j].value;
 
           if(ip) break;
         }
