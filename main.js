@@ -19,6 +19,9 @@ const net = require('net');
 // max buffer size
 const maxBufferSize = 100000; // the buffer should not be bigger than this number to prevent DOS attacks
 
+// server handle
+let server;
+
 // triggered when the adapter is installed
 adapter.on('install', function () {
   // create a node for subsequent wiffis
@@ -29,10 +32,11 @@ adapter.on('install', function () {
 adapter.on('unload', function (callback) {
   adapter.setState('info.connection', false);
   try {
-    adapter.log.info('cleaned everything up...');
-      callback();
+    adapter.log.info('Stopping adapter ...');
+    server.close();
+    callback(true);
   } catch (e) {
-      callback();
+      callback(e);
   }
 });
 
@@ -90,7 +94,7 @@ function openSocket() {
   adapter.log.info('Opening local server on ' + host + ':' + port);
   let buffer = '';
 
-  let server = net.createServer(function(sock) {
+   server = net.createServer(function(sock) {
 
     sock.on('data', function(data) {
       let remote_address = sock.remoteAddress;
