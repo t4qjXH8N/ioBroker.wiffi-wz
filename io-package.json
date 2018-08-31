@@ -1,8 +1,21 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.4",
+        "version":                  "1.2.5",
         "news": {
+            "1.2.5": {
+            "solved error on closing the server": {
+              "en": "solved error on closing the server",
+              "de": "Fehler beim Schließen des Servers behoben",
+              "ru": "ошибка при закрытии сервера",
+              "pt": "erro resolvido ao fechar o servidor",
+              "nl": "opgeloste fout bij het sluiten van de server",
+              "fr": "erreur résolue à la fermeture du serveur",
+              "it": "errore risolto alla chiusura del server",
+              "es": "error resuelto al cerrar el servidor",
+              "pl": "rozwiązany błąd przy zamykaniu serwera"
+            }
+            },
             "1.2.4": {
               "en": "hotfix for Wiffi-wz",
               "de": "Hotfix für Wiffi-wz",

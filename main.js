@@ -218,7 +218,7 @@ function openSocket() {
 
   server.on('close', function(err) {
     if (err) adapter.log.error('An error occurred closing the server.');
-    adapter.log.debug('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
+    adapter.log.debug('Server closed');
     adapter.setState('info.connection', false);
   });
 

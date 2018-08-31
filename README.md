@@ -47,7 +47,12 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 
 	http://[wiffi ip]/?param:27:1
 
+3. If the error persists, please set the adapter loglevel to debug and send me the data telegram via email.
+
 ## Changelog
+#### 1.2.5 (31-Aug-2018)
+- solved error when the adapter shuts down
+
 #### 1.2.4 (16-Aug-2018)
 - hotfix for wiffi-wz
 
