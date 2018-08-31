@@ -1,8 +1,19 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.5",
+        "version":                  "1.2.6",
         "news": {
+            "1.2.6": {
+              "en": "fixed \"adapter already running error\"",
+              "de": "Behoben \"Adapter läuft bereits Fehler\"",
+              "ru": "исправлена ​​ошибка «уже запущена»",
+              "pt": "fixo \"adaptador já executando erro\"",
+              "nl": "vaste \"adapter reeds werkende fout\"",
+              "fr": "Correction de \"erreur déjà en cours sur l'adaptateur\"",
+              "it": "risolto \"errore dell'adattatore già in esecuzione\"",
+              "es": "se corrigió el \"error del adaptador que ya estaba funcionando\"",
+              "pl": "naprawiono \"błąd już działającego adaptera\""
+            },
             "1.2.5": {
               "en": "solved error on closing the server",
               "de": "Fehler beim Schließen des Servers behoben",
@@ -210,7 +221,9 @@
         "platform":                 "Javascript/Node.js",
         "mode":                     "daemon",
         "icon":                     "wiffi-wz.png",
-        "enabled":                  true,
+        "enabled":                  false,
+        "stopBeforeUpdate":         true,
+        "stopTimeout":              3000,
         "extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
         "keywords":                 ["wiffi", "wiffi-wz"],
         "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/master/README.md",
