@@ -50,6 +50,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 3. If the error persists, please set the adapter loglevel to debug and send me the data telegram via email.
 
 ## Changelog
+#### 1.3.0 (31-Aug-2018)
+- support for Wiffi-pump
+
 #### 1.2.5 (31-Aug-2018)
 - solved error when the adapter shuts down
 
