@@ -164,6 +164,7 @@ function openSocket() {
           if(jsonContent.vars[j].homematic_name === 'r_ip')  ip = jsonContent.vars[j].value;
           if(jsonContent.vars[j].homematic_name === 'w_ip')  ip = jsonContent.vars[j].value;
           if(jsonContent.vars[j].homematic_name === 'wz_ip')  ip = jsonContent.vars[j].value;
+          if(jsonContent.vars[j].homematic_name === 'wiffi_pump_ip')  ip = jsonContent.vars[j].value;
 
           if(ip) break;
         }
@@ -384,6 +385,6 @@ function setStatesFromJSON(curStates, wiffi, callback) {
 }
 
 String.prototype.replaceAll = function(search, replacement) {
-  var target = this;
+  let target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
 };

@@ -619,5 +619,61 @@
 				"desc": ""
 			}
 		]
+	},
+	{
+		"type": "Wiffi-pump",
+		"states": [
+			{
+				"id": "wiffi_pump_ip",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"role": "info.ip",
+				"value": "0.0.0.0",
+				"desc": "ip-address"
+			},
+			{
+				"id": "wiffi_ntc",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "%",
+				"min": 0,
+				"max": 100,
+				"role": "value.temperature",
+				"desc": "Temperatur_NTC"
+			},
+			{
+				"id": "wiffi_ww_temp",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -10,
+				"max": 60,
+				"role": "value",
+				"desc": "Temperatur_A"
+			},
+			{
+				"id": "wiffi_vorlauftemp",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -10,
+				"max": 60,
+				"role": "value",
+				"desc": "Temperatur_B"
+			},
+			{
+				"id": "wiffi_pump",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false,
+				"role": "indicator",
+				"desc": "Zirkulationspumpe"
+			}
+		]
 	}
 ]
