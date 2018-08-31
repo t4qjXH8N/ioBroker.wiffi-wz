@@ -1,8 +1,19 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.2.6",
+        "version":                  "1.3.0",
         "news": {
+            "1.3.0": {
+              "en": "support for Wiffi-pump",
+              "de": "Unterstützung für Wiffi-Pumpe",
+              "ru": "поддержка Wiffi-pump",
+              "pt": "suporte para bomba Wiffi",
+              "nl": "ondersteuning voor Wiffi-pomp",
+              "fr": "support pour Wiffi-pump",
+              "it": "supporto per pompa Wiffi",
+              "es": "soporte para Wiffi-pump",
+              "pl": "wsparcie dla pompy Wiffi"
+            },
             "1.2.6": {
               "en": "fixed \"adapter already running error\"",
               "de": "Behoben \"Adapter läuft bereits Fehler\"",

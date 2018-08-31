@@ -73,6 +73,14 @@ adapter.on('ready', function () {
 });
 
 function main() {
+  if(process.argv.length >= 3) {
+    if(process.argv[2] === '--install') {
+      // do somesthing special on install
+      return
+    }
+  }
+
+
   // The adapters config (in the instance object everything under the attribute "native") is accessible via
 
   // check setup of all wiffis
@@ -164,6 +172,7 @@ function openSocket() {
           if(jsonContent.vars[j].homematic_name === 'r_ip')  ip = jsonContent.vars[j].value;
           if(jsonContent.vars[j].homematic_name === 'w_ip')  ip = jsonContent.vars[j].value;
           if(jsonContent.vars[j].homematic_name === 'wz_ip')  ip = jsonContent.vars[j].value;
+          if(jsonContent.vars[j].homematic_name === 'wiffi_pump_ip')  ip = jsonContent.vars[j].value;
 
           if(ip) break;
         }
@@ -384,6 +393,6 @@ function setStatesFromJSON(curStates, wiffi, callback) {
 }
 
 String.prototype.replaceAll = function(search, replacement) {
-  var target = this;
+  let target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
 };
