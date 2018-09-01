@@ -20,8 +20,7 @@
     "mocha": "^4.1.0",
     "chai": "^4.1.2"  },
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --exit",
-    "install": "node main.js --install"
+    "test": "node node_modules/mocha/bin/mocha --exit"
   },
   "bugs": {
     "url": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/issues"

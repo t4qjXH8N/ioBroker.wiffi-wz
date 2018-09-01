@@ -73,14 +73,6 @@ adapter.on('ready', function () {
 });
 
 function main() {
-  if(process.argv.length >= 3) {
-    if(process.argv[2] === '--install') {
-      // do somesthing special on install
-      return
-    }
-  }
-
-
   // The adapters config (in the instance object everything under the attribute "native") is accessible via
 
   // check setup of all wiffis
