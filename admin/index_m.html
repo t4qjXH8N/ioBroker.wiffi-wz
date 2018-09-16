@@ -38,10 +38,10 @@
           }).keyup(function() {
             // Check that only numbers entered
             if ($(this).hasClass('number')) {
-              var val = $(this).val();
+              let val = $(this).val();
               if (val) {
-                var newVal = '';
-                for (var i = 0; i < val.length; i++) {
+                let newVal = '';
+                for (let i = 0; i < val.length; i++) {
                   if (val[i] >= '0' && val[i] <= '9') {
                     newVal += val[i];
                   }
