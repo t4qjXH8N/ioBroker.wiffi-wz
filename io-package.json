@@ -248,7 +248,7 @@
         "stopTimeout":              3000,
         "extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
         "keywords":                 ["wiffi", "wiffi-wz"],
-        "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/master/README.md",
+        "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/blob/master/README.md",
         "loglevel":                 "info",
         "type":                     "hardware",
         "materialize":              true,
