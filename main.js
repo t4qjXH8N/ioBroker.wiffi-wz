@@ -194,7 +194,7 @@ function openSocket() {
             // update wiffi states
             setStatesFromJSON(jsonContent, wiffi[0], function (err) {
               if (!err) {
-                adapter.log.info('Wiffi states successfully updated.');
+                adapter.log.debug('Wiffi states successfully updated.');
               } else {
                 adapter.log.error('An error when updating the states.');
               }
