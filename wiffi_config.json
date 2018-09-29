@@ -172,6 +172,17 @@
 				"desc": "taupunkt"
 			},
 			{
+				"id": "w_himmeltemperatur",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -40,
+				"max": 80,
+				"role": "value.temperature.sky",
+				"desc": "sky temperature"
+			},
+			{
 				"id": "w_feuchte_rel",
 				"type": "number",
 				"read": true,
@@ -190,6 +201,86 @@
 				"unit": "g/m3",
 				"role": "value.humidity",
 				"desc": "absolute humidity"
+			},
+			{
+				"id": "w_regensensor_wert",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"min": 0,
+				"unit": "",
+				"role": "value.rain.sensor",
+				"desc": "rain notification value"
+			},
+			{
+				"id": "w_regenmelder",
+				"type": "boolean",
+				"def": false,
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "value.rain.state",
+				"desc": "rain state"
+			},
+			{
+				"id": "w_regenstaerke",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm/h",
+				"min": 0,
+				"role": "value.rain.intensity",
+				"desc": "rain intensity"
+			},
+			{
+				"id": "w_regen_letzte_h",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"min": 0,
+				"role": "value.rain.1hour",
+				"desc": "rain per hour"
+			},
+			{
+				"id": "w_regen_mm_heute",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"min": 0,
+				"role": "value.rain.24hours",
+				"desc": "rain per 24 hours"
+			},
+			{
+				"id": "w_regenstunden_heute",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "h",
+				"min": 0,
+				"role": "value.rain.today",
+				"desc": "rain hours today"
+			},
+			{
+				"id": "w_barometer",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mb",
+				"min": 300,
+				"max": 1100,
+				"role": "value.pressure",
+				"desc": "barometer"
+			},
+			{
+				"id": "w_barotrend",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "value.pressure.trend",
+				"desc": "luftdrucktrend"
 			},
 			{
 				"id": "w_wind_mittel",
@@ -238,111 +329,20 @@
 				"write": false,
 				"min": 0,
 				"max": 360,
-				"unit": "grad",
+				"unit": "°",
 				"role": "value.wind.direction",
 				"desc": "wind angle"
 			},
 			{
-				"id": "w_regensensor_wert",
+				"id": "w_lux",
 				"type": "number",
 				"read": true,
 				"write": false,
 				"min": 0,
-				"unit": "",
-				"role": "value.rain.sensor",
-				"desc": "rain notification value"
-			},
-			{
-				"id": "w_regenmelder",
-				"type": "boolean",
-				"def": false,
-				"read": true,
-				"write": false,
-				"unit": "",
-				"role": "value.rain.state",
-				"desc": "rain state"
-			},
-			{
-				"id": "w_regenstaerke",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "mm/h",
-				"min": 0,
-				"role": "value.rain.intensity",
-				"desc": "rain intensity"
-			},
-			{
-				"id": "w_regen_letzte_h",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "mm",
-				"min": 0,
-				"role": "value.rain.1hour",
-				"desc": "rain per hour"
-			},
-			{
-				"id": "w_rain_volume_24",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "mm",
-				"min": 0,
-				"role": "value.rain.24hours",
-				"desc": "rain per 24 hours"
-			},
-			{
-				"id": "w_rain_yesterday",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "mm",
-				"min": 0,
-				"role": "value.rain.yesterday",
-				"desc": "rain yesterday"
-			},
-			{
-				"id": "w_barometer",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "mb",
-				"min": 300,
-				"max": 1100,
-				"role": "value.pressure",
-				"desc": "barometer"
-			},
-			{
-				"id": "w_barotrend",
-				"type": "string",
-				"read": true,
-				"write": false,
-				"unit": "",
-				"role": "value.pressure.trend",
-				"desc": "luftdrucktrend"
-			},
-			{
-				"id": "w_himmeltemperatur",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "°C",
-				"min": -40,
-				"max": 80,
-				"role": "value.temperature.sky",
-				"desc": "sky temperature"
-			},
-			{
-				"id": "w_sun_temp",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"unit": "°C",
-				"min": -40,
-				"max": 80,
-				"role": "value.temperature.sun",
-				"desc": "sun temperature"
+				"max": 100000,
+				"unit": "lux",
+				"role": "value.brightness",
+				"desc": "luxmeter"
 			},
 			{
 				"id": "w_sonne_diff_temp",
@@ -367,21 +367,10 @@
 				"type": "number",
 				"read": true,
 				"write": false,
-				"unit": "hour",
+				"unit": "h",
 				"min": 0,
 				"role": "value.sun.hours",
 				"desc": "sunshine hours today"
-			},
-			{
-				"id": "w_lux",
-				"type": "number",
-				"read": true,
-				"write": false,
-				"min": 0,
-				"max": 100000,
-				"unit": "lux",
-				"role": "value.brightness",
-				"desc": "luxmeter"
 			},
 			{
 				"id": "w_elevation",
