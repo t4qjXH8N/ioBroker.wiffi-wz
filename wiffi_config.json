@@ -518,8 +518,8 @@
 				"write": false,
 				"unit": "mm",
 				"min": 0,
-				"role": "value.rain.24hours",
-				"desc": "rain per 24 hours"
+				"role": "value.rain.today",
+				"desc": "rain today"
 			},
 			{
 				"id": "w_regenstunden_heute",
