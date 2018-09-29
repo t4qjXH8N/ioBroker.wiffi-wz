@@ -187,8 +187,9 @@ function openSocket() {
             // wiffi found
 
             // check if received type is identical to the type in the database
-            if (jsonContent.modultyp.toUpperCase() !== wiffi[0].type.toUpperCase()) {
-              adapter.log.warn('Received a datagram from a Wiffi of type ' + jsonContent.modultyp + ', but database holds type ' + wiffi.type);
+            let regexPattern = new RegExp('^' + jsonContent.modultyp + '.*', 'i');
+            if (!regexPattern.test(wiffi[0].type)) {
+              adapter.log.warn('Received a datagram from a Wiffi of type ' + jsonContent.modultyp + ', but database holds type ' + wiffi[0].type);
             }
 
             // update wiffi states
