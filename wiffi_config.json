@@ -127,7 +127,276 @@
 		]
 	},
 	{
-		"type": "Weatherman",
+		"type": "Weatherman(v67-)",
+		"states": [
+			{
+				"id": "w_ip",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"role": "info.ip",
+				"value": "0.0.0.0",
+				"desc": "ip-address"
+			},
+			{
+				"id": "w_temperature",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -40,
+				"max": 60,
+				"role": "value.temperature",
+				"desc": "temperature"
+			},
+			{
+				"id": "w_windchill",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -40,
+				"max": 60,
+				"role": "value.temperature.windchill",
+				"desc": "windchill temperature"
+			},
+			{
+				"id": "w_taupunkt",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -40,
+				"max": 60,
+				"role": "value.temperature.dewpoint",
+				"desc": "taupunkt"
+			},
+			{
+				"id": "w_humidity",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "%",
+				"min": 0,
+				"max": 100,
+				"role": "value.humidity",
+				"desc": "relative humidity"
+			},
+			{
+				"id": "w_hum_abs",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "g/m3",
+				"min": 0,
+				"role": "value.humidity",
+				"desc": "absolute humidity"
+			},
+			{
+				"id": "w_wind_avg",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "m/s",
+				"min": 0,
+				"role": "value.wind.speed.average",
+				"desc": "average wind speed"
+			},
+			{
+				"id": "w_wind_peak",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "m/s",
+				"min": 0,
+				"role": "value.wind.speed.max",
+				"desc": "peak wind speed"
+			},
+			{
+				"id": "w_windstaerke",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "bft",
+				"min": 0,
+				"role": "value.wind.speed.force",
+				"desc": "wind force"
+			},
+			{
+				"id": "w_wind_direction",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "value.wind.direction",
+				"desc": "wind direction"
+			},
+			{
+				"id": "w_wind_dir",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"min": 0,
+				"max": 360,
+				"unit": "°",
+				"role": "value.wind.direction",
+				"desc": "wind angle"
+			},
+			{
+				"id": "w_rain_activity",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"min": 0,
+				"role": "value.rain.sensor",
+				"desc": "rain notification value"
+			},
+			{
+				"id": "w_rain_status",
+				"type": "boolean",
+				"def": false,
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "value.rain.state",
+				"desc": "rain state"
+			},
+			{
+				"id": "w_rain_intensity",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm/h",
+				"min": 0,
+				"role": "value.rain.intensity",
+				"desc": "rain intensity"
+			},
+			{
+				"id": "w_rain_volume_1",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"min": 0,
+				"role": "value.rain.1hour",
+				"desc": "rain per hour"
+			},
+			{
+				"id": "w_rain_volume_24",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"min": 0,
+				"role": "value.rain.24hour",
+				"desc": "rain per 24 hours"
+			},
+			{
+				"id": "w_rain_yesterday",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mm",
+				"min": 0,
+				"role": "value.rain.yesterday",
+				"desc": "rain yesterday"
+			},
+			{
+				"id": "w_barometer",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "mb",
+				"min": 300,
+                "max": 1100,
+				"role": "value.pressure",
+				"desc": "barometer"
+			},
+			{
+				"id": "w_barotrend",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "value.pressure.trend",
+				"desc": "luftdrucktrend"
+			},
+			{
+				"id": "w_sky_temp",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"min": -40,
+				"max": 80,
+				"role": "value.temperature.sky",
+				"desc": "sky temperature"
+			},
+			{
+				"id": "w_sun_temp",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"role": "value.temperature.sun",
+				"desc": "sun temperature"
+			},
+			{
+				"id": "w_diff_temp",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"unit": "°C",
+				"role": "value.temperature.diff",
+				"desc": "sun difference temperature"
+			},
+			{
+				"id": "w_sonne_scheint",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"unit": "",
+				"role": "value.sun.state",
+				"desc": "sunshine"
+			},
+			{
+				"id": "w_lux",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"min": 0,
+				"max": 100000,
+				"unit": "lux",
+				"role": "value.brightness",
+				"desc": "luxmeter"
+			},
+			{
+				"id": "w_elevation",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"min": 0,
+				"max": 360,
+				"unit": "°",
+				"role": "value",
+				"desc": "calculated elevation"
+			},
+			{
+				"id": "w_azimut",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"min": 0,
+				"max": 360,
+				"unit": "°",
+				"role": "value",
+				"desc": "calculated azimut"
+			}
+		]
+	},
+	{
+		"type": "Weatherman(v76+)",
 		"states": [
 			{
 				"id": "w_ip",
