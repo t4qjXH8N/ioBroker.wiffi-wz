@@ -14,7 +14,8 @@ const adapter_db_prefix = 'wiffi-wz' + adapter.instance;  // shortcut for the ad
 let channels = {};
 
 // load a json file with settings for wiffi-wz and weatherman
-const wiffi_configs = require(__dirname + '/wiffi_config.json');
+const wiffi_native_states = require(__dirname + '/wiffi_native_states.json');
+const state_extensions = require(__dirname + '/state_extensions.json');
 
 const net = require('net');  // for opening a socket listener
 const semver = require('semver');  // for dealing with different wiffi firmwares
@@ -178,7 +179,7 @@ function openSocket() {
           return;
         }
 
-        // wiffi found, check if the type in the database is equal to the type that the wiffi sends
+        // wiffi found, check if the type or the firmware in the database is different than the values received from the Wiffi
         adapter.getState('root.' + ip_to_id(ip) + '.Type', function(err, state) {
           if(err || !state) {
             adapter.log.error('State type does not exists for wiffi with ip ' + ip + ' !');
@@ -191,25 +192,8 @@ function openSocket() {
           if(jsonContent.modultyp.toUpperCase() === state.val.toUpperCase()) {
             // all fine, update the states
           } else {
-            // wiffi type has been changed (or not prepared yet), update states of the database
-
-          }
-        });
-
-        // check if received type is identical to the type in the database
-        if (jsonContent.modultyp.toUpperCase() !== wiffi[0].type.toUpperCase()) {
-          adapter.log.warn('Received a datagram from a Wiffi of type ' + jsonContent.modultyp + ', but database holds type ' + wiffi.type);
-        }
-
-        // TODO: check version and create or remove states if necessary
-
-
-        // update wiffi states
-        setStatesFromJSON(jsonContent, wiffi[0], function (err) {
-          if (!err) {
-            adapter.log.debug('Wiffi states successfully updated.');
-          } else {
-            adapter.log.error('An error when updating the states.');
+            // wiffi type or firmware has been changed (or not prepared yet), update states of the database
+            createStates(ip, jsonContent);
           }
         });
 
@@ -313,64 +297,7 @@ function createBasicStates(name, ip, room, type, callback) {
       if(callback) callback(err);
     } else {
       // add more "native" states here if necessary
-      let bstates = [
-        {
-        "id": "IP",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "role": "info.ip",
-        "def": ip,
-        "desc": "IP-address of the Wiffi"
-      }, {
-        "id": "Type",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "role": "text",
-        "def": "",
-        "desc": "Type of Wiffi"
-      }, {
-        "id": "Firmware",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "role": "text",
-        "def": "",
-        "desc": "Firmware installed on the Wiffi"
-      }, {
-        "id": "MAC-Address",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "role": "info.mac",
-        "def": "",
-        "desc": "MAC-address of Wiffi"
-      }, {
-        "id": "Sec-since-reset",
-        "type": "number",
-        "unit": "s",
-        "read": true,
-        "write": false,
-        "role": "value.interval",
-        "desc": "Seconds since reset of the Wiffi"
-      }, {
-        "id": "WLAN-SSID",
-        "type": "string",
-        "read": true,
-        "write": false,
-        "role": "text",
-        "def": "",
-        "desc": "WLAN SSID of the WLAN where the Wiffi is logged in"
-      }, {
-        "id": "WLAN-Signal-Strength",
-        "type": "number",
-        "read": true,
-        "write": false,
-        "role": "value",
-        "unit": "dbm",
-        "desc": "WLAN signal strength of the WLAN where the Wiffi is logged in"
-      }];
+      let bstates = wiffi_native_states;
 
       // wait for the states to be created before continue
       let states_todo = bstates.length;
@@ -394,53 +321,78 @@ function createBasicStates(name, ip, room, type, callback) {
 }
 
 // create states for a specific wiffi version if they do not exist
-function createStatesNotExists(name, ip, room, type, callback) {
-  adapter.log.debug('Create states if necessary ' + ip);
+function createStates(ip, jsonContent, callback) {
+  adapter.log.debug('Create states for wiffi with ip ' + ip);
 
-    // create channel for the wiffi
-    adapter.createChannel('root', id,
-      {
-        role: 'state',
-        name: name || ip
-      },{
-        ip: ip
-      }, function (err) {
-        if (err) adapter.log.error('Could not create channel.');
-      });
+  // go through jsonContent and create states
+  for(let i=0;i<jsonContent.vars.length;i++) {
+    let cstate = jsonContent.vars[i];
 
-    // add the wiffi to the corresponding room enum
-    if (room) {
-      adapter.addChannelToEnum('room', room, 'root', id, function (err) {
-        if (err) adapter.log.error('Could not create state ' + cstate + '. Error: ' + err);
-      });
+    let state = {
+      "read": true,
+      "write": false,
+      "role": "state"
+    };
+
+    if(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
+      state['id'] = cstate.homematic_name;
+    } else {
+      // id is mandatory
+      adapter.log.error('Wiffi with ip ' + ip + ' received a datapoint without homematic_name!');
+      return;
     }
 
-    // TODO: here we could look for a specific version
-    // look for type in states
-    let w_conf = wiffi_configs;
-    let states;
+    if(cstate.hasOwnProperty('name') && cstate.name) {
+      state['name'] = cstate.name;
+    }
 
-    for(let j=0; j < w_conf.length; j++) {
-      if(w_conf[j].type === type) {
-        states = w_conf[j].states;
+    if(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
+      state['id'] = cstate.homematic_name;
+    }
+
+    if(cstate.hasOwnProperty('desc') && cstate.desc) {
+      state['desc'] = cstate.desc;
+    }
+
+    if(cstate.hasOwnProperty('type') && cstate.type) {
+      switch(cstate.type) {
+        case 'string':
+          state['type'] = 'string';
+          break;
+        case 'number':
+          state['type'] = 'number';
+          break;
+        case 'boolean':
+          state['type'] = 'boolean';
+          break;
+        default:
+      }
+    }
+
+    if(cstate.hasOwnProperty('value') && cstate.value) {
+      state['def'] = cstate.value;
+    }
+
+    // load state extensions if there are any
+    for(let j=0;j<state_extensions.length;j++) {
+      if((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && state_extensions[j].hasOwnProperty('extensions')) {
+        // we found some extensions
+        let cext = state_extensions[j].extensions;
+        Object.assign(state, cext);
+
         break;
       }
     }
 
-    // create all states
-    for(let k=0; k < states.length; k++) {
-      let cstate = states[k];
-
-      adapter.log.debug('Created state ' + cstate.id);
-      if(cstate.id === 'wz_ip' || cstate.id === 'w_ip') {
-        cstate.def = ip;
+    adapter.createState('root', ip_to_id(ip), state['id'], state, function (err, cstate) {
+      if(err || !cstate) {
+        adapter.log.error('Could not create a state ' + err);
+      } else {
+        adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
       }
-
-      adapter.createState('root', id, cstate.id, cstate, function (err, cstate) {
-        if (err) adapter.log.error('Could not create state ' + cstate.id + '. Error: ' + err);
-      });
-    }
+    });
   }
+}
 
 // set states from the received JSON
 function setStatesFromJSON(curStates, wiffi, callback) {

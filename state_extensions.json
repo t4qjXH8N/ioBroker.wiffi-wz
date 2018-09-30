@@ -1,0 +1,190 @@
+[
+	{
+		"expression": "temperature",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "mittl_temperatur_gestern",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "diff_temp",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "ntc",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "ww_temp",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "vorlauftemp",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "windchill",
+		"extensions": {
+			"role": "value.temperature.windchill"
+		}
+	},
+	{
+		"expression": "taupunkt",
+		"extensions": {
+			"role": "value.temperature.dewpoint"
+		}
+	},
+	{
+		"expression": "sky_temp",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "sun_temp",
+		"extensions": {
+			"role": "value.temperature"
+		}
+	},
+	{
+		"expression": "lux",
+		"extensions": {
+			"role": "value.brightness"
+		}
+	},
+	{
+		"expression": "humidity",
+		"extensions": {
+			"role": "sensor.humidity",
+			"min": "0",
+			"max": "100"
+		}
+	},
+	{
+		"expression": "hum_abs",
+		"extensions": {
+			"role": "sensor.abs_humidity"
+		}
+	},
+	{
+		"expression": "bodenfeuchte",
+		"extensions": {
+			"role": "value"
+		}
+	},
+	{
+		"expression": "barometer",
+		"extensions": {
+			"role": "value.pressure"
+		}
+	},
+	{
+		"expression": "wind_avg",
+		"extensions": {
+			"role": "value.speed.wind"
+		}
+	},
+	{
+		"expression": "wind_peak",
+		"extensions": {
+			"role": "value.speed.max.wind"
+		}
+	},
+	{
+		"expression": "windstaerke",
+		"extensions": {
+			"role": "value"
+		}
+	},
+	{
+		"expression": "wind_direction",
+		"extensions": {
+			"role": "weather.direction.wind"
+		}
+	},
+	{
+		"expression": "wind_dir",
+		"extensions": {
+			"role": "value.direction.wind",
+			"min": 0,
+			"max": 360
+		}
+	},
+	{
+		"expression": "rain_activity",
+		"extensions": {
+			"role": "value"
+		}
+	},
+	{
+		"expression": "rain_status",
+		"extensions": {
+			"role": "sensor.rain"
+		}
+	},
+	{
+		"expression": "rain_volume_1",
+		"extensions": {
+			"role": "value.rain.hour"
+		}
+	},
+	{
+		"expression": "rain_volume_24",
+		"extensions": {
+			"role": "value.rain"
+		}
+	},
+	{
+		"expression": "sonne_scheint",
+		"extensions": {
+			"role": "indicator"
+		}
+	},
+	{
+		"expression": "sonne_heute",
+		"extensions": {
+			"role": "indicator"
+		}
+	},
+	{
+		"expression": "sonne_gestern",
+		"extensions": {
+			"role": "indicator"
+		}
+	},
+	{
+		"expression": "pump",
+		"extensions": {
+			"role": "indicator"
+		}
+	},
+	{
+		"expression": "elevation",
+		"extensions": {
+			"role": "value",
+			"min": 0,
+			"max": 360
+		}
+	},
+	{
+		"expression": "azimut",
+		"extensions": {
+			"role": "value",
+			"min": 0,
+			"max": 360
+		}
+	}
+]

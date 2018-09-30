@@ -1,0 +1,58 @@
+[
+	{
+	"id": "IP",
+	"type": "string",
+	"read": true,
+	"write": false,
+	"role": "info.ip",
+	"desc": "IP-address of the Wiffi"
+	}, {
+	"id": "Type",
+	"type": "string",
+	"read": true,
+	"write": false,
+	"role": "text",
+	"def": "",
+	"desc": "Type of Wiffi"
+}, {
+	"id": "Firmware",
+	"type": "string",
+	"read": true,
+	"write": false,
+	"role": "text",
+	"def": "",
+	"desc": "Firmware installed on the Wiffi"
+}, {
+	"id": "MAC-Address",
+	"type": "string",
+	"read": true,
+	"write": false,
+	"role": "info.mac",
+	"def": "",
+	"desc": "MAC-address of Wiffi"
+}, {
+	"id": "Sec-since-reset",
+	"type": "number",
+	"unit": "s",
+	"read": true,
+	"write": false,
+	"role": "value.interval",
+	"desc": "Seconds since reset of the Wiffi"
+}, {
+	"id": "WLAN-SSID",
+	"type": "string",
+	"read": true,
+	"write": false,
+	"role": "text",
+	"def": "",
+	"desc": "WLAN SSID of the WLAN where the Wiffi is logged in"
+}, {
+	"id": "WLAN-Signal-Strength",
+	"type": "number",
+	"read": true,
+	"write": false,
+	"role": "value",
+	"unit": "dbm",
+	"desc": "WLAN signal strength of the WLAN where the Wiffi is logged in"
+}
+]
