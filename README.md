@@ -50,6 +50,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 3. If the error persists, please set the adapter loglevel to debug and send me the data telegram via email.
 
 ## Changelog
+#### 2.0.0 (XX-Oct-2018)
+- a lot of changes ....
+
 #### 1.3.1 (01-Sep-2018)
 - fixed npm installation problems
 

@@ -1,8 +1,19 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "1.3.1",
+        "version":                  "2.0.0",
         "news": {
+            "2.0.0": {
+              "en": "fixed npm installation problems",
+              "de": "behebt Probleme bei Installationsproblemen",
+              "ru": "исправлены проблемы с установкой npm",
+              "pt": "problemas de instalação do npm fixo",
+              "nl": "vaste npm installatieproblemen",
+              "fr": "Problèmes d'installation fixes npm",
+              "it": "risolti problemi di installazione di npm",
+              "es": "problemas de instalación de npm corregidos",
+              "pl": "naprawiono problemy z instalacją npm"
+            },
             "1.3.1": {
               "en": "fixed npm installation problems",
               "de": "behebt Probleme bei Installationsproblemen",
@@ -258,11 +269,20 @@
       "local_server_ip": "0.0.0.0",
       "local_server_port": 8181,
       "devices": [
-        {"name": "Wiffi", "ip" : "0.0.0.0", "room": "", "type": "Wiffi-wz"}
+        {"name": "Wiffi", "ip" : "0.0.0.0", "room": ""}
         ],
       "wiffi_target": "IOBroker",
       "wiffi_target_ccu_ip": "homematic-ccu2"
     },
     "objects": [
-    ]
+    ],
+    "instanceObjects": [
+    {
+      "_id": "root",
+      "type": "device",
+      "common": {
+        "name": "root"
+      },
+      "native": {}
+    }]
 }

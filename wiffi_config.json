@@ -1,6 +1,7 @@
 [
 	{
 		"type": "Wiffi-wz",
+		"firmware_version": "^1",
 		"states": [
 			{
 				"id": "wz_ip",
@@ -128,6 +129,7 @@
 	},
 	{
 		"type": "Weatherman",
+		"firmware_version": "^1",
 		"states": [
 			{
 				"id": "w_ip",
@@ -393,6 +395,7 @@
 	},
 	{
 		"type": "Rainyman",
+		"firmware_version": "^1",
 		"states": [
 			{
 				"id": "w_ip",
@@ -622,6 +625,7 @@
 	},
 	{
 		"type": "Wiffi-pump",
+		"firmware_version": "^1",
 		"states": [
 			{
 				"id": "wiffi_pump_ip",
