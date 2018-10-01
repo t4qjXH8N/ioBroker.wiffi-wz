@@ -9,7 +9,7 @@ const utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.wiffi-wz.0
 const adapter = utils.adapter('wiffi-wz');
-const adapter_db_prefix = 'wiffi-wz' + adapter.instance;  // shortcut for the adapter prefix in the database
+let adapter_db_prefix;  // shortcut for the adapter prefix in the database
 
 let channels = {};
 
@@ -66,6 +66,8 @@ adapter.on('stateChange', function (id, state) {
 // is called when databases are connected and adapter received configuration.
 // start here!
 adapter.on('ready', function () {
+  adapter_db_prefix = 'wiffi-wz.' + adapter.instance + '.root.';
+
   main();
 });
 
@@ -193,7 +195,7 @@ function openSocket() {
             // all fine, update the states
           } else {
             // wiffi type or firmware has been changed (or not prepared yet), update states of the database
-            createStates(ip, jsonContent);
+            syncStates(ip, jsonContent);
           }
         });
 
@@ -321,77 +323,115 @@ function createBasicStates(name, ip, room, type, callback) {
 }
 
 // create states for a specific wiffi version if they do not exist
-function createStates(ip, jsonContent, callback) {
+function syncStates(ip, jsonContent, callback) {
   adapter.log.debug('Create states for wiffi with ip ' + ip);
 
-  // go through jsonContent and create states
-  for(let i=0;i<jsonContent.vars.length;i++) {
-    let cstate = jsonContent.vars[i];
-
-    let state = {
-      "read": true,
-      "write": false,
-      "role": "state"
-    };
-
-    if(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
-      state['id'] = cstate.homematic_name;
-    } else {
-      // id is mandatory
-      adapter.log.error('Wiffi with ip ' + ip + ' received a datapoint without homematic_name!');
+  adapter.getStates(adapter_db_prefix + ip_to_id(ip) + '.*', function(err, states) {
+    if(err) {
+      adapter.log.error('Error getting states for StateSync!');
       return;
     }
 
-    if(cstate.hasOwnProperty('name') && cstate.name) {
-      state['name'] = cstate.name;
-    }
-
-    if(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
-      state['id'] = cstate.homematic_name;
-    }
-
-    if(cstate.hasOwnProperty('desc') && cstate.desc) {
-      state['desc'] = cstate.desc;
-    }
-
-    if(cstate.hasOwnProperty('type') && cstate.type) {
-      switch(cstate.type) {
-        case 'string':
-          state['type'] = 'string';
-          break;
-        case 'number':
-          state['type'] = 'number';
-          break;
-        case 'boolean':
-          state['type'] = 'boolean';
-          break;
-        default:
+    let states_in_db = [];
+    for(let cstate in states) {
+      if(states.hasOwnProperty(cstate)) {
+        let state_in_wiffi_states = JSONPath.query(wiffi_native_states, '$[?(@.id=="' + cstate.split('.')[cstate.split('.').length - 1] + '")]');
+        // do we have a native state here?
+        if (state_in_wiffi_states.length === 0) {
+          // no native state
+          states_in_db.push(cstate.split('.')[cstate.split('.').length - 1]);
+        }
       }
     }
 
-    if(cstate.hasOwnProperty('value') && cstate.value) {
-      state['def'] = cstate.value;
-    }
+    let states_to_remove = states_in_db;
+    // go through jsonContent and create states if it is not present in the db yet
+    for(let i=0;i<jsonContent.vars.length;i++) {
+      let cstate = jsonContent.vars[i];
 
-    // load state extensions if there are any
-    for(let j=0;j<state_extensions.length;j++) {
-      if((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && state_extensions[j].hasOwnProperty('extensions')) {
-        // we found some extensions
-        let cext = state_extensions[j].extensions;
-        Object.assign(state, cext);
-
-        break;
-      }
-    }
-
-    adapter.createState('root', ip_to_id(ip), state['id'], state, function (err, cstate) {
-      if(err || !cstate) {
-        adapter.log.error('Could not create a state ' + err);
+      // is state already in db?
+      if (states_in_db.includes(cstate.homematic_name)) {
+        // state is already in db
+        states_to_remove.splice(states_to_remove.indexOf(cstate.homematic_name), 1);
       } else {
-        adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
+        // add state
+        let state = {
+          "read": true,
+          "write": false,
+          "role": "state"  // default if there is no other information on the roles
+        };
+
+        if (cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
+          state['id'] = cstate.homematic_name;
+        } else {
+          // id is mandatory
+          adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+          break;
+        }
+
+        if (cstate.hasOwnProperty('name') && cstate.name) {
+          state['name'] = cstate.name;
+        }
+
+        if (cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
+          state['id'] = cstate.homematic_name;
+        }
+
+        if (cstate.hasOwnProperty('desc') && cstate.desc) {
+          state['desc'] = cstate.desc;
+        }
+
+        if (cstate.hasOwnProperty('type') && cstate.type) {
+          switch (cstate.type) {
+            case 'string':
+              state['type'] = 'string';
+              break;
+            case 'number':
+              state['type'] = 'number';
+              break;
+            case 'boolean':
+              state['type'] = 'boolean';
+              break;
+            default:
+          }
+        }
+
+        if (cstate.hasOwnProperty('value') && cstate.value) {
+          // workaround for wrong numeric values
+          if(state['type'] === typeof(cstate.value)) {
+            state['def'] = cstate.value;
+          }
+        }
+
+        // load state extensions if there are any
+        for (let j = 0; j < state_extensions.length; j++) {
+          if ((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && state_extensions[j].hasOwnProperty('extensions')) {
+            // we found some extensions
+            let cext = state_extensions[j].extensions;
+            Object.assign(state, cext);
+            break;
+          }
+        }
+
+        adapter.createState('root', ip_to_id(ip), state['id'], state, function (err, cstate) {
+          if (err || !cstate) {
+            adapter.log.error('Could not create a state ' + err);
+          } else {
+            adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
+          }
+        });
       }
-    });
-  }
+    }
+
+    // do we have to remove some states?
+    for(let k=0;k<states_to_remove.length;k++) {
+      adapter.delState('root.' + ip_to_id(ip) + '.' + states_to_remove[k], function(err) {
+        if(err) {
+          adapter.log.error('Could not remove state! Error ' + err);
+        }
+      });
+    }
+  });
 }
 
 // set states from the received JSON
