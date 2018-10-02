@@ -1,5 +1,25 @@
 [
 	{
+		"expression": "Homematic_CCU_ip",
+		"extensions": {
+			"role": "info.ip"
+		}
+	},
+	{
+		"expression": "sec_set_reset",
+		"extensions": {
+			"role": "value",
+			"unit": "s"
+		}
+	},
+	{
+		"expression": "WLAN_Signal_dBm",
+		"extensions": {
+			"role": "value",
+			"unit": "dBm"
+		}
+	},
+	{
 		"expression": "temperature",
 		"extensions": {
 			"role": "value.temperature"
