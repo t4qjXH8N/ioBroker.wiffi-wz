@@ -195,7 +195,11 @@ function openSocket() {
             // all fine, update the states
           } else {
             // wiffi type or firmware has been changed (or not prepared yet), update states of the database
-            syncStates(ip, jsonContent);
+            syncStates(ip, jsonContent, function() {
+              updateStates(ip, jsonContent, function() {
+                adapter.log.debug('Received states from Wiffi with ip ' + ip + ' and states updated successfully!');
+              });
+            });
           }
         });
 
@@ -365,6 +369,7 @@ function syncStates(ip, jsonContent, callback) {
           state['id'] = cstate.homematic_name;
         } else {
           // id is mandatory
+          if(!cstate.desc) cstate.desc = 'description missing';
           adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
           continue;
         }
@@ -432,19 +437,36 @@ function syncStates(ip, jsonContent, callback) {
       });
     }
   });
+
+  callback(false);
 }
 
 // set states from the received JSON
-function setStatesFromJSON(curStates, wiffi, callback) {
-  let arrVar; // hold the array with the wiffi-wz data objects
+function updateStates(ip, jsonContents, callback) {
+  // update system "native" states
+  if(jsonContents.hasOwnProperty('Systeminfo') && !jsonContents.Systeminfo) {
+    for(let citem in jsonContents) {
+      if(!jsonContents.hasOwnProperty(citem)) continue;
 
-  arrVar = curStates.vars;
+
+    }
+  }
 
   // go through the array and set states
-  for(let i=0; i<arrVar.length; i++) {
-    adapter.setState("root." + wiffi.id + "." + arrVar[i].homematic_name,
-      {"val": arrVar[i].value, "ack": true}, function (err) {
-        if(err) adapter.log.error('Could not set state!');
+  for(let i=0;i<jsonContents.vars.length;i++) {
+    let cstate = jsonContents.vars[i];
+
+    if (!(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name)) {
+      // id is mandatory
+      if(!cstate.desc) cstate.desc = 'description missing';
+      adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+      continue;
+   }
+
+    adapter.setState('root.' + ip_to_id(ip) + '.' + cstate.homematic_name, {val: cstate.value, ack: true}, function (err) {
+        if(err) {
+          adapter.log.error('Could not set state!');
+        }
       });
   }
 
