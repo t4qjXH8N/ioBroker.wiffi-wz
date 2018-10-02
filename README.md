@@ -1,5 +1,5 @@
 ![Logo](admin/wiffi-wz.png)
-ioBroker adapter for Wiffi-wz, Weatherman and Rainyman
+ioBroker adapter for Wiffi-wz, Weatherman, Wiffi-pump, Rainyman and maybe others 
 =================
 [![NPM version](http://img.shields.io/npm/v/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
@@ -9,8 +9,13 @@ ioBroker adapter for Wiffi-wz, Weatherman and Rainyman
 [![Build Status](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz.svg?branch=master)](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz)
 [![Build status](https://ci.appveyor.com/api/projects/status/58b8ygy9slf4oygx/branch/master?svg=true)](https://ci.appveyor.com/project/t4qjXH8N/iobroker-wiffi-wz/branch/master)
 
-This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor), the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation) and the [Rainyman](https://www.stall.biz/project/rainyman-der-perfekte-sensor-fuer-regen-sonne-klima-bodenfeuchte-und-mehr). Multiple Wiffi-wz are supported. Due to the very low latency (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
+This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from Wiffi devices see [Stall.biz](http://www.stall.biz) for more info. 
 
+Typical examples for devices from Stall.biz are the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor), the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation) and the [Rainyman](https://www.stall.biz/project/rainyman-der-perfekte-sensor-fuer-regen-sonne-klima-bodenfeuchte-und-mehr). Multiple Wiffis are supported at the same time. 
+
+Due to the very low latency of the adapter (typically < 3s) it is possible to use the IR motion sensors to trigger an action like switching the lights on or off. 
+
+In the following some devices from Stall.biz are described in more detail: 
 The Wiffi-wz is a device that combines eight sensors in a single unit. Currently the following sensors are available:
 
 - two orthogonally aligned IR motion sensors
@@ -31,10 +36,6 @@ Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU re
 
 ## Troubleshooting
 
-### ioBroker is not updating states, or set states issues errors
-
-This adapter will work with Wiffi-wz firmware version >= _83 from [Stall.biz](https://www.stall.biz) (up to 2017-12-13 not yet accessible to public), but it MAY work for other firmware version also.
-
 ### The Wiffi-wz is not sending any data to ioBroker.
 
 Sometimes the wiffi-wz configuration cannot be changed from the admin page. In this case send the following commands to the wiffi-wz:
@@ -49,9 +50,13 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 
 3. If the error persists, please set the adapter loglevel to debug and send me the data telegram via email.
 
+For other Wiffi devices have  a look at the admin page.
+
 ## Changelog
-#### 2.0.0 (XX-Oct-2018)
-- a lot of changes ....
+#### 2.0.0 (03-Oct-2018)
+- wiffi type does not need to be specified in the config anymore
+- states are created and deleted by examining the received datagram
+- some minor changes concerning the logging
 
 #### 1.3.1 (01-Sep-2018)
 - fixed npm installation problems

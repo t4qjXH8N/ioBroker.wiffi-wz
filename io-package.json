@@ -3,16 +3,16 @@
         "name":                     "wiffi-wz",
         "version":                  "2.0.0",
         "news": {
-            "2.0.0": {
-              "en": "fixed npm installation problems",
-              "de": "behebt Probleme bei Installationsproblemen",
-              "ru": "исправлены проблемы с установкой npm",
-              "pt": "problemas de instalação do npm fixo",
-              "nl": "vaste npm installatieproblemen",
-              "fr": "Problèmes d'installation fixes npm",
-              "it": "risolti problemi di installazione di npm",
-              "es": "problemas de instalación de npm corregidos",
-              "pl": "naprawiono problemy z instalacją npm"
+            "2.0.0":  {
+              "en": "states are created and deleted by examining the received datagram",
+              "de": "Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
+              "ru": "состояния создаются и удаляются путем изучения полученной дейтаграммы",
+              "pt": "estados são criados e excluídos, examinando o datagrama recebido",
+              "nl": "staten worden gemaakt en verwijderd door het ontvangen datagram te bekijken",
+              "fr": "les états sont créés et supprimés en examinant le datagramme reçu",
+              "it": "gli stati vengono creati ed eliminati esaminando il datagramma ricevuto",
+              "es": "Los estados se crean y eliminan al examinar el datagrama recibido",
+              "pl": "stany są tworzone i usuwane poprzez zbadanie odebranego datagramu"
             },
             "1.3.1": {
               "en": "fixed npm installation problems",
