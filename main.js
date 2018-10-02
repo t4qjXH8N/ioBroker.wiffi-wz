@@ -366,7 +366,7 @@ function syncStates(ip, jsonContent, callback) {
         } else {
           // id is mandatory
           adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
-          break;
+          continue;
         }
 
         if (cstate.hasOwnProperty('name') && cstate.name) {
@@ -425,7 +425,7 @@ function syncStates(ip, jsonContent, callback) {
 
     // do we have to remove some states?
     for(let k=0;k<states_to_remove.length;k++) {
-      adapter.delState('root.' + ip_to_id(ip) + '.' + states_to_remove[k], function(err) {
+      adapter.delObject('root.' + ip_to_id(ip) + '.' + states_to_remove[k], function(err) {
         if(err) {
           adapter.log.error('Could not remove state! Error ' + err);
         }
