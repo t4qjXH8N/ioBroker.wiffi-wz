@@ -585,38 +585,6 @@ function checkAndSubscribe(ip, state, callback) {
   if(callback) callback(false);
 }
 
-// checks if a state or exists, takes also arrays of states and returns array with true or false
-function checkStateExists(states_id, callback) {
-
-  if(Array.isArray(states_id)) {
-    // check array of states
-    let states_todo = states_id.length;
-    let return_vals = [];
-
-    // prepare return array
-    for(let j=0;j<states_todo;j++) {
-      return_vals.push(false);
-    }
-
-    for(let i=0;i<states_todo;i++) {
-      adapter.getObject(states_id[i], function(err, state) {
-        return_vals[i] = !err && state;
-        states_todo--;
-
-        if(states_todo === 0) {
-          // we are done
-          callback(return_vals);
-        }
-      });
-    }
-  } else {
-    // check if single state exists
-    adapter.getObject(states_id, function(err, state) {
-      callback(!err && state);
-    });
-  }
-}
-
 function switchActor(ip, actor, value, callback) {
 
   let send_val;
