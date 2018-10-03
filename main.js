@@ -293,7 +293,7 @@ function createBasicStates(name, ip, room, type, callback) {
 function syncStates(ip, jsonContent, callback) {
   adapter.log.debug('Create states for wiffi with ip ' + ip);
 
-  function addState(ip, cstate) {
+  function addState(ip, cstate, is_sysinfo) {
     // add state
     let state = {
       "read": true,
@@ -308,7 +308,7 @@ function syncStates(ip, jsonContent, callback) {
     } else {
       // if id not present use name if set
       if(!cstate.desc) cstate.desc = 'description missing';
-      adapter.log.debug('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+      adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
       return;
     }
 
@@ -349,13 +349,47 @@ function syncStates(ip, jsonContent, callback) {
       }
     }
 
-    adapter.createState('root', ip_to_id(ip), cleanid(state['id']), state, function (err, cstate) {
-      if (err || !cstate) {
-        adapter.log.error('Could not create a state ' + err);
-      } else {
-        adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
-      }
-    });
+    // is it a sysconfig state?
+    // in this case put it into the group sysconfig
+    let obj = {
+      "_id": adapter_db_prefix + '.root.' + ip_to_id(ip) + '.Systeminfo',
+      "type": "group",
+      "common": {
+        "name": "Systeminfo"
+      },
+      "native": {}
+    };
+
+    if(is_sysinfo) {
+      adapter.setObjectNotExists('root.' + ip_to_id(ip) + '.Systeminfo', obj, function (err) {
+        if (err) {
+          adapter.log.error('Could not create group for Systeminfo states')
+        } else {
+          let new_state = {
+            "_id": 'root.' + ip_to_id(ip) + '.Systeminfo.' + cleanid(state['id']),
+            "type": "state",
+            "common": state,
+            "native": {}
+          };
+
+          adapter.setObjectNotExists('root.' + ip_to_id(ip) + '.Systeminfo.' + cleanid(state['id']), new_state, function (err, cstate) {
+            if (err || !cstate) {
+              adapter.log.error('Could not create a state ' + err);
+            } else {
+              adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
+            }
+          });
+        }
+      });
+    } else {
+      adapter.createState('root', ip_to_id(ip), cleanid(state['id']), state, function (err, cstate) {
+        if (err || !cstate) {
+          adapter.log.error('Could not create a state ' + err);
+        } else {
+          adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
+        }
+      });
+    }
   }
 
   adapter.getStates(adapter_db_prefix + ip_to_id(ip) + '.*', function(err, states) {
@@ -364,11 +398,18 @@ function syncStates(ip, jsonContent, callback) {
       return;
     }
 
+    // collect states that are already present in the db
     let states_in_db = [];
+    let sys_states_in_db = [];
+
     for(let cstate in states) {
       if(!states.hasOwnProperty(cstate)) continue;
 
-      states_in_db.push(cstate.split('.')[cstate.split('.').length - 1]);
+      if(cstate.split('.').length === 5) {
+        states_in_db.push(cstate.split('.')[cstate.split('.').length - 1]);
+      } else if(cstate.split('.').length === 6) {
+        sys_states_in_db.push(cstate.split('.')[cstate.split('.').length - 1]);
+      }
     }
 
     // sync native systemconfig states
@@ -376,7 +417,7 @@ function syncStates(ip, jsonContent, callback) {
       if(!jsonContent.Systeminfo.hasOwnProperty(csysstate)) continue;
 
       // is state already in db?
-      if(!states_in_db.includes(cleanid(csysstate))) {
+      if(!sys_states_in_db.includes(cleanid(csysstate))) {
         // create a new system state
         let sys_state = {
           "homematic_name": csysstate,
@@ -384,23 +425,25 @@ function syncStates(ip, jsonContent, callback) {
           "name": csysstate,
           "value": jsonContent.Systeminfo[csysstate]
         };
-        addState(ip, sys_state);
+        addState(ip, sys_state, true);
       }
     }
 
-    // sync variable states
-    let states_to_remove = states_in_db;
+    // remove states
+    // systeminfo states
+    let sys_states_to_remove = sys_states_in_db;
     // sysconfig states
     for(let citem in jsonContent.Systeminfo) {
       if(!jsonContent.Systeminfo.hasOwnProperty(citem)) continue;
       // is state already in db?
-      if (states_in_db.includes(cleanid(citem))) {
+      if (sys_states_in_db.includes(cleanid(citem))) {
         // state is already in db
-        states_to_remove.splice(states_to_remove.indexOf(citem), 1);
+        sys_states_to_remove.splice(sys_states_to_remove.indexOf(citem), 1);
       }
     }
 
-    // go through jsonContent and create states if it is not present in the db yet
+    // data states
+    let states_to_remove = states_in_db;
     for(let i=0;i<jsonContent.vars.length;i++) {
       let cstate = jsonContent.vars[i];
 
@@ -409,11 +452,20 @@ function syncStates(ip, jsonContent, callback) {
         // state is already in db
         states_to_remove.splice(states_to_remove.indexOf(cstate.homematic_name), 1);
       } else {
-        addState(ip, cstate);
+        addState(ip, cstate, false);
       }
     }
 
-    // do we have to remove some states?
+    // do we have to remove data states?
+    for(let k=0;k<sys_states_to_remove.length;k++) {
+      adapter.delObject('root.' + ip_to_id(ip) + '.Systeminfo.' + sys_states_to_remove[k], function(err) {
+        if(err) {
+          adapter.log.error('Could not remove state! Error ' + err);
+        }
+      });
+    }
+
+    // do we have to remove data states?
     for(let k=0;k<states_to_remove.length;k++) {
       adapter.delObject('root.' + ip_to_id(ip) + '.' + states_to_remove[k], function(err) {
         if(err) {
@@ -428,12 +480,12 @@ function syncStates(ip, jsonContent, callback) {
 
 // set states from the received JSON
 function updateStates(ip, jsonContents, callback) {
-  // update system "native" states
+  // update systeminfo states
   if(jsonContents.hasOwnProperty('Systeminfo')) {
     for(let citem in jsonContents.Systeminfo) {
       if(!jsonContents.Systeminfo.hasOwnProperty(citem)) continue;
 
-      adapter.setState('root.' + ip_to_id(ip) + '.' + citem, {val: jsonContents.Systeminfo[citem], ack: true}, function (err) {
+      adapter.setState('root.' + ip_to_id(ip) + '.Systeminfo.' + cleanid(citem), {val: jsonContents.Systeminfo[citem], ack: true}, function (err) {
         if(err) {
           adapter.log.error('Could not set state!');
         }
@@ -448,7 +500,7 @@ function updateStates(ip, jsonContents, callback) {
     if (!(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name)) {
       // id is mandatory
       if(!cstate.desc) cstate.desc = 'description missing';
-      adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+      adapter.log.debug('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
       continue;
    }
 
