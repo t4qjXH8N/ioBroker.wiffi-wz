@@ -57,6 +57,7 @@ For other Wiffi devices have  a look at the admin page.
 - wiffi type does not need to be specified in the config anymore
 - states are created and deleted by examining the received datagram
 - some minor changes concerning the logging
+- the buzzer of the wiffi can be activated (it may work for other actors as well, but it is untested at the moment)
 
 #### 1.3.1 (01-Sep-2018)
 - fixed npm installation problems

@@ -27,6 +27,20 @@
 		}
 	},
 	{
+		"expression": "buzzer",
+		"extensions": {
+			"role": "switch",
+			"write": true
+		}
+	},
+	{
+		"expression": "relais",
+		"extensions": {
+			"role": "switch",
+			"write": true
+		}
+	},
+	{
 		"expression": "temperature",
 		"extensions": {
 			"role": "value.temperature"

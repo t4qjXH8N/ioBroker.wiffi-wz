@@ -12,6 +12,7 @@ const adapter = utils.adapter('wiffi-wz');
 let adapter_db_prefix;  // shortcut for the adapter prefix in the database
 
 let channels = {};
+let subscribed_states = [];
 
 // load a json file with settings for wiffi-wz and weatherman
 //const wiffi_native_states = require(__dirname + '/wiffi_native_states.json');
@@ -19,6 +20,7 @@ const state_extensions = require(__dirname + '/state_extensions.json');
 
 const net = require('net');  // for opening a socket listener
 const JSONPath = require('jsonpath');
+const request = require('request');
 
 // max buffer size
 const maxBufferSize = 100000; // the buffer should not be bigger than this number to prevent DOS attacks
@@ -57,8 +59,13 @@ adapter.on('stateChange', function (id, state) {
   adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
   // you can use the ack flag to detect if it is status (true) or command (false)
-  if (state && !state.ack) {
-    adapter.log.debug('ack is not set!');
+  if (state && !state.ack && subscribed_states.includes(id)) {
+    let actor = id.split('.')[id.split('.').length-1];
+
+    if(actor.split('_').length >= 2) {
+      actor = actor.slice(actor.indexOf('_') + 1);
+      switchActor(id_to_ip(id.split('.')[3]), actor, state['val']);
+    }
   }
 });
 
@@ -67,7 +74,17 @@ adapter.on('stateChange', function (id, state) {
 adapter.on('ready', function () {
   adapter_db_prefix = 'wiffi-wz.' + adapter.instance + '.root.';
 
-  main();
+  adapter.getForeignObjects(adapter_db_prefix + '*', function(err, objs) {
+    if(err) {
+      adapter.log.err('Could not get states for subscription test! Error ' + err);
+    } else {
+      for(let citem in objs) {
+        if(!objs.hasOwnProperty(citem)) continue;
+        checkAndSubscribe(id_to_ip(citem.split('.')[3]), objs[citem].common);
+      }
+      main();
+    }
+  });
 });
 
 function main() {
@@ -370,7 +387,7 @@ function syncStates(ip, jsonContent, callback) {
     // is it a sysconfig state?
     // in this case put it into the group sysconfig
     let obj = {
-      "_id": adapter_db_prefix + '.root.' + ip_to_id(ip) + '.Systeminfo',
+      "_id": adapter_db_prefix + ip_to_id(ip) + '.Systeminfo',
       "type": "group",
       "common": {
         "name": "Systeminfo"
@@ -395,6 +412,7 @@ function syncStates(ip, jsonContent, callback) {
               adapter.log.error('Could not create a state ' + err);
             } else {
               adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
+              checkAndSubscribe(ip, state);
             }
           });
         }
@@ -405,6 +423,7 @@ function syncStates(ip, jsonContent, callback) {
           adapter.log.error('Could not create a state ' + err);
         } else {
           adapter.log.debug('Created state ' + cstate.id + ' for wiffi ip ' + ip);
+          checkAndSubscribe(ip, state);
         }
       });
     }
@@ -557,6 +576,15 @@ function cleanid(id) {
   return id.replace(/[!\*?\[\]\"\']/ig, '_');
 }
 
+function checkAndSubscribe(ip, state, callback) {
+  if(state.hasOwnProperty('write') && state['write']) {
+    adapter.subscribeStates('root.' + ip_to_id(ip) + '.' + cleanid(state['id']));
+    subscribed_states.push(adapter_db_prefix + ip_to_id(ip) + '.' + cleanid(state['id']));
+  }
+
+  if(callback) callback(false);
+}
+
 // checks if a state or exists, takes also arrays of states and returns array with true or false
 function checkStateExists(states_id, callback) {
 
@@ -587,4 +615,33 @@ function checkStateExists(states_id, callback) {
       callback(!err && state);
     });
   }
+}
+
+function switchActor(ip, actor, value, callback) {
+
+  let send_val;
+  if(value) {
+    send_val = 'on';
+  } else {
+    send_val = 'off';
+  }
+
+  let options_connect = {
+    url: 'http://' + ip + '/?' + actor + ':' + send_val + ':',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "GET"
+  };
+
+  request(options_connect, function(err, response, body){
+    if(err || !response) {
+      // no connection or auth failure
+      adapter.log.error('Connection error on switching actor ' + actor + ' to value ' + send_val + '!');
+      if(callback) callback(err);
+    } else {
+      adapter.log.debug('Successfully  switched actor ' + actor + ' to value ' + send_val);
+      if(callback) callback(false);
+    }
+  });
 }
