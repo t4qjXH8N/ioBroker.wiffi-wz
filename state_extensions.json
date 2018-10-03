@@ -6,6 +6,13 @@
 		}
 	},
 	{
+		"expression": "millis_seit_reset",
+		"extensions": {
+			"role": "value",
+			"unit": "ms"
+		}
+	},
+	{
 		"expression": "sec_set_reset",
 		"extensions": {
 			"role": "value",
