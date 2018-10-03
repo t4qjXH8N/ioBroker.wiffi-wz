@@ -306,9 +306,9 @@ function syncStates(ip, jsonContent, callback) {
     if (cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
       state['id'] = cstate.homematic_name;
     } else {
-      // id is mandatory
+      // if id not present use name if set
       if(!cstate.desc) cstate.desc = 'description missing';
-      adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+      adapter.log.debug('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
       return;
     }
 
@@ -339,13 +339,6 @@ function syncStates(ip, jsonContent, callback) {
       }
     }
 
-    if (cstate.hasOwnProperty('value') && cstate.value) {
-      // workaround for wrong numeric values
-      if(state['type'] === typeof(cstate.value)) {
-        state['def'] = cstate.value;
-      }
-    }
-
     // load state extensions if there are any
     for (let j=0;j<state_extensions.length;j++) {
       if ((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && state_extensions[j].hasOwnProperty('extensions')) {
@@ -356,7 +349,7 @@ function syncStates(ip, jsonContent, callback) {
       }
     }
 
-    adapter.createState('root', ip_to_id(ip), state['id'], state, function (err, cstate) {
+    adapter.createState('root', ip_to_id(ip), cleanid(state['id']), state, function (err, cstate) {
       if (err || !cstate) {
         adapter.log.error('Could not create a state ' + err);
       } else {
@@ -383,7 +376,7 @@ function syncStates(ip, jsonContent, callback) {
       if(!jsonContent.Systeminfo.hasOwnProperty(csysstate)) continue;
 
       // is state already in db?
-      if(!states_in_db.includes(csysstate)) {
+      if(!states_in_db.includes(cleanid(csysstate))) {
         // create a new system state
         let sys_state = {
           "homematic_name": csysstate,
@@ -401,7 +394,7 @@ function syncStates(ip, jsonContent, callback) {
     for(let citem in jsonContent.Systeminfo) {
       if(!jsonContent.Systeminfo.hasOwnProperty(citem)) continue;
       // is state already in db?
-      if (states_in_db.includes(citem)) {
+      if (states_in_db.includes(cleanid(citem))) {
         // state is already in db
         states_to_remove.splice(states_to_remove.indexOf(citem), 1);
       }
@@ -412,7 +405,7 @@ function syncStates(ip, jsonContent, callback) {
       let cstate = jsonContent.vars[i];
 
       // is state already in db?
-      if (states_in_db.includes(cstate.homematic_name)) {
+      if (states_in_db.includes(cleanid(cstate.homematic_name))) {
         // state is already in db
         states_to_remove.splice(states_to_remove.indexOf(cstate.homematic_name), 1);
       } else {
@@ -459,7 +452,7 @@ function updateStates(ip, jsonContents, callback) {
       continue;
    }
 
-    adapter.setState('root.' + ip_to_id(ip) + '.' + cstate.homematic_name, {val: cstate.value, ack: true}, function (err) {
+    adapter.setState('root.' + ip_to_id(ip) + '.' + cleanid(cstate.homematic_name), {val: cstate.value, ack: true}, function (err) {
         if(err) {
           adapter.log.error('Could not set state!');
         }
@@ -483,6 +476,11 @@ function ip_to_id(ip) {
 // convert a state id to an ip
 function id_to_ip(id) {
   return id.replace(/[_\s]+/g, '.');
+}
+
+// return valid state ids only
+function cleanid(id) {
+  return id.replace(/[!\*?\[\]\"\']/ig, '_');
 }
 
 // checks if a state or exists, takes also arrays of states and returns array with true or false
