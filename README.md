@@ -32,7 +32,7 @@ The Weatherman can be equipped with many sensors, see [homepage](https://www.sta
 The Rainyman is a somehow reduced version of the Weatherman, see [homepage](https://www.stall.biz/project/rainyman-der-perfekte-sensor-fuer-regen-sonne-klima-bodenfeuchte-und-mehr) for more details. 
 
 ## How it works
-Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be exposed to the internet due to security reasons. 
+Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script (or better JSON) on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be exposed to the internet due to security reasons. 
 
 ## Troubleshooting
 
