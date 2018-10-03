@@ -324,6 +324,10 @@ function syncStates(ip, jsonContent, callback) {
       state['desc'] = cstate.desc;
     }
 
+    if (cstate.hasOwnProperty('unit') && cstate.unit) {
+      state['unit'] = cstate.unit.replace(/grad/ig, '°');
+    }
+
     if (cstate.hasOwnProperty('type') && cstate.type) {
       switch (cstate.type) {
         case 'string':
