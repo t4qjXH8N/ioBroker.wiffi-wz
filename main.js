@@ -307,17 +307,18 @@ function syncStates(ip, jsonContent, callback) {
       state['id'] = cstate.homematic_name;
     } else {
       // if id not present use name if set
-      if(!cstate.desc) cstate.desc = 'description missing';
-      adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
-      return;
+      if(cstate.hasOwnProperty('name') && cstate.name) {
+        state['id'] = cstate.name;
+      } else {
+        // sorry, I have no idea how to deal with this datapoint
+        if(!cstate.desc) cstate.desc = 'description missing';
+        adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+        return;
+      }
     }
 
     if (cstate.hasOwnProperty('name') && cstate.name) {
       state['name'] = cstate.name;
-    }
-
-    if (cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
-      state['id'] = cstate.homematic_name;
     }
 
     if (cstate.hasOwnProperty('desc') && cstate.desc) {
@@ -332,12 +333,25 @@ function syncStates(ip, jsonContent, callback) {
       switch (cstate.type) {
         case 'string':
           state['type'] = 'string';
+          state['role'] = 'text';
           break;
         case 'number':
           state['type'] = 'number';
+          if(!state['write'] && state['read']) {
+            state['role'] = 'value';
+          }  else if(state['write'] && state['read']) {
+            state['role'] = 'level';
+          }
           break;
         case 'boolean':
           state['type'] = 'boolean';
+          if(state['write'] && state['read']) {
+            state['role'] = 'switch';
+          } else if(state['read'] && !state['write']) {
+            state['role'] = 'sensor';
+          } else if(!state['read'] && !state['write']) {
+            state['role'] = 'button';
+          }
           break;
         default:
       }
@@ -452,7 +466,7 @@ function syncStates(ip, jsonContent, callback) {
       let cstate = jsonContent.vars[i];
 
       // is state already in db?
-      if (states_in_db.includes(cleanid(cstate.homematic_name))) {
+      if (states_in_db.includes(cleanid(cstate.homematic_name)) || states_in_db.includes(cleanid(cstate.name))) {
         // state is already in db
         states_to_remove.splice(states_to_remove.indexOf(cstate.homematic_name), 1);
       } else {
@@ -502,10 +516,14 @@ function updateStates(ip, jsonContents, callback) {
     let cstate = jsonContents.vars[i];
 
     if (!(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name)) {
-      // id is mandatory
-      if(!cstate.desc) cstate.desc = 'description missing';
-      adapter.log.debug('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
-      continue;
+      // use name if id is missing
+      if(cstate.hasOwnProperty('name') && cstate.name) {
+        cstate['homematic_name'] = cstate.name;
+      } else {
+        if (!cstate.desc) cstate.desc = 'description missing';
+        adapter.log.debug('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
+        continue;
+      }
    }
 
     adapter.setState('root.' + ip_to_id(ip) + '.' + cleanid(cstate.homematic_name), {val: cstate.value, ack: true}, function (err) {
