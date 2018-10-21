@@ -9,6 +9,8 @@ ioBroker adapter for Wiffi-wz, Weatherman, Wiffi-pump, Rainyman and maybe others
 [![Build Status](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz.svg?branch=master)](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz)
 [![Build status](https://ci.appveyor.com/api/projects/status/58b8ygy9slf4oygx/branch/master?svg=true)](https://ci.appveyor.com/project/t4qjXH8N/iobroker-wiffi-wz/branch/master)
 
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JU56XH3RMP3CJ)
+
 This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from Wiffi devices see [Stall.biz](http://www.stall.biz) for more info. 
 
 Typical examples for devices from Stall.biz are the [Wiffi-wz](http://www.stall.biz/project/der-wiffi-wz-2-0-der-wohnzimmersensor), the [Weatherman](https://www.stall.biz/project/weatherman-die-perfekte-wetterstation-fuer-die-hausautomation) and the [Rainyman](https://www.stall.biz/project/rainyman-der-perfekte-sensor-fuer-regen-sonne-klima-bodenfeuchte-und-mehr). Multiple Wiffis are supported at the same time. 
@@ -51,6 +53,11 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 3. If the error persists, please set the adapter loglevel to debug and send me the data telegram via email.
 
 For other Wiffi devices have  a look at the admin page.
+
+## Donation
+If this project help you reduce time to develop, you can give me a cup of coffee or a bottle of beer :) 
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JU56XH3RMP3CJ)
 
 ## Changelog
 #### 2.0.0 (03-Oct-2018)
