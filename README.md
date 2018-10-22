@@ -52,6 +52,9 @@ Sometimes the wiffi-wz configuration cannot be changed from the admin page. In t
 
 For other Wiffi devices have  a look at the admin page.
 
+## Donation
+If this project help you reduce time to develop, you can give me a cup of coffee or a bottle of beer via PayPal(chvorholt@gmail.com) :-)  
+
 ## Changelog
 #### 2.0.0 (03-Oct-2018)
 - wiffi type does not need to be specified in the config anymore
