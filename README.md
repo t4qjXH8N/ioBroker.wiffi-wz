@@ -57,9 +57,6 @@ If this project helped you to reduce developing time, you can give me a cup of c
 
 ## Changelog
 #### 2.0.0 (03-Oct-2018)
-- updated utils.js
-
-#### 2.0.0 (03-Oct-2018)
 - wiffi type does not need to be specified in the config anymore
 - states are created and deleted by examining the received datagram
 - some minor changes concerning the logging
