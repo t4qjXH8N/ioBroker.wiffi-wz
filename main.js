@@ -4,6 +4,7 @@
 
 // you have to require the utils module and call adapter function
 const utils = require(__dirname + '/lib/utils'); // Get common adapter utils
+const _ = require('underscore');
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -175,16 +176,15 @@ function openSocket() {
         // get the ip of the wiffi
         let ip;
         if(jsonContent.hasOwnProperty('vars') && Array.isArray(jsonContent.vars) && jsonContent.vars.length > 0) {
-          // datagram seems to be fine, look for an ip
-          for(let j=0;j<jsonContent.vars.length;j++) {
-            if(jsonContent.vars[j].homematic_name.search(/_ip/i)  !== -1) {
-              ip = jsonContent.vars[j].value;
-              break;
-            }
-          }
+          // datagram seems to be fine, look for an ip in homematic name
+          ip = _.find(jsonContent.vars, function (cvar) {
+            return cvar.homematic_name.search(/_ip/i);
+          });
+
+          ip = (ip.hasOwnProperty('value')) ? ip.value : null;
         }
 
-        if(!ip) {
+        if (!ip) {
           adapter.log.error('Datagram error, could not find an ip!');
           buffer = '';
           return;

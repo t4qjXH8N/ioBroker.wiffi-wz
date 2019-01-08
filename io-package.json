@@ -1,8 +1,11 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.0.0",
+        "version":                  "2.0.1",
         "news": {
+            "2.0.1":  {
+              "en": "todo"
+            },
             "2.0.0":  {
               "en": "states are created and deleted by examining the received datagram",
               "de": "Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
