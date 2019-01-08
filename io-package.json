@@ -1,8 +1,19 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.0.0",
+        "version":                  "2.0.1",
         "news": {
+            "2.0.1":  {
+              "en": "'could not find ip' bug fixed",
+              "de": "Fehler 'IP konnte nicht gefunden werden' behoben",
+              "ru": "исправлена ​​ошибка \"не удалось найти ip\"",
+              "pt": "'não foi possível encontrar o bug do ip' corrigido",
+              "nl": "'could not find ip' bug gerepareerd",
+              "fr": "bug 'impossible à trouver ip' corrigé",
+              "it": "\"Impossibile trovare il bug dell'ip\" corretto",
+              "es": "\"No se pudo encontrar la ip\" error corregido",
+              "pl": "Naprawiono błąd 'could not find ip'"
+            },
             "2.0.0":  {
               "en": "states are created and deleted by examining the received datagram",
               "de": "Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",

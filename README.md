@@ -56,6 +56,9 @@ For other Wiffi devices have  a look at the admin page.
 If this project helped you to reduce developing time, you can give me a cup of coffee or a bottle of beer via PayPal(chvorholt@gmail.com) :-)  
 
 ## Changelog
+#### 2.0.1 (08-Jan-2019)
+- fixed "could not find ip" bug
+
 #### 2.0.0 (03-Oct-2018)
 - wiffi type does not need to be specified in the config anymore
 - states are created and deleted by examining the received datagram
