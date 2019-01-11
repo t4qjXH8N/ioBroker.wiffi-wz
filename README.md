@@ -34,23 +34,20 @@ The Rainyman is a somehow reduced version of the Weatherman, see [homepage](http
 ## How it works
 Usually the Wiffi-wz sends sensors data to a Homematic CCU. The Homematic CCU receives homematic script (or better JSON) on port 8181. The admin page of this adapter reconfigures the Wiffi-wz to send sensor data directly to ioBroker. The sensor data is encoded in [JSON](https://en.wikipedia.org/wiki/JSON) format. Therefore a local socket on port 8181 is opened on the ioBroker machine. Note that the socket **must not** be exposed to the internet due to security reasons. 
 
-## Troubleshooting
-
-### The Wiffi-wz is not sending any data to ioBroker.
-
-Sometimes the wiffi-wz configuration cannot be changed from the admin page. In this case send the following commands to the wiffi-wz:
-
+## Setup
 1. Set ioBroker as the recipient for the sensor data by retrieving the url
 
     http://[wiffi ip]/?ccu:[io-broker's ip]:
+
+2. and set the port to 8181 by   
+
+    http://[wiffi ip]/?param:12:8181
     
-2. Tell wiffi-wz that it has to send data in JSON format without HTML header (Note that the weatherman may use a different parameter number)
+3. Tell wiffi-wz that it has to send data in JSON format without HTML header (Note that the weatherman may use a different parameter number)
 
 	http://[wiffi ip]/?param:27:1
 
-3. If the error persists, please set the adapter loglevel to debug and send me the data telegram via email.
-
-For other Wiffi devices have  a look at the admin page.
+If any error occurs, please set the adapter loglevel to debug and send me the data telegram via email.
 
 ## Donation
 If this project helped you to reduce developing time, you can give me a cup of coffee or a bottle of beer via PayPal(chvorholt@gmail.com) :-)  
