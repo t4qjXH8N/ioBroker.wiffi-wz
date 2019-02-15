@@ -9,7 +9,6 @@ const _ = require('underscore');
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.wiffi-wz.0
-const adapter = new utils.Adapter('wiffi-wz');
 let adapter_db_prefix;  // shortcut for the adapter prefix in the database
 
 let channels = {};
@@ -29,14 +28,30 @@ const maxBufferSize = 100000; // the buffer should not be bigger than this numbe
 // server handle
 let server;
 
+let adapter;
+function startAdapter(options) {
+  options = options || {};
+  Object.assign(options, {
+    name: "wiffi-wz",
+    install: adapter_install,
+    unload: adapter_unload,
+    objectChange: adapter_objectChange,
+    stateChange: adapter_stateChange,
+    ready: adapter_ready
+  });
+  adapter = new utils.Adapter(options);
+
+  return adapter;
+}
+
 // triggered when the adapter is installed
-adapter.on('install', function () {
+const adapter_install = function () {
   // create a node for subsequent wiffis
   adapter.createDevice('root', {});
-});
+};
 
 // is called when adapter shuts down - callback has to be called under any circumstances!
-adapter.on('unload', function (callback) {
+const adapter_unload = function (callback) {
   adapter.setState('info.connection', false);
   try {
     adapter.log.info('Stopping adapter ...');
@@ -46,16 +61,16 @@ adapter.on('unload', function (callback) {
   } catch (e) {
     callback(e);
   }
-});
+};
 
 // is called if a subscribed object changes
-adapter.on('objectChange', function (id, obj) {
+const adapter_objectChange = function (id, obj) {
   // Warning, obj can be null if it was deleted
   adapter.log.debug('objectChange ' + id + ' ' + JSON.stringify(obj));
-});
+};
 
 // is called if a subscribed state changes (not used at the moment, dummy only)
-adapter.on('stateChange', function (id, state) {
+const adapter_stateChange = function (id, state) {
   // Warning, state can be null if it was deleted
   adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
@@ -68,11 +83,11 @@ adapter.on('stateChange', function (id, state) {
       switchActor(id_to_ip(id.split('.')[3]), actor, state['val']);
     }
   }
-});
+};
 
 // is called when databases are connected and adapter received configuration.
 // start here!
-adapter.on('ready', function () {
+const adapter_ready = function () {
   adapter_db_prefix = 'wiffi-wz.' + adapter.instance + '.root.';
 
   adapter.getForeignObjects(adapter_db_prefix + '*', function(err, objs) {
@@ -86,7 +101,7 @@ adapter.on('ready', function () {
       main();
     }
   });
-});
+};
 
 function main() {
   // The adapters config (in the instance object everything under the attribute "native") is accessible via
@@ -612,4 +627,12 @@ function switchActor(ip, actor, value, callback) {
       if(callback) callback(false);
     }
   });
+}
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+  module.exports = startAdapter;
+} else {
+  // or start the instance directly
+  startAdapter();
 }

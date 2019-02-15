@@ -1,8 +1,20 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.0.1",
+        "version":                  "2.1.0",
         "news": {
+            "2.1.0":  {
+              "en": "Added support for compact mode.",
+              "de": "Unterstützung für den Kompaktmodus hinzugefügt.",
+              "ru": "Добавлена ​​поддержка компактного режима.",
+              "pt": "Adicionado suporte para o modo compacto.",
+              "nl": "Ondersteuning toegevoegd voor de compacte modus.",
+              "fr": "Ajout du support pour le mode compact.",
+              "it": "Aggiunto il supporto per la modalità compatta.",
+              "es": "Añadido soporte para el modo compacto.",
+              "pl": "Dodano obsługę trybu kompaktowego.",
+              "zh-cn": "增加了对紧凑模式的支持。"
+            },
             "2.0.1":  {
               "en": "'could not find ip' bug fixed",
               "de": "Fehler 'IP konnte nicht gefunden werden' behoben",
@@ -266,6 +278,7 @@
         "mode":                     "daemon",
         "icon":                     "wiffi-wz.png",
         "enabled":                  false,
+        "compact":                  true,
         "stopBeforeUpdate":         true,
         "stopTimeout":              3000,
         "extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
