@@ -17,7 +17,7 @@
     "url": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz.git"
   },
   "dependencies": {
-    "jsonpath": "^1.0.0",
+    "jsonpath": "^1.0.1",
     "request": "^2.83.0",
     "underscore": "^1.9.1"
   },
