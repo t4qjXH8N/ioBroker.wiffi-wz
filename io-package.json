@@ -3,7 +3,7 @@
         "name":                     "wiffi-wz",
         "version":                  "2.1.0",
         "news": {
-            "2.1.0":  {
+            "2.1.0": {
               "en": "Added support for compact mode.",
               "de": "Unterstützung für den Kompaktmodus hinzugefügt.",
               "ru": "Добавлена ​​поддержка компактного режима.",
@@ -14,6 +14,18 @@
               "es": "Añadido soporte para el modo compacto.",
               "pl": "Dodano obsługę trybu kompaktowego.",
               "zh-cn": "增加了对紧凑模式的支持。"
+            },
+            "2.0.2": {
+              "en": "removed old news, support for new testing framework",
+              "de": "alte Nachrichten entfernt, Unterstützung für neues Testframework",
+              "ru": "убраны старые новости, поддержка новых фреймворков для тестирования",
+              "pt": "removeu notícias antigas, suporte para nova estrutura de testes",
+              "nl": "Oud nieuws verwijderd, ondersteuning voor nieuw testraamwerk",
+              "fr": "suppression des anciennes nouvelles, prise en charge du nouveau cadre de test",
+              "it": "rimosso vecchie notizie, supporto per il nuovo framework di test",
+              "es": "Se eliminaron las viejas noticias, el soporte para el nuevo marco de pruebas",
+              "pl": "usunięto stare wiadomości, wsparcie dla nowych ram testowania",
+              "zh-cn": "删除旧消息，支持新的测试框架"
             },
             "2.0.1":  {
               "en": "'could not find ip' bug fixed",
@@ -26,7 +38,7 @@
               "es": "\"No se pudo encontrar la ip\" error corregido",
               "pl": "Naprawiono błąd 'could not find ip'"
             },
-            "2.0.0":  {
+            "2.0.0": {
               "en": "states are created and deleted by examining the received datagram",
               "de": "Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
               "ru": "состояния создаются и удаляются путем изучения полученной дейтаграммы",
@@ -157,94 +169,6 @@
               "it": "Aggiunto supporto per Admin3.",
               "es": "Se agregó soporte para Admin3.",
               "pl": "Dodano obsługę Admin3."
-            },
-            "0.3.3": {
-              "en": "code cleanup",
-              "de": "Codebereinigung",
-              "ru": "очистка кода",
-              "pt": "limpeza de código",
-              "nl": "code opruimen",
-              "fr": "nettoyage du code",
-              "it": "pulizia del codice",
-              "es": "limpieza de código",
-              "pl": "oczyszczanie kodu"
-            },
-            "0.3.2": {
-              "en": "added license file",
-              "de": "Lizenzdatei hinzugefügt",
-              "ru": "добавленный файл лицензии",
-              "pt": "arquivo de licença adicionado",
-              "nl": "toegevoegd licentiebestand",
-              "fr": "fichier de licence ajouté",
-              "it": "aggiunto il file di licenza",
-              "es": "archivo de licencia agregado",
-              "pl": "dodano plik licencji"
-            },
-            "0.3.1": {
-              "en": "small bugfix",
-              "de": "kleiner Bugfix",
-              "ru": "небольшое исправление",
-              "pt": "pequeno bugfix",
-              "nl": "kleine bugfix",
-              "fr": "petite correction de bugs",
-              "it": "piccolo bugfix",
-              "es": "pequeña corrección de errores",
-              "pl": "mała poprawka"
-            },
-            "0.3.0": {
-              "en": "support Wiffis, Weathermans, and Rainymans with firmwares greater or equal to _83",
-              "de": "unterstützt Wiffis, Weathermans und Rainymans mit Firmwares größer oder gleich _83",
-              "ru": "поддержка Wiffis, Weathermans и Rainymans с прошивками, большими или равными _83",
-              "pt": "suporte Wiffis, Weathermans e Rainymans com firmwares maiores ou iguais a _83",
-              "nl": "ondersteuning van Wiffis, Weathermans en Rainymans met firmwares groter of gelijk aan _83",
-              "fr": "soutenir Wiffis, Weathermans et Rainymans avec des firmwares supérieurs ou égaux à _83",
-              "it": "supporta Wiffis, Weathermans e Rainymans con firmware maggiore o uguale a _83",
-              "es": "apoyar a Wiffis, Weathermans y Rainymans con firmwares mayores o iguales a _83",
-              "pl": "obsługują Wiffis, Weathermans i Rainymans z oprogramowaniem układowym większym lub równym _83"
-            },
-            "0.2.1": {
-              "en": "fixed JSON interpretation after Wiffi software update",
-              "de": "Korrektur der JSON-Interpretation nach dem Wiffi-Software-Update",
-              "ru": "исправлена ​​интерпретация JSON после обновления программного обеспечения Wiffi",
-              "pt": "Interpretação JSON fixa após atualização do software Wiffi",
-              "nl": "vaste JSON-interpretatie na Wiffi-software-update",
-              "fr": "interprétation JSON fixe après la mise à jour du logiciel Wiffi",
-              "it": "corretta interpretazione JSON dopo l'aggiornamento del software Wiffi",
-              "es": "se corrigió la interpretación JSON después de la actualización del software Wiffi",
-              "pl": "poprawiono interpretację JSON po aktualizacji oprogramowania Wiffi"
-            },
-            "0.2.0": {
-              "en": "support for multiple Wiffis",
-              "de": "Unterstützung für mehrere Wiffis",
-              "ru": "поддержка нескольких Wiffis",
-              "pt": "suporte para vários Wiffis",
-              "nl": "ondersteuning voor meerdere Wiffis",
-              "fr": "prise en charge de plusieurs Wiffis",
-              "it": "supporto per più Wiffis",
-              "es": "soporte para múltiples Wiffis",
-              "pl": "obsługa wielu Wiffis"
-            },
-            "0.1.0": {
-              "en": "mandatory settings can be changed on the admin page",
-              "de": "Pflichteinstellungen können auf der Admin-Seite geändert werden",
-              "ru": "обязательные настройки можно изменить на странице администратора",
-              "pt": "configurações obrigatórias podem ser alteradas na página de administração",
-              "nl": "verplichte instellingen kunnen op de beheerderspagina worden gewijzigd",
-              "fr": "les paramètres obligatoires peuvent être modifiés sur la page d'administration",
-              "it": "le impostazioni obbligatorie possono essere modificate nella pagina di amministrazione",
-              "es": "la configuración obligatoria se puede cambiar en la página de administración",
-              "pl": "obowiązkowe ustawienia można zmienić na stronie administratora"
-            },
-            "0.0.1": {
-              "en": "initial adapter",
-              "de": "Anfangsadapter",
-              "ru": "первоначальный адаптер",
-              "pt": "adaptador inicial",
-              "nl": "eerste adapter",
-              "fr": "adaptateur initial",
-              "it": "adattatore iniziale",
-              "es": "adaptador inicial",
-              "pl": "początkowy adapter"
             }
         },
         "license":                  "MIT",
