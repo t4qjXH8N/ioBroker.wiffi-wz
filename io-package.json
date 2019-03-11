@@ -1,9 +1,21 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.0.1",
+        "version":                  "2.0.2",
         "news": {
-            "2.0.1":  {
+            "2.0.2": {
+              "en": "removed old news, support for new testing framework",
+              "de": "alte Nachrichten entfernt, Unterstützung für neues Testframework",
+              "ru": "убраны старые новости, поддержка новых фреймворков для тестирования",
+              "pt": "removeu notícias antigas, suporte para nova estrutura de testes",
+              "nl": "Oud nieuws verwijderd, ondersteuning voor nieuw testraamwerk",
+              "fr": "suppression des anciennes nouvelles, prise en charge du nouveau cadre de test",
+              "it": "rimosso vecchie notizie, supporto per il nuovo framework di test",
+              "es": "Se eliminaron las viejas noticias, el soporte para el nuevo marco de pruebas",
+              "pl": "usunięto stare wiadomości, wsparcie dla nowych ram testowania",
+              "zh-cn": "删除旧消息，支持新的测试框架"
+            },
+            "2.0.1": {
               "en": "'could not find ip' bug fixed",
               "de": "Fehler 'IP konnte nicht gefunden werden' behoben",
               "ru": "исправлена ​​ошибка \"не удалось найти ip\"",
@@ -14,7 +26,7 @@
               "es": "\"No se pudo encontrar la ip\" error corregido",
               "pl": "Naprawiono błąd 'could not find ip'"
             },
-            "2.0.0":  {
+            "2.0.0": {
               "en": "states are created and deleted by examining the received datagram",
               "de": "Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
               "ru": "состояния создаются и удаляются путем изучения полученной дейтаграммы",
