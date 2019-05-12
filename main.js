@@ -215,7 +215,7 @@ function openSocket() {
         // wiffi found, check if the type or the firmware in the database is different than the values received from the Wiffi
         syncStates(ip, jsonContent, function() {
           updateStates(ip, jsonContent, function() {
-            adapter.log.debug('Received states from Wiffi with ip ' + ip + ' and states updated successfully!');
+            adapter.log.debug('Received states from Wiffi with ip ' + ip + ' and states were updated successfully!');
           });
         });
 
@@ -323,7 +323,7 @@ function createBasicStates(name, ip, room, type, callback) {
 
 // create states for a specific wiffi version if they do not exist
 function syncStates(ip, jsonContent, callback) {
-  adapter.log.debug('Create states for wiffi with ip ' + ip);
+  adapter.log.debug('Creating states for wiffi with ip ' + ip + ', if necessary.');
 
   function addState(ip, cstate, is_sysinfo) {
     // add state
