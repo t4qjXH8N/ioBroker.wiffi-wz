@@ -623,7 +623,7 @@ function switchActor(ip, actor, value, callback) {
       adapter.log.error('Connection error on switching actor ' + actor + ' to value ' + send_val + '!');
       if(callback) callback(err);
     } else {
-      adapter.log.debug('Successfully  switched actor ' + actor + ' to value ' + send_val);
+      adapter.log.debug('Successfully switched actor ' + actor + ' to value ' + send_val);
       if(callback) callback(false);
     }
   });
