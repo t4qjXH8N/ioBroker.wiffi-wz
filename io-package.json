@@ -1,8 +1,20 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.1.0",
+        "version":                  "2.1.1",
         "news": {
+          "2.1.1": {
+              "en": "missing states in the datagram are no longer removed from the database",
+              "de": "fehlende Zustände im Datagramm werden nicht mehr aus der Datenbank entfernt",
+              "ru": "отсутствующие состояния в дейтаграмме больше не удаляются из базы данных",
+              "pt": "os estados ausentes no datagrama não são mais removidos do banco de dados",
+              "nl": "ontbrekende statussen in het datagram worden niet langer uit de database verwijderd",
+              "fr": "les états manquants dans le datagramme ne sont plus supprimés de la base de données",
+              "it": "gli stati mancanti nel datagramma non vengono più rimossi dal database",
+              "es": "los estados que faltan en el datagrama ya no se eliminan de la base de datos",
+              "pl": "brakujące stany w datagramie nie są już usuwane z bazy danych",
+              "zh-cn": "数据报中的缺失状态不再从数据库中删除"
+            },
             "2.1.0": {
               "en": "Added support for compact mode.",
               "de": "Unterstützung für den Kompaktmodus hinzugefügt.",
