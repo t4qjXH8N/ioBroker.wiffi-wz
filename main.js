@@ -481,50 +481,16 @@ function syncStates(ip, jsonContent, callback) {
       }
     }
 
-    // remove states
-    // systeminfo states
-    let sys_states_to_remove = sys_states_in_db;
-    // sysconfig states
-    for(let citem in jsonContent.Systeminfo) {
-      if(!jsonContent.Systeminfo.hasOwnProperty(citem)) continue;
-      // is state already in db?
-      if (sys_states_in_db.includes(cleanid(citem))) {
-        // state is already in db
-        sys_states_to_remove.splice(sys_states_to_remove.indexOf(citem), 1);
-      }
-    }
-
     // data states
-    let states_to_remove = states_in_db;
     for(let i=0;i<jsonContent.vars.length;i++) {
       let cstate = jsonContent.vars[i];
 
       // is state already in db?
-      if (states_in_db.includes(cleanid(cstate.homematic_name)) || states_in_db.includes(cleanid(cstate.name))) {
-        // state is already in db
-        states_to_remove.splice(states_to_remove.indexOf(cstate.homematic_name), 1);
-      } else {
+      if (!(states_in_db.includes(cleanid(cstate.homematic_name)) || states_in_db.includes(cleanid(cstate.name)))) {
         addState(ip, cstate, false);
       }
     }
 
-    // do we have to remove data states?
-    for(let k=0;k<sys_states_to_remove.length;k++) {
-      adapter.delObject('root.' + ip_to_id(ip) + '.Systeminfo.' + sys_states_to_remove[k], function(err) {
-        if(err) {
-          adapter.log.error('Could not remove state! Error ' + err);
-        }
-      });
-    }
-
-    // do we have to remove data states?
-    for(let k=0;k<states_to_remove.length;k++) {
-      adapter.delObject('root.' + ip_to_id(ip) + '.' + states_to_remove[k], function(err) {
-        if(err) {
-          adapter.log.error('Could not remove state! Error ' + err);
-        }
-      });
-    }
   });
 
   callback(false);
@@ -635,4 +601,15 @@ if (module && module.parent) {
 } else {
   // or start the instance directly
   startAdapter();
+}
+
+// helper function, checks if state already exists
+function stateExists(id, callback){
+  adapter.getState(id, (err, state) => {
+    if(err || !state) {
+      callback(false);
+    } else {
+      callback(true);
+    }
+  });
 }
