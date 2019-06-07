@@ -377,6 +377,7 @@ function syncStates(ip, jsonContent, callback) {
           break;
         case 'boolean':
           state['type'] = 'boolean';
+          state['def'] = false;
           if(state['write'] && state['read']) {
             state['role'] = 'switch';
           } else if(state['read'] && !state['write']) {
@@ -526,7 +527,20 @@ function updateStates(ip, jsonContents, callback) {
       }
    }
 
-    adapter.setState('root.' + ip_to_id(ip) + '.' + cleanid(cstate.homematic_name), {val: cstate.value, ack: true}, function (err) {
+    let val;
+    switch (cstate.type) {
+      case 'true':
+        val = true;
+        break;
+      case 'false':
+        val = false;
+        break;
+      default:
+        val = cstate.value;
+    }
+
+    adapter.setState('root.' + ip_to_id(ip) + '.' + cleanid(cstate.homematic_name),
+      {val: val, ack: true}, function (err) {
         if(err) {
           adapter.log.error('Could not set state!');
         }

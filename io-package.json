@@ -1,8 +1,20 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.1.1",
+        "version":                  "2.1.2",
         "news": {
+          "2.1.2": {
+            "en": "boolean values are correctly saved",
+            "de": "Boolesche Werte werden korrekt gespeichert",
+            "nl": "booleaanse waarden worden correct opgeslagen",
+            "pt": "valores booleanos são salvos corretamente",
+            "fr": "les valeurs booléennes sont correctement enregistrées",
+            "es": "los valores booleanos se guardan correctamente",
+            "it": "i valori booleani vengono salvati correttamente",
+            "ru": "логические значения правильно сохранены",
+            "pl": "wartości logiczne są poprawnie zapisywane",
+            "zh-cn": "布尔值被正确保存"
+          },
           "2.1.1": {
               "en": "missing states in the datagram are no longer removed from the database",
               "de": "fehlende Zustände im Datagramm werden nicht mehr aus der Datenbank entfernt",
