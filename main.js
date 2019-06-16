@@ -527,18 +527,7 @@ function updateStates(ip, jsonContents, callback) {
       }
    }
 
-    let val;
-    switch (cstate.type) {
-      case 'true':
-        val = true;
-        break;
-      case 'false':
-        val = false;
-        break;
-      default:
-        val = cstate.value;
-    }
-
+    let val = cast_wiffi_value(cstate.value, cstate.type);
     adapter.setState('root.' + ip_to_id(ip) + '.' + cleanid(cstate.homematic_name),
       {val: val, ack: true}, function (err) {
         if(err) {
@@ -626,4 +615,21 @@ function stateExists(id, callback){
       callback(true);
     }
   });
+}
+
+// cast value, if necessary
+function cast_wiffi_value(wiffi_val, wiffi_type) {
+  let val;
+  switch (typeof wiffi_type) {
+    case 'boolean':
+      val = ((wiffi_val === 'true') ? true : false);
+      break;
+    case 'number':
+      val = Number(wiffi_val);
+      break;
+    default:
+      val = wiffi_val;
+  }
+
+  return val;
 }
