@@ -53,8 +53,9 @@ If any error occurs, please set the adapter loglevel to debug and send me the da
 If this project helped you to reduce developing time, you can give me a cup of coffee or a bottle of beer via PayPal(chvorholt@gmail.com) :-)  
 
 ## Changelog
-#### 2.1.1 (07-Jun-2019)
+#### 2.1.2 (21-Jun-2019)
 - changed behaviour: if states are missing in the datagram, but present in the database, they are not removed from the database
+- boolean and numeric values are correctly stored
 
 #### 2.1.0 (14-Apr-2019)
 - support for compact mode
