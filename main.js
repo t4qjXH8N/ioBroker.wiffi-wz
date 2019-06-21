@@ -620,7 +620,7 @@ function stateExists(id, callback){
 // cast value, if necessary
 function cast_wiffi_value(wiffi_val, wiffi_type) {
   let val;
-  switch (typeof wiffi_type) {
+  switch (wiffi_type) {
     case 'boolean':
       val = ((wiffi_val === 'true') ? true : false);
       break;
