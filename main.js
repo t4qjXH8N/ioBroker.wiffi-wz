@@ -622,7 +622,11 @@ function cast_wiffi_value(wiffi_val, wiffi_type) {
   let val;
   switch (wiffi_type) {
     case 'boolean':
-      val = ((wiffi_val === 'true') ? true : false);
+      if(typeof wiffi_val === 'boolean') {
+        val = wiffi_val;
+      } else {
+        val = (wiffi_val === 'true');
+      }
       break;
     case 'number':
       val = Number(wiffi_val);

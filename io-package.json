@@ -1,8 +1,20 @@
 {
     "common": {
         "name":                     "wiffi-wz",
-        "version":                  "2.1.2",
+        "version":                  "2.1.3",
         "news": {
+          "2.1.3": {
+            "en": "compatibility for boolean values and old Wiffi versions",
+            "de": "Kompatibilität für Boolesche Werte und alte Wiffi-Versionen",
+            "ru": "совместимость для логических значений и старых версий Wiffi",
+            "pt": "compatibilidade para valores booleanos e versões antigas do Wiffi",
+            "nl": "compatibiliteit voor booleaanse waarden en oude Wiffi-versies",
+            "fr": "Compatibilité pour les valeurs booléennes et les anciennes versions de Wiffi",
+            "it": "compatibilità per valori booleani e vecchie versioni di Wiffi",
+            "es": "Compatibilidad con valores booleanos y versiones anteriores de Wiffi.",
+            "pl": "zgodność dla wartości logicznych i starych wersji Wiffi",
+            "zh-cn": "兼容布尔值和旧Wiffi版本"
+          },
           "2.1.2": {
             "en": "boolean values are correctly saved",
             "de": "Boolesche Werte werden korrekt gespeichert",
