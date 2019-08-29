@@ -209,7 +209,7 @@ function openSocket() {
         // check if wiffi-ip is registered, i.e. it is in the database
         if (wiffi_in_config.length === 0) {
           adapter.log.warn('Received data from unregistered Wiffi with ip ' + ip);
-          return;
+          //return;
         }
 
         // wiffi found, check if the type or the firmware in the database is different than the values received from the Wiffi
@@ -336,11 +336,11 @@ function syncStates(ip, jsonContent, callback) {
     };
 
     if (cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
-      state['id'] = cstate.homematic_name;
+      state['id'] = cleanid(cstate.homematic_name);
     } else {
       // if id not present use name if set
       if(cstate.hasOwnProperty('name') && cstate.name) {
-        state['id'] = cstate.name;
+        state['id'] = cleanid(cstate.name);
       } else {
         // sorry, I have no idea how to deal with this datapoint
         if(!cstate.desc) cstate.desc = 'description missing';
@@ -557,7 +557,7 @@ function id_to_ip(id) {
 
 // return valid state ids only
 function cleanid(id) {
-  return id.replace(/[!\*?\[\]\"\']/ig, '_');
+  return id.replace(/[!\*?\[\]\"\'.]/ig, '_');
 }
 
 function checkAndSubscribe(ip, state, callback) {

@@ -53,6 +53,9 @@ If any error occurs, please set the adapter loglevel to debug and send me the da
 If this project helped you to reduce developing time, you can give me a cup of coffee or a bottle of beer via PayPal(chvorholt@gmail.com) :-)  
 
 ## Changelog
+#### 2.1.4 (29-Aug-2019)
+- fixed "could not create a state null" error
+
 #### 2.1.3 (27-Jun-2019)
 - compatibility for boolean values and old Wiffi versions
 
