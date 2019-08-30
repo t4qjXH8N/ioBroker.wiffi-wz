@@ -1,163 +1,176 @@
-{
-    "common": {
-        "name":                     "wiffi-wz",
-        "version":                  "2.1.4",
-        "news": {
-          "2.1.4": {
-            "en": "fixed \"could not create a state null\" error",
-            "de": "Behobener Fehler \"konnte keinen Status null erzeugen\"",
-            "ru": "исправлена ошибка \"не удалось создать нулевое состояние\"",
-            "pt": "erro fixo \"não foi possível criar um estado nulo\"",
-            "nl": "opgelost \"kon geen status null maken\" fout",
-            "fr": "erreur \"impossible de créer un état null\"",
-            "it": "corretto l'errore \"impossibile creare uno stato null\"",
-            "es": "error fijo \"no se pudo crear un estado nulo\"",
-            "pl": "naprawiono błąd „nie można utworzyć stanu zerowego”",
-            "zh-cn": "修复“无法创建状态null”错误",
-          },
-          "2.1.3": {
-            "en": "compatibility for boolean values and old Wiffi versions",
-            "de": "Kompatibilität für Boolesche Werte und alte Wiffi-Versionen",
-            "ru": "совместимость для логических значений и старых версий Wiffi",
-            "pt": "compatibilidade para valores booleanos e versões antigas do Wiffi",
-            "nl": "compatibiliteit voor booleaanse waarden en oude Wiffi-versies",
-            "fr": "Compatibilité pour les valeurs booléennes et les anciennes versions de Wiffi",
-            "it": "compatibilità per valori booleani e vecchie versioni di Wiffi",
-            "es": "Compatibilidad con valores booleanos y versiones anteriores de Wiffi.",
-            "pl": "zgodność dla wartości logicznych i starych wersji Wiffi",
-            "zh-cn": "兼容布尔值和旧Wiffi版本"
-          },
-          "2.1.2": {
-            "en": "boolean values are correctly saved",
-            "de": "Boolesche Werte werden korrekt gespeichert",
-            "nl": "booleaanse waarden worden correct opgeslagen",
-            "pt": "valores booleanos são salvos corretamente",
-            "fr": "les valeurs booléennes sont correctement enregistrées",
-            "es": "los valores booleanos se guardan correctamente",
-            "it": "i valori booleani vengono salvati correttamente",
-            "ru": "логические значения правильно сохранены",
-            "pl": "wartości logiczne są poprawnie zapisywane",
-            "zh-cn": "布尔值被正确保存"
-          },
-          "2.1.1": {
-            "en": "missing states in the datagram are no longer removed from the database",
-            "de": "fehlende Zustände im Datagramm werden nicht mehr aus der Datenbank entfernt",
-            "ru": "отсутствующие состояния в дейтаграмме больше не удаляются из базы данных",
-            "pt": "os estados ausentes no datagrama não são mais removidos do banco de dados",
-            "nl": "ontbrekende statussen in het datagram worden niet langer uit de database verwijderd",
-            "fr": "les états manquants dans le datagramme ne sont plus supprimés de la base de données",
-            "it": "gli stati mancanti nel datagramma non vengono più rimossi dal database",
-            "es": "los estados que faltan en el datagrama ya no se eliminan de la base de datos",
-            "pl": "brakujące stany w datagramie nie są już usuwane z bazy danych",
-            "zh-cn": "数据报中的缺失状态不再从数据库中删除"
-          },
-          "2.1.0": {
-            "en": "Added support for compact mode.",
-            "de": "Unterstützung für den Kompaktmodus hinzugefügt.",
-            "ru": "Добавлена ​​поддержка компактного режима.",
-            "pt": "Adicionado suporte para o modo compacto.",
-            "nl": "Ondersteuning toegevoegd voor de compacte modus.",
-            "fr": "Ajout du support pour le mode compact.",
-            "it": "Aggiunto il supporto per la modalità compatta.",
-            "es": "Añadido soporte para el modo compacto.",
-            "pl": "Dodano obsługę trybu kompaktowego.",
-            "zh-cn": "增加了对紧凑模式的支持。"
-          },
-          "2.0.2": {
-            "en": "removed old news, support for new testing framework",
-            "de": "alte Nachrichten entfernt, Unterstützung für neues Testframework",
-            "ru": "убраны старые новости, поддержка новых фреймворков для тестирования",
-            "pt": "removeu notícias antigas, suporte para nova estrutura de testes",
-            "nl": "Oud nieuws verwijderd, ondersteuning voor nieuw testraamwerk",
-            "fr": "suppression des anciennes nouvelles, prise en charge du nouveau cadre de test",
-            "it": "rimosso vecchie notizie, supporto per il nuovo framework di test",
-            "es": "Se eliminaron las viejas noticias, el soporte para el nuevo marco de pruebas",
-            "pl": "usunięto stare wiadomości, wsparcie dla nowych ram testowania",
-            "zh-cn": "删除旧消息，支持新的测试框架"
-          },
-          "2.0.1": {
-            "en": "'could not find ip' bug fixed",
-            "de": "Fehler 'IP konnte nicht gefunden werden' behoben",
-            "ru": "исправлена ​​ошибка \"не удалось найти ip\"",
-            "pt": "'não foi possível encontrar o bug do ip' corrigido",
-            "nl": "'could not find ip' bug gerepareerd",
-            "fr": "bug 'impossible à trouver ip' corrigé",
-            "it": "\"Impossibile trovare il bug dell'ip\" corretto",
-            "es": "\"No se pudo encontrar la ip\" error corregido",
-            "pl": "Naprawiono błąd 'could not find ip'"
-          },
-          "2.0.0": {
-            "en": "states are created and deleted by examining the received datagram",
-            "de": "Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
-            "ru": "состояния создаются и удаляются путем изучения полученной дейтаграммы",
-            "pt": "estados são criados e excluídos, examinando o datagrama recebido",
-            "nl": "staten worden gemaakt en verwijderd door het ontvangen datagram te bekijken",
-            "fr": "les états sont créés et supprimés en examinant le datagramme reçu",
-            "it": "gli stati vengono creati ed eliminati esaminando il datagramma ricevuto",
-            "es": "Los estados se crean y eliminan al examinar el datagrama recibido",
-            "pl": "stany są tworzone i usuwane poprzez zbadanie odebranego datagramu"
-          }
-        },
-        "license":                  "MIT",
-        "title":                    "wiffi-wz",
-        "authors": [
-          "Christian Vorholt <chvorholt@gmail.com>"
-        ],
-        "titleLang": {
-            "en": "Wiffi-wz",
-            "de": "Wiffi-wz",
-            "ru": "Wiffi-wz",
-            "pt": "Wiffi-wz",
-            "nl": "Wiffi-wz",
-            "fr": "Wiffi-wz",
-            "it": "Wiffi-wz",
-            "es": "Wiffi-wz",
-            "pl": "Wiffi-wz"
-        },
-        "desc": {
-            "en": "ioBroker adapter for Wiffi-wz, Weatherman and Rainyman",
-            "de": "ioBroker Adapter für Wiffi-wz, Weatherman und Rainyman",
-            "ru": "адаптер ioBroker для Wiffi-wz, Weatherman и Rainyman",
-            "pt": "Adaptador ioBroker para Wiffi-wz, Weatherman e Rainyman",
-            "nl": "ioBroker-adapter voor Wiffi-wz, Weatherman en Rainyman",
-            "fr": "Adaptateur ioBroker pour Wiffi-wz, Weatherman et Rainyman",
-            "it": "adattatore ioBroker per Wiffi-wz, Weatherman e Rainyman",
-            "es": "Adaptador ioBroker para Wiffi-wz, Weatherman y Rainyman",
-            "pl": "Adapter ioBroker dla Wiffi-wz, Weatherman i Rainyman"
-        },
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "daemon",
-        "icon":                     "wiffi-wz.png",
-        "enabled":                  false,
-        "compact":                  true,
-        "stopBeforeUpdate":         true,
-        "stopTimeout":              3000,
-        "extIcon":                  "https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
-        "keywords":                 ["wiffi", "wiffi-wz"],
-        "readme":                   "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/blob/master/README.md",
-        "loglevel":                 "info",
-        "type":                     "hardware",
-        "materialize":              true,
-        "restartAdapters":          []
-    },
-    "native": {
-      "local_server_ip": "0.0.0.0",
-      "local_server_port": 8181,
-      "devices": [
-        {"name": "Wiffi", "ip" : "0.0.0.0", "room": ""}
-        ],
-      "wiffi_target": "IOBroker",
-      "wiffi_target_ccu_ip": "homematic-ccu2"
-    },
-    "objects": [
-    ],
-    "instanceObjects": [
-    {
-      "_id": "root",
-      "type": "device",
-      "common": {
-        "name": "root"
+{  
+   "common":{  
+      "name":"wiffi-wz",
+      "version":"2.1.4",
+      "news":{  
+         "2.1.4":{  
+            "en":"fixed \"could not create a state null\" error",
+            "de":"Behobener Fehler \"konnte keinen Status null erzeugen\"",
+            "ru":"исправлена ошибка \"не удалось создать нулевое состояние\"",
+            "pt":"erro fixo \"não foi possível criar um estado nulo\"",
+            "nl":"opgelost \"kon geen status null maken\" fout",
+            "fr":"erreur \"impossible de créer un état null\"",
+            "it":"corretto l'errore \"impossibile creare uno stato null\"",
+            "es":"error fijo \"no se pudo crear un estado nulo\"",
+            "pl":"naprawiono błąd „nie można utworzyć stanu zerowego”",
+            "zh-cn":"修复“无法创建状态null”错误"
+         },
+         "2.1.3":{  
+            "en":"compatibility for boolean values and old Wiffi versions",
+            "de":"Kompatibilität für Boolesche Werte und alte Wiffi-Versionen",
+            "ru":"совместимость для логических значений и старых версий Wiffi",
+            "pt":"compatibilidade para valores booleanos e versões antigas do Wiffi",
+            "nl":"compatibiliteit voor booleaanse waarden en oude Wiffi-versies",
+            "fr":"Compatibilité pour les valeurs booléennes et les anciennes versions de Wiffi",
+            "it":"compatibilità per valori booleani e vecchie versioni di Wiffi",
+            "es":"Compatibilidad con valores booleanos y versiones anteriores de Wiffi.",
+            "pl":"zgodność dla wartości logicznych i starych wersji Wiffi",
+            "zh-cn":"兼容布尔值和旧Wiffi版本"
+         },
+         "2.1.2":{  
+            "en":"boolean values are correctly saved",
+            "de":"Boolesche Werte werden korrekt gespeichert",
+            "nl":"booleaanse waarden worden correct opgeslagen",
+            "pt":"valores booleanos são salvos corretamente",
+            "fr":"les valeurs booléennes sont correctement enregistrées",
+            "es":"los valores booleanos se guardan correctamente",
+            "it":"i valori booleani vengono salvati correttamente",
+            "ru":"логические значения правильно сохранены",
+            "pl":"wartości logiczne są poprawnie zapisywane",
+            "zh-cn":"布尔值被正确保存"
+         },
+         "2.1.1":{  
+            "en":"missing states in the datagram are no longer removed from the database",
+            "de":"fehlende Zustände im Datagramm werden nicht mehr aus der Datenbank entfernt",
+            "ru":"отсутствующие состояния в дейтаграмме больше не удаляются из базы данных",
+            "pt":"os estados ausentes no datagrama não são mais removidos do banco de dados",
+            "nl":"ontbrekende statussen in het datagram worden niet langer uit de database verwijderd",
+            "fr":"les états manquants dans le datagramme ne sont plus supprimés de la base de données",
+            "it":"gli stati mancanti nel datagramma non vengono più rimossi dal database",
+            "es":"los estados que faltan en el datagrama ya no se eliminan de la base de datos",
+            "pl":"brakujące stany w datagramie nie są już usuwane z bazy danych",
+            "zh-cn":"数据报中的缺失状态不再从数据库中删除"
+         },
+         "2.1.0":{  
+            "en":"Added support for compact mode.",
+            "de":"Unterstützung für den Kompaktmodus hinzugefügt.",
+            "ru":"Добавлена ​​поддержка компактного режима.",
+            "pt":"Adicionado suporte para o modo compacto.",
+            "nl":"Ondersteuning toegevoegd voor de compacte modus.",
+            "fr":"Ajout du support pour le mode compact.",
+            "it":"Aggiunto il supporto per la modalità compatta.",
+            "es":"Añadido soporte para el modo compacto.",
+            "pl":"Dodano obsługę trybu kompaktowego.",
+            "zh-cn":"增加了对紧凑模式的支持。"
+         },
+         "2.0.2":{  
+            "en":"removed old news, support for new testing framework",
+            "de":"alte Nachrichten entfernt, Unterstützung für neues Testframework",
+            "ru":"убраны старые новости, поддержка новых фреймворков для тестирования",
+            "pt":"removeu notícias antigas, suporte para nova estrutura de testes",
+            "nl":"Oud nieuws verwijderd, ondersteuning voor nieuw testraamwerk",
+            "fr":"suppression des anciennes nouvelles, prise en charge du nouveau cadre de test",
+            "it":"rimosso vecchie notizie, supporto per il nuovo framework di test",
+            "es":"Se eliminaron las viejas noticias, el soporte para el nuevo marco de pruebas",
+            "pl":"usunięto stare wiadomości, wsparcie dla nowych ram testowania",
+            "zh-cn":"删除旧消息，支持新的测试框架"
+         },
+         "2.0.1":{  
+            "en":"'could not find ip' bug fixed",
+            "de":"Fehler 'IP konnte nicht gefunden werden' behoben",
+            "ru":"исправлена ​​ошибка \"не удалось найти ip\"",
+            "pt":"'não foi possível encontrar o bug do ip' corrigido",
+            "nl":"'could not find ip' bug gerepareerd",
+            "fr":"bug 'impossible à trouver ip' corrigé",
+            "it":"\"Impossibile trovare il bug dell'ip\" corretto",
+            "es":"\"No se pudo encontrar la ip\" error corregido",
+            "pl":"Naprawiono błąd 'could not find ip'"
+         },
+         "2.0.0":{  
+            "en":"states are created and deleted by examining the received datagram",
+            "de":"Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
+            "ru":"состояния создаются и удаляются путем изучения полученной дейтаграммы",
+            "pt":"estados são criados e excluídos, examinando o datagrama recebido",
+            "nl":"staten worden gemaakt en verwijderd door het ontvangen datagram te bekijken",
+            "fr":"les états sont créés et supprimés en examinant le datagramme reçu",
+            "it":"gli stati vengono creati ed eliminati esaminando il datagramma ricevuto",
+            "es":"Los estados se crean y eliminan al examinar el datagrama recibido",
+            "pl":"stany są tworzone i usuwane poprzez zbadanie odebranego datagramu"
+         }
       },
-      "native": {}
-    }]
+      "license":"MIT",
+      "title":"wiffi-wz",
+      "authors":[  
+         "Christian Vorholt <chvorholt@gmail.com>"
+      ],
+      "titleLang":{  
+         "en":"Wiffi-wz",
+         "de":"Wiffi-wz",
+         "ru":"Wiffi-wz",
+         "pt":"Wiffi-wz",
+         "nl":"Wiffi-wz",
+         "fr":"Wiffi-wz",
+         "it":"Wiffi-wz",
+         "es":"Wiffi-wz",
+         "pl":"Wiffi-wz"
+      },
+      "desc":{  
+         "en":"ioBroker adapter for Wiffi-wz, Weatherman and Rainyman",
+         "de":"ioBroker Adapter für Wiffi-wz, Weatherman und Rainyman",
+         "ru":"адаптер ioBroker для Wiffi-wz, Weatherman и Rainyman",
+         "pt":"Adaptador ioBroker para Wiffi-wz, Weatherman e Rainyman",
+         "nl":"ioBroker-adapter voor Wiffi-wz, Weatherman en Rainyman",
+         "fr":"Adaptateur ioBroker pour Wiffi-wz, Weatherman et Rainyman",
+         "it":"adattatore ioBroker per Wiffi-wz, Weatherman e Rainyman",
+         "es":"Adaptador ioBroker para Wiffi-wz, Weatherman y Rainyman",
+         "pl":"Adapter ioBroker dla Wiffi-wz, Weatherman i Rainyman"
+      },
+      "platform":"Javascript/Node.js",
+      "mode":"daemon",
+      "icon":"wiffi-wz.png",
+      "enabled":false,
+      "compact":true,
+      "stopBeforeUpdate":true,
+      "stopTimeout":3000,
+      "extIcon":"https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
+      "keywords":[  
+         "wiffi",
+         "wiffi-wz"
+      ],
+      "readme":"https://github.com/t4qjXH8N/ioBroker.wiffi-wz/blob/master/README.md",
+      "loglevel":"info",
+      "type":"hardware",
+      "materialize":true,
+      "restartAdapters":[  
+
+      ]
+   },
+   "native":{  
+      "local_server_ip":"0.0.0.0",
+      "local_server_port":8181,
+      "devices":[  
+         {  
+            "name":"Wiffi",
+            "ip":"0.0.0.0",
+            "room":""
+         }
+      ],
+      "wiffi_target":"IOBroker",
+      "wiffi_target_ccu_ip":"homematic-ccu2"
+   },
+   "objects":[  
+
+   ],
+   "instanceObjects":[  
+      {  
+         "_id":"root",
+         "type":"device",
+         "common":{  
+            "name":"root"
+         },
+         "native":{  
+
+         }
+      }
+   ]
 }
