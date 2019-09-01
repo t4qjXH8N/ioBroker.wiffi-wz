@@ -7,7 +7,6 @@ ioBroker adapter for Wiffi-wz, Weatherman, Wiffi-pump, Rainyman and maybe others
 [![NPM](https://nodei.co/npm/iobroker.wiffi-wz.png?downloads=true)](https://nodei.co/npm/iobroker.wiffi-wz/)
 
 [![Build Status](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz.svg?branch=master)](https://travis-ci.org/t4qjXH8N/ioBroker.wiffi-wz)
-[![Build status](https://ci.appveyor.com/api/projects/status/58b8ygy9slf4oygx/branch/master?svg=true)](https://ci.appveyor.com/project/t4qjXH8N/iobroker-wiffi-wz/branch/master)
 
 This is an [ioBroker](https://github.com/ioBroker/ioBroker) Adapter to retrieve sensor data from Wiffi devices see [Stall.biz](http://www.stall.biz) for more info. 
 
