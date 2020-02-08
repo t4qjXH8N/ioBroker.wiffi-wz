@@ -53,7 +53,7 @@ If this project helped you to reduce developing time, you can give me a cup of c
 
 ## Changelog
 #### 2.1.5 (08-Feb-2020)
-- fixed "could not create a state null" error
+- fixed an error with numeric state names
 
 #### 2.1.4 (29-Aug-2019)
 - fixed "could not create a state null" error
