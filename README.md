@@ -1,5 +1,5 @@
 ![Logo](admin/wiffi-wz.png)
-ioBroker adapter for Wiffi-wz, Weatherman, Wiffi-pump, Rainyman and maybe others 
+ioBroker adapter for Wiffi-wz, Weatherman, Wiffi-pump, Pulsecounter, Rainyman and maybe others 
 =================
 ![Number of Installations](http://iobroker.live/badges/wiffi-wz-installed.svg) ![Number of Installations](http://iobroker.live/badges/wiffi-wz-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.wiffi-wz.svg)](https://www.npmjs.com/package/iobroker.wiffi-wz)
