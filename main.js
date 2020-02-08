@@ -53,11 +53,21 @@ const adapter_install = function () {
 // is called when adapter shuts down - callback has to be called under any circumstances!
 const adapter_unload = function (callback) {
   adapter.setState('info.connection', false);
+
+  let mycallback = callback;
+
+  server.on('close', (err) => {
+    if (err) adapter.log.error('An error occurred closing the server.');
+    adapter.log.debug('Server closed');
+    adapter.setState('info.connection', false);
+    adapter.log.info('Adapter stopped.');
+
+    if (mycallback) mycallback(false);
+  });
+
   try {
     adapter.log.info('Stopping adapter ...');
     server.close();
-    adapter.log.info('Adapter stopped.');
-    callback(true);
   } catch (e) {
     callback(e);
   }
@@ -229,12 +239,6 @@ function openSocket() {
   server.on('listening', function() {
     adapter.log.info('Server listening on ' + host +':'+ port);
     adapter.setState('info.connection', true);
-  });
-
-  server.on('close', function(err) {
-    if (err) adapter.log.error('An error occurred closing the server.');
-    adapter.log.debug('Server closed');
-    adapter.setState('info.connection', false);
   });
 
   server.on('error', function(err){
@@ -598,14 +602,6 @@ function switchActor(ip, actor, value, callback) {
   });
 }
 
-// If started as allInOne/compact mode => return function to create instance
-if (module && module.parent) {
-  module.exports = startAdapter;
-} else {
-  // or start the instance directly
-  startAdapter();
-}
-
 // helper function, checks if state already exists
 function stateExists(id, callback){
   adapter.getState(id, (err, state) => {
@@ -636,4 +632,12 @@ function cast_wiffi_value(wiffi_val, wiffi_type) {
   }
 
   return val;
+}
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+  module.exports = startAdapter;
+} else {
+  // or start the instance directly
+  startAdapter();
 }

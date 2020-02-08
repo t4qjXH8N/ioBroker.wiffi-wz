@@ -1,8 +1,20 @@
 {  
    "common":{  
       "name":"wiffi-wz",
-      "version":"2.1.5",
+      "version":"2.2.0",
       "news":{
+         "2.2.0": {
+         "en": "fixed problem with numeric state names",
+         "de": "Problem mit numerischen Zustandsnamen behoben",
+         "ru": "исправлена проблема с числовыми именами состояний",
+         "pt": "problema corrigido com nomes de estados numéricos",
+         "nl": "probleem met numerieke statusnamen opgelost",
+         "fr": "problème fixe avec les noms d'état numériques",
+         "it": "risolto problema con nomi di stato numerici",
+         "es": "problema solucionado con nombres de estado numéricos",
+         "pl": "naprawiono problem z numerycznymi nazwami stanów",
+         "zh-cn": "解决了数字状态名称的问题"
+         },
          "2.1.5":{
          "en": "fixed problem with numeric state names",
          "de": "Problem mit numerischen Zustandsnamen behoben",
