@@ -1,9 +1,21 @@
 {  
    "common":{  
       "name":"wiffi-wz",
-      "version":"2.1.4",
-      "news":{  
-         "2.1.4":{  
+      "version":"2.1.5",
+      "news":{
+         "2.1.5":{
+         "en": "fixed problem with numeric state names",
+         "de": "Problem mit numerischen Zustandsnamen behoben",
+         "ru": "исправлена проблема с числовыми именами состояний",
+         "pt": "problema corrigido com nomes de estados numéricos",
+         "nl": "probleem met numerieke statusnamen opgelost",
+         "fr": "problème fixe avec les noms d'état numériques",
+         "it": "risolto problema con nomi di stato numerici",
+         "es": "problema solucionado con nombres de estado numéricos",
+         "pl": "naprawiono problem z numerycznymi nazwami stanów",
+         "zh-cn": "解决了数字状态名称的问题"
+         },
+         "2.1.4":{
             "en":"fixed \"could not create a state null\" error",
             "de":"Behobener Fehler \"konnte keinen Status null erzeugen\"",
             "ru":"исправлена ошибка \"не удалось создать нулевое состояние\"",

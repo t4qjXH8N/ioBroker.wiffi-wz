@@ -350,7 +350,7 @@ function syncStates(ip, jsonContent, callback) {
     }
 
     if (cstate.hasOwnProperty('name') && cstate.name) {
-      state['name'] = cstate.name;
+      state['name'] = cstate.name.toString();
     }
 
     if (cstate.hasOwnProperty('desc') && cstate.desc) {
