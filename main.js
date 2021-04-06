@@ -11,7 +11,6 @@ const _ = require('underscore');
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.wiffi-wz.0
 let adapter_db_prefix;  // shortcut for the adapter prefix in the database
 
-let channels = {};
 const subscribed_states = [];
 
 // load a json file with settings for wiffi-wz and weatherman
@@ -29,6 +28,7 @@ const maxBufferSize = 100000; // the buffer should not be bigger than this numbe
 let server;
 
 let adapter;
+
 function startAdapter(options) {
     options = options || {};
     Object.assign(options, {
@@ -54,8 +54,6 @@ const adapter_install = function () {
 const adapter_unload = function (callback) {
     adapter.setState('info.connection', false);
 
-    const mycallback = callback;
-
     server.on('close', err => {
         if (err) {
             adapter.log.error('An error occurred closing the server.');
@@ -64,8 +62,8 @@ const adapter_unload = function (callback) {
         adapter.setState('info.connection', false);
         adapter.log.info('Adapter stopped.');
 
-        if (mycallback) {
-            mycallback(false);
+        if (callback) {
+            callback(false);
         }
     });
 
@@ -90,9 +88,9 @@ const adapter_stateChange = function (id, state) {
 
     // you can use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack && subscribed_states.includes(id)) {
-        let actor = id.split('.')[id.split('.').length-1];
+        let actor = id.split('.')[id.split('.').length - 1];
 
-        if(actor.split('_').length >= 2) {
+        if (actor.split('_').length >= 2) {
             actor = actor.slice(actor.indexOf('_') + 1);
             switchActor(id_to_ip(id.split('.')[3]), actor, state['val']);
         }
@@ -104,14 +102,11 @@ const adapter_stateChange = function (id, state) {
 const adapter_ready = function () {
     adapter_db_prefix = 'wiffi-wz.' + adapter.instance + '.root.';
 
-    adapter.getForeignObjects(adapter_db_prefix + '*', function(err, objs) {
-        if(err) {
+    adapter.getForeignObjects(adapter_db_prefix + '*', (err, objs) => {
+        if (err) {
             adapter.log.err('Could not get states for subscription test! Error ' + err);
         } else {
-            for(const citem in objs) {
-                if(!objs.hasOwnProperty(citem)) {
-                    continue;
-                }
+            for (const citem of Object.keys(objs)) {
                 checkAndSubscribe(id_to_ip(citem.split('.')[3]), objs[citem].common);
             }
             main();
@@ -140,9 +135,9 @@ function openSocket() {
     adapter.log.info('Opening local server on ' + host + ':' + port);
     let buffer = '';
 
-    server = net.createServer(function(sock) {
+    server = net.createServer(function (sock) {
 
-        sock.on('data', function(data) {
+        sock.on('data', function (data) {
             let jsonContent; // holds the parsed data
             let buffer_cond; // holds a buffer prepared for parsing
             let endpos;
@@ -165,10 +160,12 @@ function openSocket() {
             // look for a terminator
             // check if we have a valid JSON
             buffer_cond = buffer.replace(/\s/g, '').split('\u0003');
-            for (let i=0;i<buffer_cond.length;i++) {
+            for (let i = 0; i < buffer_cond.length; i++) {
                 try {
                     jsonContent = JSON.parse(buffer_cond[i].trim());
-                } catch (e) {}
+                } catch {
+                    // ignore
+                }
                 if (jsonContent) {
                     break;
                 }
@@ -176,10 +173,12 @@ function openSocket() {
 
             if (!jsonContent) {
                 buffer_cond = buffer.replace(/\s/g, '').split('\u0004');
-                for (let i=0;i<buffer_cond.length;i++) {
+                for (let i = 0; i < buffer_cond.length; i++) {
                     try {
                         jsonContent = JSON.parse(buffer_cond[i].trim());
-                    } catch (e) {}
+                    } catch {
+                        // ignore
+                    }
                     if (jsonContent) {
                         break;
                     }
@@ -190,7 +189,9 @@ function openSocket() {
             if (!jsonContent) {
                 try {
                     jsonContent = JSON.parse(buffer_cond.trim());
-                } catch (e) {}
+                } catch {
+                    // ignore
+                }
             }
 
             // ok, last resort, try to find start and ending in buffer
@@ -199,22 +200,24 @@ function openSocket() {
                 endpos = buffer.indexOf('}}');
 
                 try {
-                    jsonContent = JSON.parse(buffer.substring(startpos, endpos+2));
-                } catch(e) {}
+                    jsonContent = JSON.parse(buffer.substring(startpos, endpos + 2));
+                } catch {
+                    // ignore
+                }
             }
 
-            if(jsonContent) {
+            if (jsonContent) {
                 adapter.log.debug('Received JSON data from Wiffi. Full message: ' + buffer);
 
                 // get the ip of the wiffi
                 let ip;
-                if(jsonContent.hasOwnProperty('vars') && Array.isArray(jsonContent.vars) && jsonContent.vars.length > 0) {
+                if (Object.prototype.hasOwnProperty.call(jsonContent, 'vars') && Array.isArray(jsonContent.vars) && jsonContent.vars.length > 0) {
                     // datagram seems to be fine, look for an ip in homematic name
                     ip = _.find(jsonContent.vars, function (cvar) {
                         return cvar.homematic_name.search(/_ip/i);
                     });
 
-                    ip = (ip.hasOwnProperty('value')) ? ip.value : null;
+                    ip = Object.prototype.hasOwnProperty.call(ip, 'value') ? ip.value : null;
                 }
 
                 if (!ip) {
@@ -231,8 +234,8 @@ function openSocket() {
                 }
 
                 // wiffi found, check if the type or the firmware in the database is different than the values received from the Wiffi
-                syncStates(ip, jsonContent, function() {
-                    updateStates(ip, jsonContent, function() {
+                syncStates(ip, jsonContent, function () {
+                    updateStates(ip, jsonContent, function () {
                         adapter.log.debug('Received states from Wiffi with ip ' + ip + ' and states were updated successfully!');
                     });
                 });
@@ -244,12 +247,12 @@ function openSocket() {
     });
 
     // Add a 'close' event handler to this instance of socket
-    server.on('listening', function() {
-        adapter.log.info('Server listening on ' + host +':'+ port);
+    server.on('listening', function () {
+        adapter.log.info('Server listening on ' + host + ':' + port);
         adapter.setState('info.connection', true);
     });
 
-    server.on('error', function(err){
+    server.on('error', function (err) {
         adapter.log.error('Error: ' + err.message);
         adapter.setState('info.connection', false);
     });
@@ -259,29 +262,27 @@ function openSocket() {
 
 // sync config with database
 function syncConfig() {
-    channels = {};
-
     adapter.getDevices(function (err, devices) {
         if (devices && devices.length) {
             // go through all devices
-            for (let i=0;i< devices.length;i++) {
+            for (let i = 0; i < devices.length; i++) {
                 // get channels for device
                 adapter.getChannelsOf(devices[i].common.name, function (err, _channels) {
                     const configToDelete = [];
-                    const configToAdd    = [];
+                    const configToAdd = [];
 
                     // find new devices
-                    if(adapter.config.devices) {
-                        for (let k=0;k<adapter.config.devices.length;k++) {
+                    if (adapter.config.devices) {
+                        for (let k = 0; k < adapter.config.devices.length; k++) {
                             configToAdd.push(adapter.config.devices[k].ip);
                         }
                     }
 
                     // find devices that have to be removed
                     if (_channels) {
-                        for (let j=0;j<_channels.length;j++) {
+                        for (let j = 0; j < _channels.length; j++) {
                             const wiffi_in_config = JSONPath.query(adapter.config, '$.devices[?(@.ip=="' + id_to_ip(_channels[j]._id.split('.')[3]) + '")]');
-                            if(!wiffi_in_config || wiffi_in_config.length === 0) {
+                            if (!wiffi_in_config || wiffi_in_config.length === 0) {
                                 configToDelete.push(_channels[j]._id.split('.')[3]);  // mark these channels for deletion
                             }
                         }
@@ -289,14 +290,14 @@ function syncConfig() {
 
                     // create new states for these devices
                     if (configToAdd.length) {
-                        for (let r=0;r<adapter.config.devices.length;r++) {
+                        for (let r = 0; r < adapter.config.devices.length; r++) {
                             if (adapter.config.devices[r].ip && configToAdd.indexOf(adapter.config.devices[r].ip) !== -1) {
                                 createBasicStates(adapter.config.devices[r].name, adapter.config.devices[r].ip, adapter.config.devices[r].room);
                             }
                         }
                     }
                     if (configToDelete.length) {
-                        for (let e=0;e<configToDelete.length;e++) {
+                        for (let e = 0; e < configToDelete.length; e++) {
                             adapter.deleteChannelFromEnum('room', 'root', configToDelete[e]);
                             adapter.deleteChannel('root', configToDelete[e]);
                         }
@@ -305,7 +306,7 @@ function syncConfig() {
             }
         } else {
             // there is no device yet, create new
-            for (let r=0;r<adapter.config.devices.length;r++) {
+            for (let r = 0; r < adapter.config.devices.length; r++) {
                 if (!adapter.config.devices[r].ip) {
                     continue;
                 }
@@ -332,7 +333,7 @@ function createBasicStates(name, ip, room, type, callback) {
     adapter.createChannel('root', ip_to_id(ip), {name: name}, function (err) {
         if (err) {
             adapter.log.error('Could not create channel.');
-            if(callback) {
+            if (callback) {
                 callback(err);
             }
         }
@@ -344,7 +345,7 @@ function syncStates(ip, jsonContent, callback) {
     adapter.log.debug('Creating states for wiffi with ip ' + ip + ', if necessary.');
 
     function addState(ip, cstate, is_sysinfo) {
-    // add state
+        // add state
         const state = {
             'read': true,
             'write': false,
@@ -353,15 +354,15 @@ function syncStates(ip, jsonContent, callback) {
             'role': 'state'  // default if there is no other information on the roles
         };
 
-        if (cstate.hasOwnProperty('homematic_name') && cstate.homematic_name) {
+        if (Object.prototype.hasOwnProperty.call(cstate, 'homematic_name') && cstate.homematic_name) {
             state['id'] = cleanid(cstate.homematic_name);
         } else {
             // if id not present use name if set
-            if(cstate.hasOwnProperty('name') && cstate.name) {
+            if (Object.prototype.hasOwnProperty.call(cstate, 'name') && cstate.name) {
                 state['id'] = cleanid(cstate.name);
             } else {
                 // sorry, I have no idea how to deal with this datapoint
-                if(!cstate.desc) {
+                if (!cstate.desc) {
                     cstate.desc = 'description missing';
                 }
                 adapter.log.warn('Wiffi with ip ' + ip + ' received a datapoint without homematic_name (description is ' + cstate.desc + ')!');
@@ -369,19 +370,19 @@ function syncStates(ip, jsonContent, callback) {
             }
         }
 
-        if (cstate.hasOwnProperty('name') && cstate.name) {
+        if (Object.prototype.hasOwnProperty.call(cstate, 'name') && cstate.name) {
             state['name'] = cstate.name.toString();
         }
 
-        if (cstate.hasOwnProperty('desc') && cstate.desc) {
+        if (Object.prototype.hasOwnProperty.call(cstate, 'desc') && cstate.desc) {
             state['desc'] = cstate.desc;
         }
 
-        if (cstate.hasOwnProperty('unit') && cstate.unit) {
+        if (Object.prototype.hasOwnProperty.call(cstate, 'unit') && cstate.unit) {
             state['unit'] = cstate.unit.replace(/grad/ig, '°');
         }
 
-        if (cstate.hasOwnProperty('type') && cstate.type) {
+        if (Object.prototype.hasOwnProperty.call(cstate, 'type') && cstate.type) {
             switch (cstate.type) {
                 case 'string':
                     state['type'] = 'string';
@@ -389,20 +390,20 @@ function syncStates(ip, jsonContent, callback) {
                     break;
                 case 'number':
                     state['type'] = 'number';
-                    if(!state['write'] && state['read']) {
+                    if (!state['write'] && state['read']) {
                         state['role'] = 'value';
-                    }  else if(state['write'] && state['read']) {
+                    } else if (state['write'] && state['read']) {
                         state['role'] = 'level';
                     }
                     break;
                 case 'boolean':
                     state['type'] = 'boolean';
                     state['def'] = false;
-                    if(state['write'] && state['read']) {
+                    if (state['write'] && state['read']) {
                         state['role'] = 'switch';
-                    } else if(state['read'] && !state['write']) {
+                    } else if (state['read'] && !state['write']) {
                         state['role'] = 'sensor';
-                    } else if(!state['read'] && !state['write']) {
+                    } else if (!state['read'] && !state['write']) {
                         state['role'] = 'button';
                     }
                     break;
@@ -411,8 +412,8 @@ function syncStates(ip, jsonContent, callback) {
         }
 
         // load state extensions if there are any
-        for (let j=0;j<state_extensions.length;j++) {
-            if ((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && state_extensions[j].hasOwnProperty('extensions')) {
+        for (let j = 0; j < state_extensions.length; j++) {
+            if ((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && Object.prototype.hasOwnProperty.call(state_extensions[j], 'extensions')) {
                 // we found some extensions
                 const cext = state_extensions[j].extensions;
                 Object.assign(state, cext);
@@ -431,7 +432,7 @@ function syncStates(ip, jsonContent, callback) {
             'native': {}
         };
 
-        if(is_sysinfo) {
+        if (is_sysinfo) {
             adapter.setObjectNotExists('root.' + ip_to_id(ip) + '.Systeminfo', obj, function (err) {
                 if (err) {
                     adapter.log.error('Could not create group for Systeminfo states');
@@ -465,8 +466,8 @@ function syncStates(ip, jsonContent, callback) {
         }
     }
 
-    adapter.getStates(adapter_db_prefix + ip_to_id(ip) + '.*', function(err, states) {
-        if(err) {
+    adapter.getStates(adapter_db_prefix + ip_to_id(ip) + '.*', function (err, states) {
+        if (err) {
             adapter.log.error('Error getting states for StateSync!');
             return;
         }
@@ -475,30 +476,30 @@ function syncStates(ip, jsonContent, callback) {
         const states_in_db = [];
         const sys_states_in_db = [];
 
-        for(const cstate in states) {
-            if(!states.hasOwnProperty(cstate)) {
+        for (const cstate in states) {
+            if (!Object.prototype.hasOwnProperty.call(states, cstate)) {
                 continue;
             }
 
-            if(cstate.split('.').length === 5) {
+            if (cstate.split('.').length === 5) {
                 states_in_db.push(cstate.split('.')[cstate.split('.').length - 1]);
-            } else if(cstate.split('.').length === 6) {
+            } else if (cstate.split('.').length === 6) {
                 sys_states_in_db.push(cstate.split('.')[cstate.split('.').length - 1]);
             }
         }
 
         // sync native systemconfig states
-        for(const csysstate in jsonContent.Systeminfo) {
-            if(!jsonContent.Systeminfo.hasOwnProperty(csysstate)) {
+        for (const csysstate in jsonContent.Systeminfo) {
+            if (!Object.prototype.hasOwnProperty.call(jsonContent.Systeminfo, csysstate)) {
                 continue;
             }
 
             // is state already in db?
-            if(!sys_states_in_db.includes(cleanid(csysstate))) {
+            if (!sys_states_in_db.includes(cleanid(csysstate))) {
                 // create a new system state
                 const sys_state = {
                     'homematic_name': csysstate,
-                    'type': typeof(jsonContent.Systeminfo[csysstate]),
+                    'type': typeof (jsonContent.Systeminfo[csysstate]),
                     'name': csysstate,
                     'value': jsonContent.Systeminfo[csysstate]
                 };
@@ -507,7 +508,7 @@ function syncStates(ip, jsonContent, callback) {
         }
 
         // data states
-        for(let i=0;i<jsonContent.vars.length;i++) {
+        for (let i = 0; i < jsonContent.vars.length; i++) {
             const cstate = jsonContent.vars[i];
 
             // is state already in db?
@@ -524,14 +525,17 @@ function syncStates(ip, jsonContent, callback) {
 // set states from the received JSON
 function updateStates(ip, jsonContents, callback) {
     // update systeminfo states
-    if(jsonContents.hasOwnProperty('Systeminfo')) {
-        for(const citem in jsonContents.Systeminfo) {
-            if(!jsonContents.Systeminfo.hasOwnProperty(citem)) {
+    if (Object.prototype.hasOwnProperty.call(jsonContents, 'Systeminfo')) {
+        for (const citem in jsonContents.Systeminfo) {
+            if (!Object.prototype.hasOwnProperty.call(jsonContents.Systeminfo, citem)) {
                 continue;
             }
 
-            adapter.setState('root.' + ip_to_id(ip) + '.Systeminfo.' + cleanid(citem), {val: jsonContents.Systeminfo[citem], ack: true}, function (err) {
-                if(err) {
+            adapter.setState('root.' + ip_to_id(ip) + '.Systeminfo.' + cleanid(citem), {
+                val: jsonContents.Systeminfo[citem],
+                ack: true
+            }, function (err) {
+                if (err) {
                     adapter.log.error('Could not set state!');
                 }
             });
@@ -539,12 +543,12 @@ function updateStates(ip, jsonContents, callback) {
     }
 
     // go through the array and set states
-    for(let i=0;i<jsonContents.vars.length;i++) {
+    for (let i = 0; i < jsonContents.vars.length; i++) {
         const cstate = jsonContents.vars[i];
 
-        if (!(cstate.hasOwnProperty('homematic_name') && cstate.homematic_name)) {
+        if (!(Object.prototype.hasOwnProperty.call(cstate, 'homematic_name') && cstate.homematic_name)) {
             // use name if id is missing
-            if(cstate.hasOwnProperty('name') && cstate.name) {
+            if (Object.prototype.hasOwnProperty.call(cstate, 'name') && cstate.name) {
                 cstate['homematic_name'] = cstate.name;
             } else {
                 if (!cstate.desc) {
@@ -558,7 +562,7 @@ function updateStates(ip, jsonContents, callback) {
         const val = cast_wiffi_value(cstate.value, cstate.type);
         adapter.setState('root.' + ip_to_id(ip) + '.' + cleanid(cstate.homematic_name),
             {val: val, ack: true}, function (err) {
-                if(err) {
+                if (err) {
                     adapter.log.error('Could not set state!');
                 }
             });
@@ -568,7 +572,7 @@ function updateStates(ip, jsonContents, callback) {
 }
 
 // enhance string with replace all functionality
-String.prototype.replaceAll = function(search, replacement) {
+String.prototype.replaceAll = function (search, replacement) {
     const target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
@@ -585,16 +589,16 @@ function id_to_ip(id) {
 
 // return valid state ids only
 function cleanid(id) {
-    return id.replace(/[!*?\[\]"'.]/ig, '_');
+    return id.replace(/[!*?[\]"'.]/ig, '_');
 }
 
 function checkAndSubscribe(ip, state, callback) {
-    if(state.hasOwnProperty('write') && state['write']) {
+    if (Object.prototype.hasOwnProperty.call(state, 'write') && state['write']) {
         adapter.subscribeStates('root.' + ip_to_id(ip) + '.' + cleanid(state['id']));
         subscribed_states.push(adapter_db_prefix + ip_to_id(ip) + '.' + cleanid(state['id']));
     }
 
-    if(callback) {
+    if (callback) {
         callback(false);
     }
 }
@@ -602,7 +606,7 @@ function checkAndSubscribe(ip, state, callback) {
 function switchActor(ip, actor, value, callback) {
 
     let send_val;
-    if(value) {
+    if (value) {
         send_val = 'on';
     } else {
         send_val = 'off';
@@ -616,16 +620,16 @@ function switchActor(ip, actor, value, callback) {
         method: 'GET'
     };
 
-    request(options_connect, function(err, response) {
-        if(err || !response) {
+    request(options_connect, function (err, response) {
+        if (err || !response) {
             // no connection or auth failure
             adapter.log.error('Connection error on switching actor ' + actor + ' to value ' + send_val + '!');
-            if(callback) {
+            if (callback) {
                 callback(err);
             }
         } else {
             adapter.log.debug('Successfully switched actor ' + actor + ' to value ' + send_val);
-            if(callback) {
+            if (callback) {
                 callback(false);
             }
         }
@@ -650,7 +654,7 @@ function cast_wiffi_value(wiffi_val, wiffi_type) {
     let val;
     switch (wiffi_type) {
         case 'boolean':
-            if(typeof wiffi_val === 'boolean') {
+            if (typeof wiffi_val === 'boolean') {
                 val = wiffi_val;
             } else {
                 val = (wiffi_val === 'true');
