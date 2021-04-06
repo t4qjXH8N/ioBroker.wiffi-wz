@@ -104,7 +104,7 @@ const adapter_ready = function () {
 
     adapter.getForeignObjects(adapter_db_prefix + '*', (err, objs) => {
         if (err) {
-            adapter.log.err('Could not get states for subscription test! Error ' + err);
+            adapter.log.error('Could not get states for subscription test! Error ' + err);
         } else {
             for (const citem of Object.keys(objs)) {
                 checkAndSubscribe(id_to_ip(citem.split('.')[3]), objs[citem].common);
