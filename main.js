@@ -137,8 +137,6 @@ function openSocket() {
    server = net.createServer(function(sock) {
 
     sock.on('data', function(data) {
-      let remote_address = sock.remoteAddress;
-
       let jsonContent; // holds the parsed data
       let buffer_cond; // holds a buffer prepared for parsing
       let endpos;
@@ -561,7 +559,7 @@ function id_to_ip(id) {
 
 // return valid state ids only
 function cleanid(id) {
-  return id.replace(/[!\*?\[\]\"\'.]/ig, '_');
+  return id.replace(/[!*?\[\]"'.]/ig, '_');
 }
 
 function checkAndSubscribe(ip, state, callback) {
@@ -590,7 +588,7 @@ function switchActor(ip, actor, value, callback) {
     method: "GET"
   };
 
-  request(options_connect, function(err, response, body){
+  request(options_connect, function(err, response) {
     if(err || !response) {
       // no connection or auth failure
       adapter.log.error('Connection error on switching actor ' + actor + ' to value ' + send_val + '!');
@@ -602,7 +600,8 @@ function switchActor(ip, actor, value, callback) {
   });
 }
 
-// helper function, checks if state already exists
+// helper function, checks if state already exists - unused
+/*
 function stateExists(id, callback){
   adapter.getState(id, (err, state) => {
     if(err || !state) {
@@ -612,6 +611,7 @@ function stateExists(id, callback){
     }
   });
 }
+ */
 
 // cast value, if necessary
 function cast_wiffi_value(wiffi_val, wiffi_type) {
@@ -634,10 +634,10 @@ function cast_wiffi_value(wiffi_val, wiffi_type) {
   return val;
 }
 
-// If started as allInOne/compact mode => return function to create instance
-if (module && module.parent) {
-  module.exports = startAdapter;
-} else {
-  // or start the instance directly
+if (module === require.main) {
+  // start the instance directly
   startAdapter();
+} else {
+  // If started as allInOne/compact mode => return function to create instance
+  module.exports = startAdapter;
 }
