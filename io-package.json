@@ -194,6 +194,27 @@
          "native":{
 
          }
+      },
+      {
+         "_id": "info",
+         "type": "channel",
+         "common": {
+            "name": "Information"
+         },
+         "native": {}
+      },
+      {
+         "_id": "info.connection",
+         "type": "state",
+         "common": {
+            "role": "indicator.connected",
+            "name": "If server is listening",
+            "type": "boolean",
+            "read": true,
+            "write": false,
+            "def": false
+         },
+         "native": {}
       }
    ]
 }

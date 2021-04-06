@@ -408,7 +408,7 @@ function syncStates(ip, jsonContent, callback) {
     // in this case put it into the group sysconfig
     let obj = {
       "_id": adapter_db_prefix + ip_to_id(ip) + '.Systeminfo',
-      "type": "",
+      "type": "folder",
       "common": {
         "name": "Systeminfo"
       },
