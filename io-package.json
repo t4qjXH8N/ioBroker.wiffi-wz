@@ -1,5 +1,5 @@
-{  
-   "common":{  
+{
+   "common":{
       "name":"wiffi-wz",
       "version":"2.2.0",
       "news":{
@@ -39,7 +39,7 @@
             "pl":"naprawiono błąd „nie można utworzyć stanu zerowego”",
             "zh-cn":"修复“无法创建状态null”错误"
          },
-         "2.1.3":{  
+         "2.1.3":{
             "en":"compatibility for boolean values and old Wiffi versions",
             "de":"Kompatibilität für Boolesche Werte und alte Wiffi-Versionen",
             "ru":"совместимость для логических значений и старых версий Wiffi",
@@ -51,7 +51,7 @@
             "pl":"zgodność dla wartości logicznych i starych wersji Wiffi",
             "zh-cn":"兼容布尔值和旧Wiffi版本"
          },
-         "2.1.2":{  
+         "2.1.2":{
             "en":"boolean values are correctly saved",
             "de":"Boolesche Werte werden korrekt gespeichert",
             "nl":"booleaanse waarden worden correct opgeslagen",
@@ -63,7 +63,7 @@
             "pl":"wartości logiczne są poprawnie zapisywane",
             "zh-cn":"布尔值被正确保存"
          },
-         "2.1.1":{  
+         "2.1.1":{
             "en":"missing states in the datagram are no longer removed from the database",
             "de":"fehlende Zustände im Datagramm werden nicht mehr aus der Datenbank entfernt",
             "ru":"отсутствующие состояния в дейтаграмме больше не удаляются из базы данных",
@@ -75,7 +75,7 @@
             "pl":"brakujące stany w datagramie nie są już usuwane z bazy danych",
             "zh-cn":"数据报中的缺失状态不再从数据库中删除"
          },
-         "2.1.0":{  
+         "2.1.0":{
             "en":"Added support for compact mode.",
             "de":"Unterstützung für den Kompaktmodus hinzugefügt.",
             "ru":"Добавлена ​​поддержка компактного режима.",
@@ -87,7 +87,7 @@
             "pl":"Dodano obsługę trybu kompaktowego.",
             "zh-cn":"增加了对紧凑模式的支持。"
          },
-         "2.0.2":{  
+         "2.0.2":{
             "en":"removed old news, support for new testing framework",
             "de":"alte Nachrichten entfernt, Unterstützung für neues Testframework",
             "ru":"убраны старые новости, поддержка новых фреймворков для тестирования",
@@ -99,7 +99,7 @@
             "pl":"usunięto stare wiadomości, wsparcie dla nowych ram testowania",
             "zh-cn":"删除旧消息，支持新的测试框架"
          },
-         "2.0.1":{  
+         "2.0.1":{
             "en":"'could not find ip' bug fixed",
             "de":"Fehler 'IP konnte nicht gefunden werden' behoben",
             "ru":"исправлена ​​ошибка \"не удалось найти ip\"",
@@ -110,7 +110,7 @@
             "es":"\"No se pudo encontrar la ip\" error corregido",
             "pl":"Naprawiono błąd 'could not find ip'"
          },
-         "2.0.0":{  
+         "2.0.0":{
             "en":"states are created and deleted by examining the received datagram",
             "de":"Zustände werden erstellt und gelöscht, indem das empfangene Datagramm untersucht wird",
             "ru":"состояния создаются и удаляются путем изучения полученной дейтаграммы",
@@ -123,22 +123,21 @@
          }
       },
       "license":"MIT",
-      "title":"wiffi-wz",
-      "authors":[  
+      "authors":[
          "Christian Vorholt <chvorholt@gmail.com>"
       ],
-      "titleLang":{  
-         "en":"Wiffi-wz",
-         "de":"Wiffi-wz",
-         "ru":"Wiffi-wz",
-         "pt":"Wiffi-wz",
-         "nl":"Wiffi-wz",
-         "fr":"Wiffi-wz",
-         "it":"Wiffi-wz",
-         "es":"Wiffi-wz",
-         "pl":"Wiffi-wz"
+      "titleLang":{
+         "en":"wiffi-wz",
+         "de":"wiffi-wz",
+         "ru":"wiffi-wz",
+         "pt":"wiffi-wz",
+         "nl":"wiffi-wz",
+         "fr":"wiffi-wz",
+         "it":"wiffi-wz",
+         "es":"wiffi-wz",
+         "pl":"wiffi-wz"
       },
-      "desc":{  
+      "desc":{
          "en":"ioBroker adapter for Wiffi-wz, Weatherman and Rainyman",
          "de":"ioBroker Adapter für Wiffi-wz, Weatherman und Rainyman",
          "ru":"адаптер ioBroker для Wiffi-wz, Weatherman и Rainyman",
@@ -157,7 +156,7 @@
       "stopBeforeUpdate":true,
       "stopTimeout":3000,
       "extIcon":"https://raw.githubusercontent.com/t4qjXH8N/ioBroker.wiffi-wz/master/admin/wiffi-wz.png",
-      "keywords":[  
+      "keywords":[
          "wiffi",
          "wiffi-wz"
       ],
@@ -165,15 +164,15 @@
       "loglevel":"info",
       "type":"hardware",
       "materialize":true,
-      "restartAdapters":[  
+      "restartAdapters":[
 
       ]
    },
-   "native":{  
+   "native":{
       "local_server_ip":"0.0.0.0",
       "local_server_port":8181,
-      "devices":[  
-         {  
+      "devices":[
+         {
             "name":"Wiffi",
             "ip":"0.0.0.0",
             "room":""
@@ -182,17 +181,17 @@
       "wiffi_target":"IOBroker",
       "wiffi_target_ccu_ip":"homematic-ccu2"
    },
-   "objects":[  
+   "objects":[
 
    ],
-   "instanceObjects":[  
-      {  
+   "instanceObjects":[
+      {
          "_id":"root",
          "type":"device",
-         "common":{  
+         "common":{
             "name":"root"
          },
-         "native":{  
+         "native":{
 
          }
       }
