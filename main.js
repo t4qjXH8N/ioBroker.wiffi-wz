@@ -211,13 +211,13 @@ function openSocket() {
 
                 // get the ip of the wiffi
                 let ip;
-                if (Object.prototype.hasOwnProperty.call(jsonContent, 'vars') && Array.isArray(jsonContent.vars) && jsonContent.vars.length > 0) {
+                if (Object.hasOwnProperty.call(jsonContent, 'vars') && Array.isArray(jsonContent.vars) && jsonContent.vars.length > 0) {
                     // datagram seems to be fine, look for an ip in homematic name
                     ip = _.find(jsonContent.vars, function (cvar) {
                         return cvar.homematic_name.search(/_ip/i);
                     });
 
-                    ip = Object.prototype.hasOwnProperty.call(ip, 'value') ? ip.value : null;
+                    ip = Object.hasOwnProperty.call(ip, 'value') ? ip.value : null;
                 }
 
                 if (!ip) {
@@ -354,11 +354,11 @@ function syncStates(ip, jsonContent, callback) {
             'role': 'state'  // default if there is no other information on the roles
         };
 
-        if (Object.prototype.hasOwnProperty.call(cstate, 'homematic_name') && cstate.homematic_name) {
+        if (Object.hasOwnProperty.call(cstate, 'homematic_name') && cstate.homematic_name) {
             state['id'] = cleanid(cstate.homematic_name);
         } else {
             // if id not present use name if set
-            if (Object.prototype.hasOwnProperty.call(cstate, 'name') && cstate.name) {
+            if (Object.hasOwnProperty.call(cstate, 'name') && cstate.name) {
                 state['id'] = cleanid(cstate.name);
             } else {
                 // sorry, I have no idea how to deal with this datapoint
@@ -370,19 +370,19 @@ function syncStates(ip, jsonContent, callback) {
             }
         }
 
-        if (Object.prototype.hasOwnProperty.call(cstate, 'name') && cstate.name) {
+        if (Object.hasOwnProperty.call(cstate, 'name') && cstate.name) {
             state['name'] = cstate.name.toString();
         }
 
-        if (Object.prototype.hasOwnProperty.call(cstate, 'desc') && cstate.desc) {
+        if (Object.hasOwnProperty.call(cstate, 'desc') && cstate.desc) {
             state['desc'] = cstate.desc;
         }
 
-        if (Object.prototype.hasOwnProperty.call(cstate, 'unit') && cstate.unit) {
+        if (Object.hasOwnProperty.call(cstate, 'unit') && cstate.unit) {
             state['unit'] = cstate.unit.replace(/grad/ig, '°');
         }
 
-        if (Object.prototype.hasOwnProperty.call(cstate, 'type') && cstate.type) {
+        if (Object.hasOwnProperty.call(cstate, 'type') && cstate.type) {
             switch (cstate.type) {
                 case 'string':
                     state['type'] = 'string';
@@ -413,7 +413,7 @@ function syncStates(ip, jsonContent, callback) {
 
         // load state extensions if there are any
         for (let j = 0; j < state_extensions.length; j++) {
-            if ((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && Object.prototype.hasOwnProperty.call(state_extensions[j], 'extensions')) {
+            if ((state['id'].search(RegExp(state_extensions[j].expression, 'i')) !== -1) && Object.hasOwnProperty.call(state_extensions[j], 'extensions')) {
                 // we found some extensions
                 const cext = state_extensions[j].extensions;
                 Object.assign(state, cext);
@@ -477,7 +477,7 @@ function syncStates(ip, jsonContent, callback) {
         const sys_states_in_db = [];
 
         for (const cstate in states) {
-            if (!Object.prototype.hasOwnProperty.call(states, cstate)) {
+            if (!Object.hasOwnProperty.call(states, cstate)) {
                 continue;
             }
 
@@ -490,7 +490,7 @@ function syncStates(ip, jsonContent, callback) {
 
         // sync native systemconfig states
         for (const csysstate in jsonContent.Systeminfo) {
-            if (!Object.prototype.hasOwnProperty.call(jsonContent.Systeminfo, csysstate)) {
+            if (!Object.hasOwnProperty.call(jsonContent.Systeminfo, csysstate)) {
                 continue;
             }
 
@@ -525,9 +525,9 @@ function syncStates(ip, jsonContent, callback) {
 // set states from the received JSON
 function updateStates(ip, jsonContents, callback) {
     // update systeminfo states
-    if (Object.prototype.hasOwnProperty.call(jsonContents, 'Systeminfo')) {
+    if (Object.hasOwnProperty.call(jsonContents, 'Systeminfo')) {
         for (const citem in jsonContents.Systeminfo) {
-            if (!Object.prototype.hasOwnProperty.call(jsonContents.Systeminfo, citem)) {
+            if (!Object.hasOwnProperty.call(jsonContents.Systeminfo, citem)) {
                 continue;
             }
 
@@ -546,9 +546,9 @@ function updateStates(ip, jsonContents, callback) {
     for (let i = 0; i < jsonContents.vars.length; i++) {
         const cstate = jsonContents.vars[i];
 
-        if (!(Object.prototype.hasOwnProperty.call(cstate, 'homematic_name') && cstate.homematic_name)) {
+        if (!(Object.hasOwnProperty.call(cstate, 'homematic_name') && cstate.homematic_name)) {
             // use name if id is missing
-            if (Object.prototype.hasOwnProperty.call(cstate, 'name') && cstate.name) {
+            if (Object.hasOwnProperty.call(cstate, 'name') && cstate.name) {
                 cstate['homematic_name'] = cstate.name;
             } else {
                 if (!cstate.desc) {
@@ -593,7 +593,7 @@ function cleanid(id) {
 }
 
 function checkAndSubscribe(ip, state, callback) {
-    if (Object.prototype.hasOwnProperty.call(state, 'write') && state['write']) {
+    if (Object.hasOwnProperty.call(state, 'write') && state['write']) {
         adapter.subscribeStates('root.' + ip_to_id(ip) + '.' + cleanid(state['id']));
         subscribed_states.push(adapter_db_prefix + ip_to_id(ip) + '.' + cleanid(state['id']));
     }
