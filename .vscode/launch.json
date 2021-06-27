@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/main.js",
-            "args": ["--force"]
+            "args": ["0 debug", "--force"]
         },
         {
             "type": "node",

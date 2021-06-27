@@ -135,7 +135,7 @@
       {
          "_id": "info.connection",
          "type": "state",
-         "common": {
+         "common": { 
             "role": "indicator.connected",
             "name": "If server is listening",
             "type": "boolean",
