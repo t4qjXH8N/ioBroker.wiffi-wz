@@ -52,14 +52,14 @@ const adapter_install = function () {
 
 // is called when adapter shuts down - callback has to be called under any circumstances!
 const adapter_unload = function (callback) {
-    adapter.setState('info.connection', false);
+    adapter.setState('info.connection', false, true);
 
     server.on('close', err => {
         if (err) {
             adapter.log.error('An error occurred closing the server.');
         }
         adapter.log.debug('Server closed');
-        adapter.setState('info.connection', false);
+        adapter.setState('info.connection', false, true);
         adapter.log.info('Adapter stopped.');
 
         if (callback) {
@@ -249,12 +249,12 @@ function openSocket() {
     // Add a 'close' event handler to this instance of socket
     server.on('listening', function () {
         adapter.log.info('Server listening on ' + host + ':' + port);
-        adapter.setState('info.connection', true);
+        adapter.setState('info.connection', true, true);
     });
 
     server.on('error', function (err) {
         adapter.log.error('Error: ' + err.message);
-        adapter.setState('info.connection', false);
+        adapter.setState('info.connection', false, true);
     });
 
     server.listen(port, host);
