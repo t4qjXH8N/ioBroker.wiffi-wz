@@ -91,6 +91,7 @@
       ],
       "readme":"https://github.com/t4qjXH8N/ioBroker.wiffi-wz/blob/master/README.md",
       "loglevel":"info",
+      "tier": 2,
       "type":"hardware",
       "materialize":true,
       "restartAdapters":[
