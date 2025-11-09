@@ -51,7 +51,10 @@
             "pl":"stany są tworzone i usuwane poprzez zbadanie odebranego datagramu"
          }
       },
-      "license":"MIT",
+      "licenseInformation": {
+         "type": "free",
+         "license": "MIT"
+      },
       "authors":[
          "Christian Vorholt <chvorholt@gmail.com>"
       ],
