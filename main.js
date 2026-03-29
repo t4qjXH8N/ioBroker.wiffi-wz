@@ -17,7 +17,7 @@ const subscribed_states = [];
 //const wiffi_native_states = require(__dirname + '/wiffi_native_states.json');
 const state_extensions = require(__dirname + '/state_extensions.json');
 
-const net = require('net');  // for opening a socket listener
+const net = require('node:net');  // for opening a socket listener
 const JSONPath = require('jsonpath');
 const request = require('request');
 
