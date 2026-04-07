@@ -54,7 +54,7 @@
     "url": "https://github.com/t4qjXH8N/ioBroker.wiffi-wz/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=20.0.0"
   },
   "main": "main.js",
   "license": "MIT"
