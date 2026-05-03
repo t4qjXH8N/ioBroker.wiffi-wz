@@ -146,7 +146,9 @@ Features:
 
 #### 0.0.1 (12-Jan-2017)
 Features:
-- The sensor data is send to the ioBroker and saved as corresponding states. 
+- The sensor data is send to the ioBroker and saved as corresponding states.
+
+[Older changelogs can be found there](CHANGELOG_OLD.md)
 
 ## License
 The MIT License (MIT)
