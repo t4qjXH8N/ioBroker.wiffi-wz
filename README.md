@@ -52,6 +52,10 @@ If any error occurs, please set the adapter loglevel to debug and send me the da
 If this project helped you to reduce developing time, you can give me a cup of coffee or a bottle of beer via PayPal(chvorholt@gmail.com) :-)  
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 #### 2.2.1 (27-Jun-2021)
 - clode cleanup (linting etc. very many thanks to all contributors)
 - some bugfixes
